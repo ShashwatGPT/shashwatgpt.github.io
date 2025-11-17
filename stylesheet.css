@@ -81,7 +81,8 @@ tr,
 p,
 a {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 strong {
@@ -92,6 +93,7 @@ strong {
 heading {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
+  font-weight: 600;
 }
 
 papertitle {
@@ -128,4 +130,133 @@ name {
 
 span.highlight {
   background-color: #ffffd0;
+}
+
+/* Blog styles */
+.blog-post-item {
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.blog-post-item:last-child {
+  border-bottom: none;
+}
+
+.blog-post-date {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.blog-post-title {
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.blog-post-excerpt {
+  color: #666;
+  font-size: 13px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+.blog-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #1772d0;
+  color: white;
+  font-size: 10px;
+  border-radius: 3px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+
+.blog-badge-medium {
+  background: #00c853;
+}
+
+/* Navigation Bar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  padding: 12px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.nav-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 0;
+  transition: color 0.3s ease;
+  border-bottom: 2px solid transparent;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #1772d0;
+}
+
+.nav-link.active {
+  color: #1772d0;
+  border-bottom: 2px solid #1772d0;
+}
+
+/* Social Icons */
+.social-icon {
+  display: inline-block;
+  margin: 0 12px;
+  color: #666;
+  font-size: 18px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  color: #1772d0;
+  transform: translateY(-2px);
+}
+
+/* Section spacing */
+.section {
+  scroll-margin-top: 70px;
+  padding-top: 30px;
+  margin-bottom: 40px;
+}
+
+body {
+  padding-top: 60px;
+}
+
+/* View all link */
+.view-all-link {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  color: #1772d0;
 }
