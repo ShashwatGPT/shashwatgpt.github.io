@@ -5,9 +5,7 @@ A professional, single-page personal website for Data Science and Machine Learni
 ## Features
 
 - **Single-page design** with clean, academic layout
-- **Blog section** supporting both:
-  - Local blog posts (written directly on the website)
-  - Medium blog embeds (link to your Medium articles)
+- **Blog section** that auto-syncs with your Medium feed (`@shashwat.gpt`)
 - **Projects section** to showcase your work
 - **News section** for updates and announcements
 - **Professional design** based on academic website templates
@@ -17,16 +15,11 @@ A professional, single-page personal website for Data Science and Machine Learni
 ```
 .
 ├── index.html              # Main homepage
-├── blog.html               # Blog listing page
-├── blog-data.js            # Blog posts data (edit this to add posts)
+├── blog.html               # Blog landing page (mirrors Medium feed)
 ├── stylesheet.css          # Main stylesheet (Lato font, clean design)
-├── script.js               # JavaScript for blog loading
+├── script.js               # JavaScript (navigation + Medium feed loading)
 ├── images/                 # Images directory
 │   └── prof_pic.png        # Your profile picture
-├── blog/                   # Directory for local blog posts
-│   ├── blog-post-template.html  # Template for new blog posts
-│   ├── building-production-ml-systems.html
-│   └── data-science-workflow-tips.html
 └── README.md               # This file
 ```
 
@@ -44,40 +37,15 @@ A professional, single-page personal website for Data Science and Machine Learni
 
 3. **Projects**: Update the Projects section in `index.html` with your actual projects
 
-### 2. Add Blog Posts
+4. **Medium Links**: If you ever change your Medium publication URL, update the constants near the top of `script.js`.
 
-#### Adding Medium Posts
+### 2. Medium Blog Feed
 
-Edit `blog-data.js` and add a new entry:
+The blog preview on the homepage (and `blog.html`) pulls posts directly from the Medium RSS feed via the public `rss2json` proxy. No manual updates are required—whenever a new story is published on Medium, it will automatically appear on the site.
 
-```javascript
-{
-    type: 'medium',
-    title: 'Your Blog Post Title',
-    excerpt: 'A brief description of your post',
-    date: '2025-01-15',  // Format: YYYY-MM-DD
-    url: 'https://medium.com/@yourusername/your-post-url'
-}
-```
-
-#### Adding Local Posts
-
-1. **Add entry to blog-data.js**:
-```javascript
-{
-    type: 'local',
-    title: 'Your Blog Post Title',
-    excerpt: 'A brief description of your post',
-    date: '2025-01-15',
-    slug: 'your-blog-post-slug'  // This will be the filename
-}
-```
-
-2. **Create the blog post file**:
-   - Copy `blog/blog-post-template.html`
-   - Rename it to `blog/your-blog-post-slug.html`
-   - Edit the content with your blog post
-   - Update the title and date in the HTML
+- Medium profile: `https://medium.com/@shashwat.gpt`
+- Blog navigation link: `https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9`
+- Feed URL used: `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@shashwat.gpt`
 
 ### 3. Deploy to GitHub Pages
 

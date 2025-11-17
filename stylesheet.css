@@ -163,6 +163,38 @@ span.highlight {
   line-height: 1.5;
 }
 
+.blog-post-image {
+  margin: 10px 0;
+}
+
+.blog-post-image img {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+}
+
+.blog-read-more {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #1772d0;
+}
+
+.blog-read-more:hover {
+  color: #f09228;
+}
+
+.blog-loading,
+.blog-error {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 10px 0;
+}
+
+.blog-error a {
+  color: #1772d0;
+}
+
 .blog-badge {
   display: inline-block;
   padding: 2px 8px;

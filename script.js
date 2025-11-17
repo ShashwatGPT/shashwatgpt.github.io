@@ -54,122 +54,134 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Load blog posts on homepage preview (top 4)
-function loadBlogPreview() {
-    const blogPreview = document.getElementById('blog-preview');
-    if (!blogPreview || !window.blogPosts) return;
+const MEDIUM_USERNAME = 'shashwat.gpt';
+const MEDIUM_HOME_URL = 'https://medium.com/@shashwat.gpt';
+const MEDIUM_WELCOME_URL = 'https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9';
+const MEDIUM_FEED_URL = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
+const MEDIUM_RSS_TO_JSON = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_FEED_URL)}`;
 
-    // Sort posts by date (newest first)
-    const sortedPosts = [...window.blogPosts].sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
+let mediumPostsPromise = null;
+
+function fetchMediumPosts() {
+    if (!mediumPostsPromise) {
+        mediumPostsPromise = fetch(MEDIUM_RSS_TO_JSON)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Medium feed request failed: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const items = Array.isArray(data.items) ? data.items : [];
+                return items.map(item => ({
+                    title: item.title,
+                    link: item.link,
+                    pubDate: item.pubDate,
+                    excerpt: getExcerptFromHtml(item.content || item.description || ''),
+                    image: item.thumbnail || getImageFromHtml(item.content || ''),
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching Medium posts:', error);
+                return [];
+            });
+    }
+    return mediumPostsPromise;
+}
+
+function getExcerptFromHtml(html, maxLength = 220) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const text = doc.body.textContent || '';
+    const cleaned = text.replace(/\s+/g, ' ').trim();
+    if (cleaned.length <= maxLength) {
+        return cleaned;
+    }
+    return `${cleaned.slice(0, maxLength).trim()}…`;
+}
+
+function getImageFromHtml(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const img = doc.querySelector('img');
+    return img ? img.src : null;
+}
+
+function createMediumPostMarkup(post) {
+    const date = new Date(post.pubDate).toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
     });
 
-    // Show only first 4 posts on homepage
-    const postsToShow = sortedPosts.slice(0, 4);
+    const imageMarkup = post.image ? `
+        <div class="blog-post-image">
+            <img src="${post.image}" alt="${post.title}">
+        </div>
+    ` : '';
 
-    postsToShow.forEach(post => {
-        const date = new Date(post.date).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+    return `
+        <article class="blog-post-item">
+            <div>
+                <span class="blog-badge blog-badge-medium">Medium</span>
+                <span class="blog-post-date">${date}</span>
+            </div>
+            <div class="blog-post-title">
+                <a href="${post.link}" target="_blank" rel="noopener">${post.title}</a>
+            </div>
+            ${imageMarkup}
+            <div class="blog-post-excerpt">${post.excerpt}</div>
+            <a class="blog-read-more" href="${post.link}" target="_blank" rel="noopener">Continue on Medium →</a>
+        </article>
+    `;
+}
+
+function renderMediumPosts(containerId, limit = null) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '<p class="blog-loading">Loading Medium posts…</p>';
+
+    fetchMediumPosts().then(posts => {
+        container.innerHTML = '';
+
+        if (!posts.length) {
+            container.innerHTML = `
+                <p class="blog-error">
+                    Unable to load Medium posts right now. 
+                    <a href="${MEDIUM_HOME_URL}" target="_blank" rel="noopener">Visit Medium directly →</a>
+                </p>
+            `;
+            return;
+        }
+
+        const postsToRender = limit ? posts.slice(0, limit) : posts;
+        postsToRender.forEach(post => {
+            container.insertAdjacentHTML('beforeend', createMediumPostMarkup(post));
         });
 
-        const postDiv = document.createElement('div');
-        postDiv.className = 'blog-post-item';
-        
-        if (post.type === 'medium') {
-            postDiv.innerHTML = `
-                <div>
-                    <span class="blog-badge blog-badge-medium">Medium</span>
-                    <span class="blog-post-date">${date}</span>
-                </div>
-                <div class="blog-post-title">
-                    <a href="${post.url}" target="_blank" rel="noopener">${post.title}</a>
-                </div>
-                <div class="blog-post-excerpt">${post.excerpt}</div>
+        if (limit && posts.length > limit) {
+            const moreLink = document.createElement('div');
+            moreLink.className = 'blog-more';
+            moreLink.innerHTML = `
+                <a href="${MEDIUM_WELCOME_URL}" target="_blank" rel="noopener" class="view-all-link">
+                    View more on Medium →
+                </a>
             `;
-        } else {
-            const postUrl = `blog/${post.slug}.html`;
-            postDiv.innerHTML = `
-                <div>
-                    <span class="blog-badge">Local</span>
-                    <span class="blog-post-date">${date}</span>
-                </div>
-                <div class="blog-post-title">
-                    <a href="${postUrl}">${post.title}</a>
-                </div>
-                <div class="blog-post-excerpt">${post.excerpt}</div>
-            `;
+            container.appendChild(moreLink);
         }
-        
-        blogPreview.appendChild(postDiv);
     });
 }
 
-// Load blog posts on blog page (all posts)
-function loadBlogList() {
-    const blogList = document.getElementById('blog-list');
-    if (!blogList || !window.blogPosts) return;
-
-    // Sort posts by date (newest first)
-    const sortedPosts = [...window.blogPosts].sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-    });
-
-    sortedPosts.forEach(post => {
-        const date = new Date(post.date).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-
-        const postDiv = document.createElement('div');
-        postDiv.className = 'blog-post-item';
-        
-        if (post.type === 'medium') {
-            postDiv.innerHTML = `
-                <div>
-                    <span class="blog-badge blog-badge-medium">Medium</span>
-                    <span class="blog-post-date">${date}</span>
-                </div>
-                <div class="blog-post-title">
-                    <a href="${post.url}" target="_blank" rel="noopener">${post.title}</a>
-                </div>
-                <div class="blog-post-excerpt">${post.excerpt}</div>
-            `;
-        } else {
-            const postUrl = `blog/${post.slug}.html`;
-            postDiv.innerHTML = `
-                <div>
-                    <span class="blog-badge">Local</span>
-                    <span class="blog-post-date">${date}</span>
-                </div>
-                <div class="blog-post-title">
-                    <a href="${postUrl}">${post.title}</a>
-                </div>
-                <div class="blog-post-excerpt">${post.excerpt}</div>
-            `;
-        }
-        
-        blogList.appendChild(postDiv);
-    });
-}
-
-// Initialize on page load
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        if (document.getElementById('blog-preview')) {
-            loadBlogPreview();
-        }
-        if (document.getElementById('blog-list')) {
-            loadBlogList();
-        }
-    });
-} else {
+function initMediumBlocks() {
     if (document.getElementById('blog-preview')) {
-        loadBlogPreview();
+        renderMediumPosts('blog-preview', 4);
     }
     if (document.getElementById('blog-list')) {
-        loadBlogList();
+        renderMediumPosts('blog-list');
     }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMediumBlocks);
+} else {
+    initMediumBlocks();
 }
