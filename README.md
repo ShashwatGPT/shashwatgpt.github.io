@@ -7,6 +7,7 @@ A professional, single-page personal website for Data Science and Machine Learni
 - **Single-page design** with clean, academic layout
 - **Blog section** that auto-syncs with your Medium feed (`@shashwat.gpt`)
 - **Projects section** to showcase your work
+- **CV section** with a placeholder link you can replace anytime
 - **News section** for updates and announcements
 - **Professional design** based on academic website templates
 
@@ -38,6 +39,7 @@ A professional, single-page personal website for Data Science and Machine Learni
 3. **Projects**: Update the Projects section in `index.html` with your actual projects
 
 4. **Medium Links**: If you ever change your Medium publication URL, update the constants near the top of `script.js`.
+5. **CV placeholder**: Update the link in the `#cv` section of `index.html` when your actual PDF is ready.
 
 ### 2. Medium Blog Feed
 

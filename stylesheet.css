@@ -195,6 +195,20 @@ span.highlight {
   color: #1772d0;
 }
 
+.btn-link {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #1772d0;
+  border-radius: 4px;
+  color: #1772d0;
+  font-weight: 500;
+}
+
+.btn-link:hover {
+  color: #f09228;
+  border-color: #f09228;
+}
+
 .blog-badge {
   display: inline-block;
   padding: 2px 8px;
