@@ -1,55 +1,45 @@
 <!DOCTYPE HTML>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Blog - Shashwat Gupta</title>
-  
   <meta name="author" content="Shashwat Gupta">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-  
+
 <body>
-  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    <tr style="padding:0px">
-      <td style="padding:0px">
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr style="padding:0px">
-            <td style="padding:2.5%;width:100%;vertical-align:middle">
-              <p style="text-align:center">
-                <name><a href="index.html" style="color: inherit; text-decoration: none;">Shashwat Gupta</a></name>
-              </p>
-              <p style="text-align:center">
-                <a href="index.html">Home</a> &nbsp/&nbsp
-                <a href="blog.html">Blog</a>
-              </p>
-            </td>
-          </tr>
-        </tbody></table>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="blog.html" class="nav-link active">Blog</a>
+      <a href="index.html#projects" class="nav-link">Projects</a>
+      <a href="index.html#cv" class="nav-link">CV</a>
+      <a href="index.html#news" class="nav-link">News</a>
+    </div>
+  </nav>
 
-        <!-- Blog Posts -->
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-            <td style="padding:20px;width:100%;vertical-align:middle">
-              <heading>Blog</heading>
-            </td>
-          </tr>
-        </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:20px;width:100%;vertical-align:top">
-              <p>Thoughts on Data Science, Machine Learning, and Technology. Posts mirror <a href="https://medium.com/@shashwat.gpt" target="_blank" rel="noopener">my Medium publication →</a></p>
-              <div id="blog-list">
-                <!-- Blog posts will be loaded dynamically from blog-data.js -->
-              </div>
-            </td>
-          </tr>
-        </tbody></table>
+  <main class="container">
+    <section class="section">
+      <div class="section-header">
+        <h2>Blog</h2>
+      </div>
+      <p class="section-intro">Thoughts on Data Science, Machine Learning, and Technology. Posts mirror <a
+          href="https://medium.com/@shashwat.gpt" target="_blank" rel="noopener">my Medium publication →</a></p>
 
-      </td>
-    </tr>
-  </table>
+      <div id="blog-list" class="grid-container">
+        <!-- Blog posts will be loaded dynamically from blog-data.js -->
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
+
 </html>
