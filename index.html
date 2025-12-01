@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Shashwat Gupta</title>
@@ -9,178 +10,271 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#about" class="nav-link active">About</a>
-      <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9" target="_blank" rel="noopener" class="nav-link">Blog</a>
-      <a href="#projects" class="nav-link">Projects</a>
-      <a href="#cv" class="nav-link">CV</a>
-      <a href="#news" class="nav-link">News</a>
-    </div>
-  </nav>
-
-  <main class="container">
-    
-    <!-- About Section -->
-    <section id="about" class="section about-section">
-      <div class="about-content">
-        <div class="about-text">
-          <h1 class="name">Shashwat Gupta</h1>
-          <p class="subtitle">Data Science & Machine Learning Professional</p>
-          
-          <div class="bio">
-            <p>I am a Research Fellow at Microsoft Research (M365 Research) where I work with Anson Bastos, Mayukh Das, and Chetan Bansal on structured representations of LLMs and AI agent reliability. Prior to MSR, I collaborated with Dr. Priyanka Bagade at the IoT Lab, IIT Kanpur on AI for medical imaging, and earlier worked with Dr. Ashutosh Modi on Indian Sign Language Recognition (EMNLP ’22).</p>
-            
-            <p>Outside research, I love the world of startups—hackathons, pitching events, and weekend technology builds keep me energized. I also spend time in the investing/VC space, advising on product-market fit and following the Gartner Hype Cycle more than the “AI bubble vs. no bubble” debate. Feel free to DM me if we share these interests.</p>
-          </div>
-
-          <div class="social-links">
-            <a href="mailto:guptashashwatme+website@gmail.com" class="social-icon" title="Email" aria-label="Email">
-              <i class="fas fa-envelope"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/shashwat-gupta-iitk/" target="_blank" rel="noopener" class="social-icon" title="LinkedIn" aria-label="LinkedIn">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="social-icon" title="GitHub" aria-label="GitHub">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9" target="_blank" rel="noopener" class="social-icon" title="Medium" aria-label="Medium">
-              <i class="fab fa-medium"></i>
-            </a>
-            <a href="https://www.youtube.com/@shashwatgupta4613" target="_blank" rel="noopener" class="social-icon" title="YouTube" aria-label="YouTube">
-              <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://scholar.google.com/citations?user=XhDzpMMAAAAJ" target="_blank" rel="noopener" class="social-icon" title="Google Scholar" aria-label="Google Scholar">
-              <i class="fas fa-graduation-cap"></i>
-            </a>
-            <a href="https://www.instagram.com/shashwat.gpt" target="_blank" rel="noopener" class="social-icon" title="Instagram" aria-label="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
-        </div>
-        
-        <div class="about-image">
-          <a href="images/prof_pic.png">
+  <div class="layout-wrapper">
+    <!-- Sidebar (Profile & Nav) -->
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <div class="profile-header">
+          <a href="index.html" class="profile-pic-link">
             <img src="images/prof_pic.png" alt="Shashwat Gupta" class="profile-pic">
           </a>
+          <h1 class="name">Shashwat Gupta</h1>
+          <p class="subtitle">Data Science & Machine Learning Professional</p>
         </div>
-      </div>
-    </section>
 
-    <!-- Blog Preview -->
-    <section id="blog-preview-section" class="section">
-      <div class="section-header">
-        <h2>Blog</h2>
-        <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9" target="_blank" rel="noopener" class="view-all-link">View on Medium →</a>
-      </div>
-      <div id="blog-preview" class="grid-container">
-        <!-- Blog posts will be loaded dynamically from blog-data.js -->
-      </div>
-    </section>
+        <nav class="navbar">
+          <a href="#about" class="nav-link active">About</a>
+          <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+            target="_blank" rel="noopener" class="nav-link">Blog</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#research" class="nav-link">Research</a>
+          <a href="#cv" class="nav-link">CV</a>
+        </nav>
 
-    <!-- Projects Preview -->
-    <section id="projects-preview-section" class="section">
-      <div class="section-header">
-        <h2>Projects</h2>
-        <a href="#projects" class="view-all-link">View all →</a>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-image">
-          <img src="images/youtube-summariser.png" alt="Youtube Playlist Summariser">
-        </div>
-        <div class="project-info">
-          <a href="https://github.com/ShashwatGPT/YoutubePlaylistSummariser" class="project-title">Youtube Playlist Summariser</a>
-          <p class="project-description">An intelligent system to summarize YouTube playlists using advanced NLP techniques.</p>
-          <div class="project-links">
-            <a href="https://github.com/ShashwatGPT/YoutubePlaylistSummariser">GitHub</a>
-          </div>
-          <p class="project-tech">Technologies: Python, NLP, Machine Learning, YouTube API</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- News Preview -->
-    <section id="news-preview-section" class="section">
-      <div class="section-header">
-        <h2>News</h2>
-        <a href="#news" class="view-all-link">View all →</a>
-      </div>
-      <div class="news-list">
-        <div class="news-item">
-          <span class="news-date">[01/2025]</span>
-          <span class="news-content">Launched my personal website with blog section supporting both local posts and Medium embeds.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Full Blog Section -->
-    <section id="blog" class="section full-section">
-      <div class="section-header">
-        <h2>Blog</h2>
-      </div>
-      <p class="section-intro">Thoughts on Data Science, Machine Learning, and Technology. <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9" target="_blank" rel="noopener">Read on Medium →</a></p>
-      <div id="blog-list" class="grid-container">
-        <!-- Blog posts will be loaded dynamically from blog-data.js -->
-      </div>
-    </section>
-
-    <!-- Full Projects Section -->
-    <section id="projects" class="section full-section">
-      <div class="section-header">
-        <h2>Projects</h2>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-image">
-          <img src="images/youtube-summariser.png" alt="Youtube Playlist Summariser">
-        </div>
-        <div class="project-info">
-          <a href="https://github.com/ShashwatGPT/YoutubePlaylistSummariser" class="project-title">Youtube Playlist Summariser</a>
-          <p class="project-description">An intelligent system to summarize YouTube playlists using advanced NLP techniques. The project leverages state-of-the-art language models to extract key insights from video transcripts and generate comprehensive summaries.</p>
-          <div class="project-links">
-            <a href="https://github.com/ShashwatGPT/YoutubePlaylistSummariser">GitHub</a>
-          </div>
-          <p class="project-tech">Technologies: Python, NLP, Machine Learning, YouTube API</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CV Section -->
-    <section id="cv" class="section">
-      <div class="section-header">
-        <h2>CV</h2>
-      </div>
-      <div class="cv-content">
-        <p>My detailed academic CV will live here soon. Until then, feel free to reach out and I’ll gladly share the latest copy.</p>
-        <p>
-          <a class="btn-link" href="https://example.com/shashwat-gupta-cv.pdf" target="_blank" rel="noopener">
-            View placeholder CV →
+        <div class="social-links">
+          <a href="mailto:guptashashwatme+website@gmail.com" class="social-icon" title="Email" aria-label="Email">
+            <i class="fas fa-envelope"></i>
           </a>
-        </p>
-      </div>
-    </section>
-
-    <!-- Full News Section -->
-    <section id="news" class="section">
-      <div class="section-header">
-        <h2>News</h2>
-      </div>
-      <div class="news-list">
-        <div class="news-item">
-          <span class="news-date">[01/2025]</span>
-          <span class="news-content">Launched my personal website with blog section supporting both local posts and Medium embeds.</span>
+          <a href="https://www.linkedin.com/in/shashwat-gupta-iitk/" target="_blank" rel="noopener" class="social-icon"
+            title="LinkedIn" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="social-icon" title="GitHub"
+            aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+            target="_blank" rel="noopener" class="social-icon" title="Medium" aria-label="Medium">
+            <i class="fab fa-medium"></i>
+          </a>
+          <a href="https://www.youtube.com/@shashwatgupta4613" target="_blank" rel="noopener" class="social-icon"
+            title="YouTube" aria-label="YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://scholar.google.com/citations?user=XhDzpMMAAAAJ" target="_blank" rel="noopener"
+            class="social-icon" title="Google Scholar" aria-label="Google Scholar">
+            <i class="fas fa-graduation-cap"></i>
+          </a>
         </div>
       </div>
-    </section>
+    </aside>
 
-  </main>
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- About Section -->
+      <section id="about" class="section">
+        <div class="section-header">
+          <h2>About Me</h2>
+        </div>
+        <div class="bio">
+          <p>I am a Research Fellow at Microsoft Research (M365 Research) where I work with Anson Bastos, Mayukh Das,
+            and Chetan Bansal on structured representations of LLMs and AI agent reliability. Prior to MSR, I
+            collaborated with Dr. Priyanka Bagade at the IoT Lab, IIT Kanpur on AI for medical imaging, and earlier
+            worked with Dr. Ashutosh Modi on Indian Sign Language Recognition (EMNLP ’22).</p>
+
+          <p>Outside research, I love the world of startups—hackathons, pitching events, and weekend technology builds
+            keep me energized. I also spend time in the investing/VC space, advising on product-market fit and following
+            the Gartner Hype Cycle more than the “AI bubble vs. no bubble” debate. Feel free to DM me if we share these
+            interests.</p>
+        </div>
+      </section>
+
+      <!-- Research Section -->
+      <section id="research" class="section">
+        <div class="section-header">
+          <h2>Selected Publications</h2>
+        </div>
+        <div class="research-list">
+          <ol class="publication-list">
+            <!-- Research Item 1 -->
+            <li class="publication-item">
+              <div class="pub-image-container">
+                <img src="https://placehold.co/150x150" alt="Publication Thumbnail" class="pub-image">
+              </div>
+              <div class="pub-content">
+                <div class="publication-title">
+                  Indian Sign Language Recognition using Graph Neural Networks
+                </div>
+                <div class="publication-authors">
+                  <span class="me">Shashwat Gupta</span>, Ashutosh Modi
+                </div>
+                <div class="publication-venue">
+                  <span class="venue-name">The 2022 Conference on Empirical Methods in Natural Language Processing
+                    (EMNLP)</span>, 2022
+                </div>
+                <div class="publication-links">
+                  <a href="#" class="pub-link toggle-abs">[Abs]</a>
+                  <a href="#" class="pub-link toggle-bib">[Bib]</a>
+                  <a href="#" class="pub-link">[PDF]</a>
+                  <a href="#" class="pub-link">[Code]</a>
+                </div>
+                <div class="publication-abstract hidden">
+                  <p>Abstract: Sign language recognition is a challenging task due to the complex spatial and temporal
+                    dependencies in sign gestures. In this paper, we propose a novel Graph Neural Network (GNN) based
+                    approach for Indian Sign Language (ISL) recognition. We construct a graph representation of the hand
+                    skeleton and use GNNs to capture the spatial relationships between joints. We also incorporate
+                    temporal information using a temporal convolution network. Our method achieves state-of-the-art
+                    results on a large-scale ISL dataset.</p>
+                </div>
+                <div class="publication-bibtex hidden">
+                  <pre>@inproceedings{gupta2022indian,
+  title={Indian Sign Language Recognition using Graph Neural Networks},
+  author={Gupta, Shashwat and Modi, Ashutosh},
+  booktitle={Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing},
+  year={2022}
+}</pre>
+                </div>
+              </div>
+            </li>
+
+            <!-- Research Item 2 -->
+            <li class="publication-item">
+              <div class="pub-image-container">
+                <img src="https://placehold.co/150x150" alt="Publication Thumbnail" class="pub-image">
+              </div>
+              <div class="pub-content">
+                <div class="publication-title">
+                  AI for Medical Imaging in IoT Contexts
+                </div>
+                <div class="publication-authors">
+                  <span class="me">Shashwat Gupta</span>, Priyanka Bagade
+                </div>
+                <div class="publication-venue">
+                  <span class="venue-name">IoT Lab, IIT Kanpur</span>, Research
+                </div>
+                <div class="publication-links">
+                  <a href="#" class="pub-link toggle-abs">[Abs]</a>
+                  <a href="#" class="pub-link">[PDF]</a>
+                </div>
+                <div class="publication-abstract hidden">
+                  <p>Abstract: This research explores the application of Artificial Intelligence techniques for medical
+                    imaging within Internet of Things (IoT) environments. We investigate lightweight deep learning
+                    models suitable for edge devices to analyze medical images for rapid diagnosis. The study focuses on
+                    optimizing model performance while maintaining high accuracy under resource-constrained conditions
+                    typical of IoT deployments.</p>
+                </div>
+              </div>
+            </li>
+          </ol>
+          <div class="more-publications">
+            <a href="publications.html" class="view-all-link">More publications...</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Blog Preview -->
+      <section id="blog-preview-section" class="section">
+        <div class="section-header">
+          <h2>Latest Thoughts</h2>
+          <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+            target="_blank" rel="noopener" class="view-all-link">Read on Medium →</a>
+        </div>
+        <div id="blog-preview" class="grid-container">
+          <!-- Blog posts will be loaded dynamically from script.js -->
+        </div>
+        <div class="more-publications">
+          <a href="blogs.html" class="view-all-link">More Blogs...</a>
+        </div>
+      </section>
+
+      <!-- Projects Preview -->
+      <section id="projects" class="section">
+        <div class="section-header">
+          <h2>Selected Projects</h2>
+          <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="view-all-link">View all →</a>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/youtube-summariser.png" alt="Youtube Playlist Summariser">
+          </div>
+          <div class="project-info">
+            <a href="https://github.com/ShashwatGPT/YoutubePlaylistSummariser" class="project-title">Youtube Playlist
+              Summariser</a>
+            <p class="project-description">An intelligent system to summarize YouTube playlists using advanced NLP
+              techniques. The project leverages state-of-the-art language models to extract key insights from video
+              transcripts and generate comprehensive summaries.</p>
+            <div class="project-links">
+              <a href="https://github.com/ShashwatGPT/YoutubePlaylistSummariser">GitHub</a>
+            </div>
+            <p class="project-tech">Technologies: Python, NLP, Machine Learning, YouTube API</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Section -->
+      <section id="experience" class="section">
+        <div class="section-header">
+          <h2>Experience</h2>
+        </div>
+        <div class="experience-list">
+          <!-- Experience Item 1 -->
+          <div class="experience-item">
+            <div class="exp-logo-container">
+              <img src="images/ms_logo.svg" alt="Microsoft Research Logo" class="exp-logo">
+            </div>
+            <div class="exp-details">
+              <div class="role-title">Research Fellow</div>
+              <div class="company-name">Microsoft Research (M365 Research)</div>
+              <div class="exp-meta">2025 - Present</div>
+              <div class="exp-meta">Bengaluru, India</div>
+            </div>
+          </div>
+
+          <!-- Experience Item 2 -->
+          <div class="experience-item">
+            <div class="exp-logo-container">
+              <img src="images/iitk_logo.svg" alt="IIT Kanpur Logo" class="exp-logo">
+            </div>
+            <div class="exp-details">
+              <div class="role-title">Research Collaborator</div>
+              <div class="company-name">IoT Lab, IIT Kanpur</div>
+              <div class="exp-meta">2023 - 2024</div>
+              <div class="exp-meta">Kanpur, India</div>
+            </div>
+          </div>
+
+          <!-- Experience Item 3 -->
+          <div class="experience-item">
+            <div class="exp-logo-container">
+              <img src="images/iitk_logo.svg" alt="IIT Kanpur Logo" class="exp-logo">
+            </div>
+            <div class="exp-details">
+              <div class="role-title">Researcher</div>
+              <div class="company-name">Indian Sign Language Recognition Project</div>
+              <div class="exp-meta">2022</div>
+              <div class="exp-meta">Kanpur, India</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cv" class="section">
+        <div class="section-header">
+          <h2>Curriculum Vitae</h2>
+        </div>
+        <div class="cv-content">
+          <p>My detailed academic CV will live here soon. Until then, feel free to reach out and I’ll gladly share the
+            latest copy.</p>
+          <p>
+            <a class="btn-link" href="https://example.com/shashwat-gupta-cv.pdf" target="_blank" rel="noopener">
+              View placeholder CV →
+            </a>
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>

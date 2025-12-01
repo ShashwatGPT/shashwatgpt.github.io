@@ -343,6 +343,32 @@ h2 {
   color: var(--accent-color);
 }
 
+.blog-post-image {
+  width: 100%;
+  height: 180px;
+  /* Fixed height for uniformity */
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  background-color: var(--bg-body);
+  border: 1px solid var(--border-color);
+}
+
+.blog-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-category-section {
+  margin-bottom: 3rem;
+}
+
+.blog-category-section.hidden {
+  display: none;
+}
+
 /* News List */
 .news-list {
   display: flex;
@@ -476,87 +502,223 @@ h2 {
   }
 }
 
-/* Research Section Styles */
+/* Research Section Styles (New List Layout) */
 .research-list {
+  margin-top: 1rem;
+}
+
+.publication-list {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  /* Space for numbers */
+}
+
+.publication-item {
+  margin-bottom: 2rem;
+  padding-left: 0.5rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.pub-image-container {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  background-color: var(--bg-body);
+}
+
+.pub-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pub-content {
+  flex: 1;
+}
+
+.publication-title {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.publication-authors {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.publication-authors .me {
+  text-decoration: underline;
+  text-decoration-color: var(--text-primary);
+}
+
+.publication-venue {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-style: italic;
+  margin-bottom: 0.25rem;
+}
+
+.publication-links {
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.pub-link {
+  color: var(--accent-color);
+  margin-right: 0.5rem;
+  font-family: monospace;
+  /* Optional: gives it a code-like feel */
+  font-size: 0.9rem;
+}
+
+.pub-link:hover {
+  text-decoration: none;
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+/* Hidden Content (Abstract & BibTeX) */
+.publication-abstract,
+.publication-bibtex {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.publication-bibtex pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.hidden {
+  display: none;
+}
+
+/* More Publications Link */
+.more-publications {
+  margin-top: 1rem;
+  padding-left: 2rem;
+  /* Align with list content */
+}
+
+/* All Publications Page */
+.year-header {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--text-accent);
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.year-header:first-of-type {
+  margin-top: 0;
+}
+
+/* Responsive adjustments for images */
+@media (max-width: 600px) {
+  .publication-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pub-image-container {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* Experience Section Styles */
+.experience-list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.research-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.5rem;
-  transition: all 0.2s ease;
+.experience-item {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  align-items: flex-start;
 }
 
-.research-item:hover {
-  border-color: var(--accent-color);
-  box-shadow: var(--shadow-md);
+.experience-item:last-child {
+  border-bottom: none;
 }
 
-.research-title {
+.exp-logo-container {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  /* border: 1px solid var(--border-color); */
+  /* Optional: Remove border for cleaner look */
+  border-radius: 0;
+  /* Square logos like LinkedIn usually, or slight radius */
+}
+
+.exp-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.exp-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.role-title {
   font-family: var(--font-sans);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
   line-height: 1.4;
 }
 
-.research-authors {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-}
-
-.research-authors .me {
+.company-name {
+  font-size: 0.9rem;
   color: var(--text-primary);
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: var(--accent-color);
+  font-weight: 400;
+  line-height: 1.4;
 }
 
-.research-venue {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.venue-badge {
-  background-color: var(--bg-body);
-  color: var(--text-accent);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  border: 1px solid var(--border-color);
-}
-
-.venue-name {
+.exp-meta {
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  font-style: italic;
+  line-height: 1.4;
 }
 
-.research-links {
-  display: flex;
-  gap: 1rem;
-}
+@media (max-width: 600px) {
+  .experience-item {
+    gap: 0.75rem;
+  }
 
-.research-link {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--accent-color);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.research-link:hover {
-  text-decoration: none;
-  opacity: 0.8;
+  .exp-logo-container {
+    width: 40px;
+    height: 40px;
+  }
 }

@@ -1,24 +1,24 @@
 // Smooth scrolling for navigation links
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             if (href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href.substring(1);
                 const targetElement = document.getElementById(targetId);
-                
+
                 if (targetElement) {
                     const offset = 70; // Account for fixed navbar
                     const targetPosition = targetElement.offsetTop - offset;
-                    
+
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
                     });
-                    
+
                     // Update active nav link
                     navLinks.forEach(nav => nav.classList.remove('active'));
                     this.classList.add('active');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Update active nav link on scroll
     const sections = document.querySelectorAll('.section');
     const observerOptions = {
@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '-70px 0px -50% 0px',
         threshold: 0
     };
-    
-    const observer = new IntersectionObserver(function(entries) {
+
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, observerOptions);
-    
+
     sections.forEach(section => {
         observer.observe(section);
     });
@@ -79,6 +79,7 @@ function fetchMediumPosts() {
                     pubDate: item.pubDate,
                     excerpt: getExcerptFromHtml(item.content || item.description || ''),
                     image: item.thumbnail || getImageFromHtml(item.content || ''),
+                    categories: item.categories || []
                 }));
             })
             .catch(error => {
@@ -106,10 +107,10 @@ function getImageFromHtml(html) {
 }
 
 function createMediumPostMarkup(post) {
-    const date = new Date(post.pubDate).toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+    const date = new Date(post.pubDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     });
 
     const imageMarkup = post.image ? `
@@ -134,54 +135,103 @@ function createMediumPostMarkup(post) {
     `;
 }
 
-function renderMediumPosts(containerId, limit = null) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+function renderCategorizedBlogs(posts) {
+    const loadingIndicator = document.getElementById('blog-loading-indicator');
+    if (loadingIndicator) loadingIndicator.style.display = 'none';
 
-    container.innerHTML = '<p class="blog-loading">Loading Medium posts…</p>';
+    const aiContainer = document.getElementById('blog-ai');
+    const techContainer = document.getElementById('blog-tech');
+    const otherContainer = document.getElementById('blog-other');
 
-    fetchMediumPosts().then(posts => {
-        container.innerHTML = '';
+    const aiSection = document.getElementById('section-ai');
+    const techSection = document.getElementById('section-tech');
+    const otherSection = document.getElementById('section-other');
 
-        if (!posts.length) {
-            container.innerHTML = `
-                <p class="blog-error">
-                    Unable to load Medium posts right now. 
-                    <a href="${MEDIUM_HOME_URL}" target="_blank" rel="noopener">Visit Medium directly →</a>
-                </p>
-            `;
-            return;
+    // Clear containers
+    if (aiContainer) aiContainer.innerHTML = '';
+    if (techContainer) techContainer.innerHTML = '';
+    if (otherContainer) otherContainer.innerHTML = '';
+
+    let hasAi = false;
+    let hasTech = false;
+    let hasOther = false;
+
+    posts.forEach(post => {
+        const cats = post.categories.map(c => c.toLowerCase());
+        const markup = createMediumPostMarkup(post);
+
+        // AI/ML Keywords
+        if (cats.some(c => ['ai', 'artificial-intelligence', 'machine-learning', 'llm', 'deep-learning', 'nlp', 'computer-vision'].includes(c))) {
+            if (aiContainer) {
+                aiContainer.insertAdjacentHTML('beforeend', markup);
+                hasAi = true;
+            }
         }
-
-        const postsToRender = limit ? posts.slice(0, limit) : posts;
-        postsToRender.forEach(post => {
-            container.insertAdjacentHTML('beforeend', createMediumPostMarkup(post));
-        });
-
-        if (limit && posts.length > limit) {
-            const moreLink = document.createElement('div');
-            moreLink.className = 'blog-more';
-            moreLink.innerHTML = `
-                <a href="${MEDIUM_WELCOME_URL}" target="_blank" rel="noopener" class="view-all-link">
-                    View more on Medium →
-                </a>
-            `;
-            container.appendChild(moreLink);
+        // Tech/Engineering Keywords
+        else if (cats.some(c => ['technology', 'software-engineering', 'programming', 'coding', 'web-development', 'tech'].includes(c))) {
+            if (techContainer) {
+                techContainer.insertAdjacentHTML('beforeend', markup);
+                hasTech = true;
+            }
+        }
+        // Fallback
+        else {
+            if (otherContainer) {
+                otherContainer.insertAdjacentHTML('beforeend', markup);
+                hasOther = true;
+            }
         }
     });
+
+    // Show/Hide sections based on content
+    if (aiSection) aiSection.classList.toggle('hidden', !hasAi);
+    if (techSection) techSection.classList.toggle('hidden', !hasTech);
+    if (otherSection) otherSection.classList.toggle('hidden', !hasOther);
 }
 
 function initMediumBlocks() {
+    // Home Page Preview (Limit 3)
     if (document.getElementById('blog-preview')) {
-        renderMediumPosts('blog-preview', 4);
+        renderMediumPosts('blog-preview', 3);
     }
-    if (document.getElementById('blog-list')) {
-        renderMediumPosts('blog-list');
+
+    // All Blogs Page (Categorized)
+    if (document.getElementById('blog-ai')) {
+        fetchMediumPosts().then(posts => {
+            renderCategorizedBlogs(posts);
+        });
     }
 }
 
+function initPublicationToggles() {
+    const toggleAbsLinks = document.querySelectorAll('.toggle-abs');
+    const toggleBibLinks = document.querySelectorAll('.toggle-bib');
+
+    toggleAbsLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const item = link.closest('.publication-item');
+            const abstract = item.querySelector('.publication-abstract');
+            if (abstract) abstract.classList.toggle('hidden');
+        });
+    });
+
+    toggleBibLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const item = link.closest('.publication-item');
+            const bibtex = item.querySelector('.publication-bibtex');
+            if (bibtex) bibtex.classList.toggle('hidden');
+        });
+    });
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMediumBlocks);
+    document.addEventListener('DOMContentLoaded', () => {
+        initMediumBlocks();
+        initPublicationToggles();
+    });
 } else {
     initMediumBlocks();
+    initPublicationToggles();
 }
