@@ -30,9 +30,10 @@
 
                 <nav class="navbar">
                     <a href="index.html#about" class="nav-link">About</a>
-                    <a href="blogs.html" class="nav-link active">Blog</a>
-                    <a href="index.html#projects" class="nav-link">Projects</a>
                     <a href="publications.html" class="nav-link">Research</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="blogs.html" class="nav-link active">Blog</a>
+                    <a href="community.html" class="nav-link">Community</a>
                     <a href="index.html#cv" class="nav-link">CV</a>
                 </nav>
 
@@ -68,35 +69,269 @@
         <!-- Main Content -->
         <main class="main-content">
 
-            <section id="blogs" class="section">
-                <div class="section-header">
-                    <h2>Reflections on Code and Capital</h2>
-                    <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
-                        target="_blank" rel="noopener" class="view-all-link">Read on Medium →</a>
+            <section id="blog-intro" class="section">
+                <div class="blog-intro-header">
+                    <h2>Welcome to my Den of Reflections</h2>
+                    <p class="section-intro">Welcome to the world of my reflections, where I discuss books, lifestyle,
+                        technology, and startups/investing.</p>
                 </div>
 
-                <div id="blog-loading-indicator">
-                    <p class="blog-loading">Loading thoughts...</p>
+                <div class="blog-bio-container">
+                    <div class="blog-bio-text">
+                        <p>Hello, I’m <strong>Shashwat (Shawn) Gupta</strong>, a Research-Fellow at Microsoft Research
+                            with a deep passion for technology and investment. Prior to Microsoft I was a Computer
+                            Science and Engineering graduate from IIT Kanpur in Computer Science (IITK CSE’24). My
+                            journey at IIT Kanpur has been a transformative experience, blending rigorous academics with
+                            hands-on projects in fields like machine learning and human-computer interaction.</p>
+                        <p>Beyond the classroom, I have actively engaged in entrepreneurial ventures, founding startups
+                            and exploring the intricacies of venture capital. Through this blog, I aim to share my
+                            insights, experiences, and the valuable lessons I’ve learned along the way, with a focus on
+                            the intersection of technology and investment. Welcome to my blog, where I hope to inspire
+                            and inform fellow enthusiasts and aspiring professionals.</p>
+                    </div>
                 </div>
 
-                <!-- AI & Machine Learning Section -->
-                <div id="section-ai" class="blog-category-section hidden">
-                    <h3 class="year-header">AI & Machine Learning</h3>
-                    <div id="blog-ai" class="grid-container"></div>
+                <div class="why-write-section">
+                    <h3>Why I Write, and Why This Blog?</h3>
+                    <p>I write to guide someone in my shoes or who wants to achieve something that I got at some point
+                        in my life. Think of it as a note to my younger self, someone who might be navigating similar
+                        challenges and aspirations elsewhere. Documenting and reflecting on my journey allows me to
+                        consolidate the lessons I’ve learned, providing a clearer perspective on my experiences and
+                        growth. Additionally, this blog serves as a platform for discussion and exchange of ideas
+                        related to technology, IIT, investing, and life in general. By sharing my insights, opening up
+                        conversations, I hope to connect with like-minded individuals who share my passions and
+                        curiosity.</p>
+                </div>
+            </section>
+
+            <div class="blog-separator"></div>
+
+            <!-- Technology Section -->
+            <section id="custom-section-tech" class="section blog-category-section">
+                <div class="category-header">
+                    <h2><span class="category-icon"><i class="fas fa-laptop-code"></i></span> Technology</h2>
                 </div>
 
-                <!-- Technology Section -->
-                <div id="section-tech" class="blog-category-section hidden">
-                    <h3 class="year-header">Technology & Engineering</h3>
-                    <div id="blog-tech" class="grid-container"></div>
+                <!-- AI/ML -->
+                <div class="subcategory-block">
+                    <h3 class="subcategory-title"><span class="category-icon"
+                            style="width:auto; height:auto; background:none; box-shadow:none; margin-right:0.2rem;"><i
+                                class="fas fa-brain"></i></span> [AI/ML]</h3>
+                    <div class="grid-container">
+
+                        <!-- Blog Item -->
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/resnet3d-gradcam-d5143acdac22" target="_blank"
+                                    rel="noopener">GradCAM for 3D images (annotated code)</a>
+                            </div>
+                            <div class="blog-post-excerpt">Detailed implementation and explanation of GradCAM for 3D
+                                medical imaging.</div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/ai-ml-diffusion-models-a-beginners-guide-to-math-behind-stable-diffusion-and-dall-e-14e4f4934174"
+                                    target="_blank" rel="noopener">Diffusion Models — a beginner’s guide</a>
+                            </div>
+                            <div class="blog-post-excerpt">A beginner’s guide to the math behind Stable Diffusion and
+                                Dall-e!</div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/ai-ml-spatial-transformer-networks-stn-overview-challenges-and-proposed-improvements-2d98df088331"
+                                    target="_blank" rel="noopener">Spatial Transformer Network (STN)</a>
+                            </div>
+                            <div class="blog-post-excerpt">Overview, challenges, and proposed improvements for Spatial
+                                Transformer Networks.</div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/towards-artificial-general-intelligence-agi-and-what-is-in-store-for-us-0c86a0c93768"
+                                    target="_blank" rel="noopener">Towards Artificial General Intelligence (AGI)</a>
+                            </div>
+                            <div class="blog-post-excerpt">What is in store for us? A hype story identifying current
+                                trends. (Towards AI)</div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/ai-what-the-current-generation-of-ai-lacks-and-what-are-the-frontiers-844b8918b842"
+                                    target="_blank" rel="noopener">The Critical Nuances of Today’s AI</a>
+                            </div>
+                            <div class="blog-post-excerpt">And the Frontiers That Will Define Its Future. (Towards AI)
+                            </div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/ai-neurosymbolic-ai-a-microthesis-3f61bb446770"
+                                    target="_blank" rel="noopener">Neurosymbolic AI — a microthesis</a>
+                            </div>
+                            <div class="blog-post-excerpt">An exploration of combining neural networks with symbolic
+                                reasoning.</div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/keswanis-algorithm-for-2-playernon-convex-min-max-optimization-78f49d5f1a20"
+                                    target="_blank" rel="noopener">Keswani’s Algorithm for 2 player non-convex min-max
+                                    optimisation</a>
+                            </div>
+                            <div class="blog-post-excerpt">An overview of the algorithm and its applications.</div>
+                        </article>
+
+                        <article class="blog-post-item">
+                            <div class="blog-post-title">
+                                <a href="https://medium.com/@shashwat.gpt/ai-ml-the-surge-of-no-code-ai-platforms-in-data-analytics-current-trends-applications-and-79c3999bbe3d"
+                                    target="_blank" rel="noopener">The Surge of No-Code AI Platforms in Data
+                                    Analytics</a>
+                            </div>
+                            <div class="blog-post-excerpt">Current Trends, Applications, and Future Predictions.</div>
+                        </article>
+
+                    </div>
                 </div>
 
-                <!-- Other Thoughts Section -->
-                <div id="section-other" class="blog-category-section hidden">
-                    <h3 class="year-header">Other Thoughts</h3>
-                    <div id="blog-other" class="grid-container"></div>
+
+            </section>
+
+            <!-- Startup/Investing Section -->
+            <section id="custom-section-startups" class="section blog-category-section">
+                <div class="category-header">
+                    <h2><span class="category-icon"><i class="fas fa-chart-line"></i></span> Startup/Investing</h2>
+                    <p class="section-intro">My insights from the business world</p>
                 </div>
 
+                <div class="grid-container">
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/startups-investing-4-saas-startups-that-are-doing-a-fabulous-job-c0a20fa9974d"
+                                target="_blank" rel="noopener">4 SaaS Startups I found Interesting</a>
+                        </div>
+                        <div class="blog-post-excerpt">Startups that are doing a fabulous job in the current market.
+                        </div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/investing-understanding-and-finding-north-star-metrics-for-your-startup-3f76ed27994c"
+                                target="_blank" rel="noopener">Startup metrics and finding North Star metric</a>
+                        </div>
+                        <div class="blog-post-excerpt">Understanding key metrics for your startup's success.</div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/startups-investing-building-my-own-venture-in-college-and-the-lessons-learned-6074ebd195c9"
+                                target="_blank" rel="noopener">Building my own startup (HealthPredict) in college</a>
+                        </div>
+                        <div class="blog-post-excerpt">Lessons learned from building a venture during undergraduate
+                            years.</div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/towards-artificial-general-intelligence-agi-and-what-is-in-store-for-us-0c86a0c93768"
+                                target="_blank" rel="noopener">Towards Artificial General Intelligence (AGI)</a>
+                        </div>
+                        <div class="blog-post-excerpt">Implications of AGI on the future of business and society.</div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/startup-investing-mastering-the-microthesis-3215c558b1da"
+                                target="_blank" rel="noopener">Microthesis (a template from Blume Ventures)</a>
+                        </div>
+                        <div class="blog-post-excerpt">Mastering the art of the microthesis for investment analysis.
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- IIT Kanpur Section -->
+            <section id="custom-section-iitk" class="section blog-category-section">
+                <div class="category-header">
+                    <h2><span class="category-icon"><i class="fas fa-university"></i></span> IIT Kanpur</h2>
+                    <p class="section-intro">My reflections and recollections from my wonderful time at IIT Kanpur (my
+                        alma mater)</p>
+                </div>
+
+                <div class="grid-container">
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/iitk-chartering-unknown-my-journey-end-to-end-at-iit-kanpur-e748bd7d90e3"
+                                target="_blank" rel="noopener">Nine Point Someone: Juggling Academics, Adventure and
+                                Ambition</a>
+                        </div>
+                        <div class="blog-post-excerpt">My journey end-to-end at IIT Kanpur. contribution to "As We
+                            Leave" Series.</div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/research-at-epfl-my-journey-as-an-exchange-student-at-europes-leading-cs-university-280e3ebfe4db"
+                                target="_blank" rel="noopener">Foreign Exchange at EPFL</a>
+                        </div>
+                        <div class="blog-post-excerpt">My journey as an exchange student at Europe's leading CS
+                            university.</div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/startups-investing-building-my-own-venture-in-college-and-the-lessons-learned-6074ebd195c9"
+                                target="_blank" rel="noopener">Building my own startup (HealthPredict) in college</a>
+                        </div>
+                        <div class="blog-post-excerpt">Reflections on entrepreneurship within the campus ecosystem.
+                        </div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/building-the-acm-sigchi-chapter-at-iit-kanpur-insights-challenges-and-opportunities-a3f4710a1132"
+                                target="_blank" rel="noopener">Building the ACM SIGCHI Student Chapter</a>
+                        </div>
+                        <div class="blog-post-excerpt">Insights, challenges, and opportunities from building a student
+                            club.</div>
+                    </article>
+
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <a href="https://medium.com/@shashwat.gpt/the-research-hustle-my-wild-journey-through-6-internships-at-iit-kanpur-and-beyond-540b46f2f4b7"
+                                target="_blank" rel="noopener">The Research Hustle</a>
+                        </div>
+                        <div class="blog-post-excerpt">My wild journey through 6 research Internships at IIT Kanpur and
+                            Beyond.</div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Books Section -->
+            <section id="custom-section-books" class="section blog-category-section">
+                <div class="category-header">
+                    <h2><span class="category-icon"><i class="fas fa-book"></i></span> Books</h2>
+                    <p class="section-intro">My summaries and in-depth analysis of books I read</p>
+                </div>
+
+                <div class="grid-container">
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <span class="book-title">Psychology of Money</span>
+                        </div>
+                    </article>
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <span class="book-title">Never Split the Difference</span>
+                        </div>
+                    </article>
+                    <article class="blog-post-item">
+                        <div class="blog-post-title">
+                            <span class="book-title">Wings of Fire: Autobiography of Dr. A.P.J Abdul Kalam</span>
+                        </div>
+                    </article>
+                </div>
             </section>
 
         </main>

@@ -11,13 +11,13 @@
   /* Near Black - High contrast */
   --text-secondary: #555555;
   /* Neutral Gray - Muted text */
-  --text-accent: #000000;
-  /* Pure Black - Emphasis */
+  --text-accent: #111827;
+  /* Dark Slate - Softer than pure black */
 
-  --accent-color: #000000;
-  /* Black for a monochrome, premium look */
-  --accent-hover: #333333;
-  /* Dark Gray for hover */
+  --accent-color: #2563eb;
+  /* Vibrant Blue */
+  --accent-hover: #1d4ed8;
+  /* Darker Blue for hover */
 
   --border-color: #e5e5e5;
   /* Light Gray */
@@ -106,7 +106,10 @@ a:hover {
   font-family: var(--font-serif);
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--text-accent);
+  /* Elegant Gradient Text */
+  background: linear-gradient(135deg, #111827 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
   line-height: 1.2;
 }
@@ -143,8 +146,12 @@ a:hover {
 }
 
 .nav-link.active {
-  color: var(--text-accent);
+  color: var(--accent-color);
   font-weight: 600;
+  border-left: 2px solid var(--accent-color);
+  padding-left: 0.5rem;
+  margin-left: -0.5rem;
+  /* Counteract padding to alignment */
 }
 
 /* Social Links */
@@ -721,4 +728,317 @@ h2 {
     width: 40px;
     height: 40px;
   }
+}
+
+/* Custom Blog Page Styles */
+
+/* Blog Intro Section */
+.blog-intro-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.blog-intro-header h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.blog-bio-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--accent-color);
+}
+
+.blog-bio-text p {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.blog-bio-text p:last-child {
+  margin-bottom: 0;
+}
+
+.why-write-section {
+  padding: 1.5rem;
+  background-color: transparent;
+  border-left: 2px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.why-write-section h3 {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--text-accent);
+}
+
+.why-write-section p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.blog-separator {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 4rem 0;
+  width: 100%;
+}
+
+/* Category Headers */
+.category-header {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.8rem;
+}
+
+.category-icon {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+/* Subcategories */
+.subcategory-block {
+  margin-bottom: 3rem;
+}
+
+.subcategory-title {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.empty-category-text {
+  color: var(--text-secondary);
+  font-style: italic;
+  padding-left: 1rem;
+}
+
+/* Book Titles */
+.book-title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .blog-intro-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .blog-bio-container {
+    padding: 1.5rem;
+  }
+}
+
+/* --- COLORFUL ADDITIONS --- */
+
+/* Social Icons - Brand Colors */
+.social-icon {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Email */
+a[href^="mailto:"] .social-icon {
+  color: #EA4335;
+}
+
+/* LinkedIn */
+a[href*="linkedin.com"] .social-icon {
+  color: #0A66C2;
+}
+
+/* GitHub */
+a[href*="github.com"] .social-icon {
+  color: #1F2328;
+}
+
+/* Medium */
+a[href*="medium.com"] .social-icon {
+  color: #00AB6C;
+}
+
+/* YouTube */
+a[href*="youtube.com"] .social-icon {
+  color: #FF0000;
+}
+
+/* Google Scholar */
+a[href*="scholar.google.com"] .social-icon {
+  color: #4285F4;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.2);
+}
+
+/* Blog Categories - Specific Colors */
+.category-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--bg-body);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* Subtle shadow container */
+  margin-right: 0.5rem;
+}
+
+/* Tech - Blue */
+.category-header:has(.fa-laptop-code) .category-icon {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+/* Startups - Green */
+.category-header:has(.fa-chart-line) .category-icon {
+  color: #059669;
+  background-color: #f0fdf4;
+}
+
+/* University - Purple */
+.category-header:has(.fa-university) .category-icon {
+  color: #7c3aed;
+  background-color: #f5f3ff;
+}
+
+/* Books - Amber */
+.category-header:has(.fa-book) .category-icon {
+  color: #d97706;
+  background-color: #fffbeb;
+}
+
+/* Misc - Teal */
+.category-header:has(.fa-coffee) .category-icon {
+  color: #0d9488;
+  background-color: #f0fdfa;
+}
+
+/* Bio Section Update */
+.blog-bio-container {
+  background-color: #f8fafc;
+  /* Slate 50 - subtle contrast */
+  border-left-width: 4px;
+}
+
+/* --- ELEGANT COLOR UTILITIES --- */
+
+/* Tech Tags (Pastel Pills) */
+.tech-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  margin: 0.1rem;
+  border-radius: 99px;
+  /* Pill shape */
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #f3f4f6;
+  /* Default gray */
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+}
+
+/* Specific Tag Colors (can be applied via n-th child or specific classes if we want more control, 
+   but for now let's make them cycling or just nice defaults) */
+.tech-tag.blue {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.tech-tag.green {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.tech-tag.purple {
+  background-color: #faf5ff;
+  color: #7e22ce;
+  border-color: #e9d5ff;
+}
+
+.tech-tag.amber {
+  background-color: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.tech-tag.rose {
+  background-color: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+/* Styles for Project Cards to pop */
+.project-card {
+  border-top: 4px solid transparent;
+  /* Prepare for color */
+}
+
+/* Nth-child trick for varied project card colors without manual classes */
+.project-card:nth-child(3n+1) {
+  border-top-color: #3b82f6;
+}
+
+/* Blue */
+.project-card:nth-child(3n+2) {
+  border-top-color: #8b5cf6;
+}
+
+/* Purple */
+.project-card:nth-child(3n+3) {
+  border-top-color: #10b981;
+}
+
+/* Green */
+
+/* Venue Highlight */
+.venue-pill {
+  display: inline-block;
+  font-weight: 600;
+  color: #c2410c;
+  /* Deep Orange/Rust */
+  position: relative;
+  z-index: 1;
+}
+
+.venue-pill::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -2px;
+  right: -2px;
+  height: 6px;
+  background-color: #ffedd5;
+  /* Light Orange highlighter */
+  z-index: -1;
+  opacity: 0.7;
 }
