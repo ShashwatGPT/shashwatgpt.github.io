@@ -165,53 +165,49 @@
                     </p>
 
                     <div class="algorithm-block"
-                        style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-family: monospace; font-size: 0.9em; border: 1px solid #e9ecef;">
-                        <strong>Algorithm 1: OPTiMACS for 1-step LLM Call</strong>
-                        <br><br>
-                        <strong>Input:</strong> Training Dataset D (Training) / Query x (Inference)<br>
-                        <strong>If Training:</strong><br>
-                        &nbsp;&nbsp;1. <strong>Task Selection:</strong> Cluster all x_i &in; D into semantic tasks
-                        T.<br>
-                        &nbsp;&nbsp;2. <strong>Format Learning:</strong> For each x_i &in; D:<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C &larr; &emptyset; // Candidate set<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>For</strong> each strategy k &in; {1...K}:<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_k &larr; Strategy_k(x_i, t_i,
-                        Q)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C &larr; C &cup; {c_k}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>For</strong> f &in; C:<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y_hat &larr; LLM(x_i, f), r &larr;
-                        Verify(y_hat, y_i)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q(t_i, f) &larr; Q(t_i, f) + r //
-                        Update score<br>
-                        <strong>Else (Inference):</strong><br>
-                        &nbsp;&nbsp;1. t &larr; ClassifyTask(x)<br>
-                        &nbsp;&nbsp;2. <strong>Return</strong> f* = argmax_f Q(t, f)
+                        style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #e9ecef; overflow-x: auto;">
+                        <strong style="display: block; margin-bottom: 10px;">Algorithm 1: OPTiMACS for 1-step LLM
+                            Call</strong>
+                        <pre style="margin: 0; font-family: monospace; font-size: 0.9em; white-space: pre-wrap;">
+<strong>Input:</strong> Training Dataset D (Training) / Query x (Inference)
+<strong>If Training:</strong>
+  1. <strong>Task Selection:</strong> Cluster all x_i &in; D into semantic tasks T.
+  2. <strong>Format Learning:</strong> For each x_i &in; D:
+      C &larr; &emptyset;  // Candidate set
+      <strong>For</strong> each strategy k &in; {1...K}:
+          c_k &larr; Strategy_k(x_i, t_i, Q)
+          C &larr; C &cup; {c_k}
+      <strong>For</strong> f &in; C:
+          y_hat &larr; LLM(x_i, f), r &larr; Verify(y_hat, y_i)
+          Q(t_i, f) &larr; Q(t_i, f) + r  // Update score
+<strong>Else (Inference):</strong>
+  1. t &larr; ClassifyTask(x)
+  2. <strong>Return</strong> f* = argmax_f Q(t, f)
+</pre>
                     </div>
 
                     <div class="algorithm-block"
-                        style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-family: monospace; font-size: 0.9em; border: 1px solid #e9ecef;">
-                        <strong>Algorithm 2: OPTiMACS for Multi-Agent Setting (EMDP)</strong>
-                        <br><br>
-                        <strong>Initialize:</strong> for all s &in; T, a &in; F(s):<br>
-                        &nbsp;&nbsp;Q(s,a) &larr; arbitrary, C(s,a) &larr; 0<br>
-                        &nbsp;&nbsp;&mu;(a|s) &larr; w_Q * &pi;_Q + w_L * &pi;_L + w_D * &pi;_D (behavior policy)<br>
-                        &nbsp;&nbsp;&pi;(s) &larr; deterministic policy greedy wrt Q<br>
-                        <strong>Repeat</strong> until convergence:<br>
-                        &nbsp;&nbsp;1. Sample msg from queries/problems.<br>
-                        &nbsp;&nbsp;2. <strong>Generate Episode</strong> using behavior policy &mu;(a|s):<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Repeat</strong> until episode end:<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T_t &larr; TaskCategorization(msg,
-                        context)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F_t &larr; &mu;(T_t, context)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt &larr; ApplyStructure(msg,
-                        F_t)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg, R_{t+1} &larr;
-                        Agent_t(prompt)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>If</strong> Expansion Phase:
-                        T &larr; T &cup; {T_t}, F &larr; F &cup; {F_t}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t &larr; t+1<br>
-                        &nbsp;&nbsp;4. Caculate Returns G and Update Q-values using Weighted Importance Sampling
-                        (details in text).
+                        style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #e9ecef; overflow-x: auto;">
+                        <strong style="display: block; margin-bottom: 10px;">Algorithm 2: OPTiMACS for Multi-Agent
+                            Setting (EMDP)</strong>
+                        <pre style="margin: 0; font-family: monospace; font-size: 0.9em; white-space: pre-wrap;">
+<strong>Initialize:</strong> for all s &in; T, a &in; F(s):
+  Q(s,a) &larr; arbitrary, C(s,a) &larr; 0
+  &mu;(a|s) &larr; w_Q * &pi;_Q + w_L * &pi;_L + w_D * &pi;_D (behavior policy)
+  &pi;(s) &larr; deterministic policy greedy wrt Q
+
+<strong>Repeat</strong> until convergence:
+  1. Sample msg from queries/problems.
+  2. <strong>Generate Episode</strong> using behavior policy &mu;(a|s):
+      <strong>Repeat</strong> until episode end:
+          T_t &larr; TaskCategorization(msg, context)
+          F_t &larr; &mu;(T_t, context)
+          prompt &larr; ApplyStructure(msg, F_t)
+          msg, R_{t+1} &larr; Agent_t(prompt)
+          <strong>If</strong> Expansion Phase: T &larr; T &cup; {T_t}, F &larr; F &cup; {F_t}
+          t &larr; t+1
+  4. Calculate Returns G and Update Q-values using Weighted Importance Sampling.
+</pre>
                     </div>
                     <h3>How?</h3>
                     <p>
