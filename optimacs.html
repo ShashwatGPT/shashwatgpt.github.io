@@ -107,13 +107,202 @@
                     </p>
 
                     <h3>What?</h3>
-                    <p>Content coming soon...</p>
+                    <h4>Preliminaries</h4>
+                    <p>
+                        We introduce the key concepts used in our framework:
+                    </p>
+                    <ul>
+                        <li><b>Policy (&pi;):</b> A strategy mapping states (contexts) to actions (decisions), denoted
+                            as &pi;(a|s).</li>
+                        <li><b>Contextual Bandits:</b> A simplified reinforcement learning setting where an agent
+                            observes a context, selects an action, and receives an immediate reward, without state
+                            transitions. We use this for single-step prompting.</li>
+                        <li><b>Markov Decision Processes (MDPs):</b> A framework for sequential decision-making
+                            characterized by states, actions, transitions, rewards, and a discount factor. We employ
+                            this for multi-agent coordination where current decisions alter the dialogue trajectory.
+                        </li>
+                        <li><b>Off-Policy Learning:</b> Learning the value of a target policy (optimal formats) while
+                            following a different behavior policy for exploration.</li>
+                    </ul>
+
+                    <h4>Formulation for 1-step LLM Calls</h4>
+                    <p>
+                        We first formalize the problem of LLM prompting. While A/B testing can identify a globally
+                        superior static prompt, it fails to capture instance-specific preferences. A contextual-bandit
+                        formulation addresses this by learning a policy that maps specific contexts to optimal actions.
+                        Our formulation involves two key differences from standard methods:
+                    </p>
+                    <ol>
+                        <li><b>Tabular State Space:</b> We discretize the context into semantic task categories (e.g.,
+                            Code Generation, Reasoning) rather than using vector-based states. This allows for
+                            interpretable, data-efficient learning.</li>
+                        <li><b>Ensemble Exploration:</b> We utilize a union of diverse strategies rather than a single
+                            policy to ensure robust coverage of the search space.</li>
+                    </ol>
+
+                    <h4>Multi-Agent System Formulation</h4>
+                    <p>
+                        Extending to multi-agent settings introduces challenges like state transitions, delayed rewards,
+                        and combinatorial explosion. We model this as an <b>Expanding Markov Decision Process
+                            (EMDP)</b>.
+                    </p>
+                    <p>
+                        In our setting, the universe of tasks and optimal formats is not fixed. The EMDP formulation
+                        handles:
+                    </p>
+                    <ul>
+                        <li><b>Evolving State-Action Spaces:</b> As agents discover novel tasks and optimal formats
+                            online.</li>
+                        <li><b>Non-Stationarity:</b> Arising from the continuous expansion of these spaces.</li>
+                        <li><b>Latent State Uncertainty:</b> Since task categories are inferred rather than observed.
+                        </li>
+                    </ul>
 
                     <h3>How?</h3>
-                    <p>Content coming soon...</p>
+                    <p>
+                        The OPTiMACS framework utilizes a shared high-level architecture: a <b>Task Classifier</b>
+                        identifies the context, a <b>Policy Engine</b> selects the format, and a <b>Feedback Loop</b>
+                        drives learning.
+                    </p>
 
-                    <h3>References</h3>
-                    <p>Content coming soon...</p>
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/optimacs_framework.png" alt="OPTiMACS Framework Diagram"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: #666;">Figure 1: The OPTiMACS Framework Architecture</p>
+                    </div>
+
+                    <h4>OPTiMACS for Prompting (Single-Agent)</h4>
+                    <p>
+                        We model this as a <b>Tabular Contextual Bandit</b>.
+                    </p>
+                    <ul>
+                        <li><b>State:</b> The semantic task category of the input.</li>
+                        <li><b>Policy Engine:</b> Uses a weighted Ensemble of 14 Strategies, encompassing score-based
+                            exploitation, frequency-based exploration, and Meta-LLM guided inductive biases.</li>
+                        <li><b>Inference:</b> The system switches to a pure exploitation policy.</li>
+                    </ul>
+
+                    <h4>OPTiMACS for Coordination (Multi-Agent)</h4>
+                    <p>
+                        We model this as an <b>Expanding Markov Decision Process (EMDP)</b>.
+                    </p>
+                    <ul>
+                        <li><b>Dynamic Classifier:</b> Includes an Expansion Phase; if confidence in existing task
+                            categories is low, it proposes a new task node.</li>
+                        <li><b>Internal Memory:</b> Grows dynamically, storing the evolving taxonomy and Q-values.</li>
+                        <li><b>Policy Engine:</b> Uses Every-Visit Monte Carlo methods to handle sparse rewards
+                            (received only at the end of a trajectory).</li>
+                    </ul>
+
+                    <h3>Experiments</h3>
+                    <h4>Datasets</h4>
+                    <p><b>Single-Agent Prompting:</b> We utilize three diverse reasoning benchmarks:</p>
+                    <ul>
+                        <li><b>AQuA-RAT:</b> Algebraic word problems.</li>
+                        <li><b>CoinFlip:</b> Symbolic manipulation and state tracking.</li>
+                        <li><b>LogicGrid:</b> Constraint satisfaction and logical deduction.</li>
+                    </ul>
+                    <p><b>Multi-Agent Coordination:</b></p>
+                    <ul>
+                        <li><b>Collaborative Problem Solving (GSM8k):</b> A 3-agent team (Solver, Coder, Verifier)
+                            solving math problems.</li>
+                        <li><b>Distributed Multi-Hop QA:</b> Using HotpotQA and NarrativeQA, where information is
+                            partitioned among agents, requiring optimized communication to solve.</li>
+                    </ul>
+
+                    <h4>Setup</h4>
+                    <p>We benchmark against three baselines:</p>
+                    <ol>
+                        <li><b>Natural Language</b></li>
+                        <li><b>Autoform</b> (LLM-proposed formats)</li>
+                        <li><b>Fixed Formats / A/B Testing</b> (Static formats like JSON or Code)</li>
+                    </ol>
+
+                    <h3>Results</h3>
+                    <p>
+                        <i>(Full quantitative results to be added)</i>
+                    </p>
+                    <p>
+                        Our evaluations show that OPTiMACS identifies task-aware formats that significantly outperform
+                        natural language and static formats. The system achieves high efficiency in terms of token usage
+                        and latency without model fine-tuning.
+                    </p>
+
+                    <h3>Discussion</h3>
+                    <h4>Why Formats Work</h4>
+                    <ul>
+                        <li><b>Prompt Equalization:</b> Formats help bring reasoning paths for similar data and contexts
+                            closer together, similar to how Chain-of-Thought works.</li>
+                        <li><b>Ambiguity Minimization:</b> Forcing structured schemas minimizes ambiguity and forces the
+                            model to attend to specific information that might otherwise be overlooked.</li>
+                    </ul>
+                    <h4>Insights</h4>
+                    <ul>
+                        <li>LLMs often have non-obvious preferences. For example, for table tasks, column-oriented
+                            formats worked well; for SQL, specific schema constraints were effective.</li>
+                        <li>Models generally prefer compact structures over verbose natural language.</li>
+                        <li>There is significant "format bias" – variance in performance across different formats can be
+                            massive (up to 253%), highlighting the importance of selection.</li>
+                    </ul>
+
+                    <h3>Future Directions</h3>
+                    <ul>
+                        <li>Exploring code-based formats (e.g., using Python for sorting vs Assembly for memory
+                            modeling).</li>
+                        <li>Investigating mixtures of formats for information segregation.</li>
+                        <li>Designing novel formats suited for specific purposes, such as token efficiency or context
+                            passing.</li>
+                    </ul>
+
+                    <h3>Limitations</h3>
+                    <p>
+                        A key limitation is the dependency on the LLM's ability to follow format conversion
+                        instructions. Performance is bounded by how effectively the underlying model can adhere to the
+                        requested structure.
+                    </p>
+
+                    <h3>Conclusion</h3>
+                    <p>
+                        OPTiMACS provides a unified framework for learning optimal communication representations in both
+                        single-agent and multi-agent systems. By treating format selection as a learning problem, we
+                        bridge the gap between rigid protocols and ambiguous natural language.
+                    </p>
+
+                    <h3>Related Works</h3>
+                    <p>
+                        Recent studies have shown that specific structured representations often outperform natural
+                        language. However, relying on fixed formats can vary in effectiveness. Approaches like Autoform
+                        attempt to query LLMs for formats but can be inconsistent.
+                    </p>
+                    <p>
+                        Our work differs from:
+                    </p>
+                    <ul>
+                        <li><b>Custom Infrastructure (MCP, FIPA-ACL):</b> Which provide candidates but not the
+                            intelligence to select them.</li>
+                        <li><b>Prompt Optimization (APE, OPRO):</b> Which optimize semantics, whereas we optimize syntax
+                            (format).</li>
+                        <li><b>Reasoning Frameworks (CoT, PoT):</b> Which structure reasoning logic; we optimize the
+                            message syntax within these steps.</li>
+                    </ul>
+
+                    <h3>Appendix</h3>
+                    <h4>Standard Frameworks</h4>
+                    <p>
+                        <b>Contextual Bandits:</b> Defined by a tuple &lt;X, A, R&gt;, maximizing cumulative reward
+                        based on context.
+                        <br>
+                        <b>MDPs:</b> Defined by &lt;S, A, P, R, &gamma;&gt;, modeling sequential decision making.
+                    </p>
+                    <h4>EMDP Formulation</h4>
+                    <p>
+                        The Expanding MDP (EMDP) allows state and action spaces to evolve.
+                        <br>
+                        <b>Expansion Mechanism:</b> New tasks and formats are added to the sets T and F dynamically.
+                        <br>
+                        <b>Update Rule:</b> We use off-policy weighted importance sampling to update Q-values, handling
+                        the evolving space.
+                    </p>
                 </div>
             </section>
         </main>
