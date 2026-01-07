@@ -158,6 +158,61 @@
                         </li>
                     </ul>
 
+                    <h3>Algorithms</h3>
+                    <p>
+                        We present the core algorithms for our framework. Algorithm 1 describes the single-step prompt
+                        optimization, while Algorithm 2 details the multi-agent EMDP learning process.
+                    </p>
+
+                    <div class="algorithm-block"
+                        style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-family: monospace; font-size: 0.9em; border: 1px solid #e9ecef;">
+                        <strong>Algorithm 1: OPTiMACS for 1-step LLM Call</strong>
+                        <br><br>
+                        <strong>Input:</strong> Training Dataset D (Training) / Query x (Inference)<br>
+                        <strong>If Training:</strong><br>
+                        &nbsp;&nbsp;1. <strong>Task Selection:</strong> Cluster all x_i &in; D into semantic tasks
+                        T.<br>
+                        &nbsp;&nbsp;2. <strong>Format Learning:</strong> For each x_i &in; D:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C &larr; &emptyset; // Candidate set<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>For</strong> each strategy k &in; {1...K}:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_k &larr; Strategy_k(x_i, t_i,
+                        Q)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C &larr; C &cup; {c_k}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>For</strong> f &in; C:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y_hat &larr; LLM(x_i, f), r &larr;
+                        Verify(y_hat, y_i)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q(t_i, f) &larr; Q(t_i, f) + r //
+                        Update score<br>
+                        <strong>Else (Inference):</strong><br>
+                        &nbsp;&nbsp;1. t &larr; ClassifyTask(x)<br>
+                        &nbsp;&nbsp;2. <strong>Return</strong> f* = argmax_f Q(t, f)
+                    </div>
+
+                    <div class="algorithm-block"
+                        style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-family: monospace; font-size: 0.9em; border: 1px solid #e9ecef;">
+                        <strong>Algorithm 2: OPTiMACS for Multi-Agent Setting (EMDP)</strong>
+                        <br><br>
+                        <strong>Initialize:</strong> for all s &in; T, a &in; F(s):<br>
+                        &nbsp;&nbsp;Q(s,a) &larr; arbitrary, C(s,a) &larr; 0<br>
+                        &nbsp;&nbsp;&mu;(a|s) &larr; w_Q * &pi;_Q + w_L * &pi;_L + w_D * &pi;_D (behavior policy)<br>
+                        &nbsp;&nbsp;&pi;(s) &larr; deterministic policy greedy wrt Q<br>
+                        <strong>Repeat</strong> until convergence:<br>
+                        &nbsp;&nbsp;1. Sample msg from queries/problems.<br>
+                        &nbsp;&nbsp;2. <strong>Generate Episode</strong> using behavior policy &mu;(a|s):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Repeat</strong> until episode end:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T_t &larr; TaskCategorization(msg,
+                        context)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F_t &larr; &mu;(T_t, context)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt &larr; ApplyStructure(msg,
+                        F_t)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg, R_{t+1} &larr;
+                        Agent_t(prompt)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>If</strong> Expansion Phase:
+                        T &larr; T &cup; {T_t}, F &larr; F &cup; {F_t}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t &larr; t+1<br>
+                        &nbsp;&nbsp;4. Caculate Returns G and Update Q-values using Weighted Importance Sampling
+                        (details in text).
+                    </div>
                     <h3>How?</h3>
                     <p>
                         The OPTiMACS framework utilizes a shared high-level architecture: a <b>Task Classifier</b>
@@ -303,6 +358,37 @@
                         <b>Update Rule:</b> We use off-policy weighted importance sampling to update Q-values, handling
                         the evolving space.
                     </p>
+
+                    <h3>References</h3>
+                    <div class="references" style="font-size: 0.9em; color: #444;">
+                        <p><b>[1] Chen et al. (2024)</b>. <i>Beyond Natural Language: LLMs Leveraging Alternative
+                                Formats for Enhanced Reasoning and Communication</i>. EMNLP 2024.</p>
+                        <p><b>[2] Singh et al. (2024)</b>. <i>Asking Language Models How to Represent Data for
+                                Fine-Tuning</i>. arXiv:2402.10842.</p>
+                        <p><b>[3] Beurer-Kellner & Vechev (2024)</b>. <i>Let Me Speak Freely? A Study on the Impact of
+                                Format Restrictions on Performance of Large Language Models</i>. arXiv:2408.02442.</p>
+                        <p><b>[4] Xu & Wang (2024)</b>. <i>LLMs Are Biased Towards Output Formats! Systematically
+                                Evaluating and Mitigating Output Format Bias of LLMs</i>. arXiv:2408.08656.</p>
+                        <p><b>[5] Sahoo & Singh (2024)</b>. <i>Does Prompt Formatting Have Any Impact on LLM
+                                Performance?</i>. arXiv:2411.10541.</p>
+                        <p><b>[6] Tian et al. (2024)</b>. <i>Can LLMs Reason in the Wild with Programs?</i>.
+                            arXiv:2406.13764.</p>
+                        <p><b>[7] Wang et al. (2024)</b>. <i>Verifiable Format Control for Large Language Model
+                                Generations</i>. EMNLP 2024.</p>
+                        <p><b>[8] Zhou et al. (2023)</b>. <i>Large Language Models Are Human-Level Prompt Engineers</i>.
+                            ICLR 2023.</p>
+                        <p><b>[9] Yang et al. (2023)</b>. <i>Large Language Models as Optimizers</i>. arXiv:2309.03409.
+                        </p>
+                        <p><b>[10] Deng et al. (2022)</b>. <i>RLPrompt: Optimizing Discrete Text Prompts with
+                                Reinforcement Learning</i>. EMNLP 2022.</p>
+                        <p><b>[11] Wei et al. (2022)</b>. <i>Chain-of-Thought Prompting Elicits Reasoning in Large
+                                Language Models</i>. NeurIPS 2022.</p>
+                        <p><b>[12] Chen et al. (2022)</b>. <i>Program of Thoughts Prompting: Disentangling Computation
+                                from Reasoning for Numerical Reasoning Tasks</i>. arXiv:2211.12588.</p>
+                        <p><b>[13] Sutton & Barto (2018)</b>. <i>Reinforcement Learning: An Introduction</i>. MIT Press.
+                        </p>
+                        <p><b>[14] Watkinds & Dayan (1992)</b>. <i>Q-learning</i>. Machine Learning.</p>
+                    </div>
                 </div>
             </section>
         </main>
