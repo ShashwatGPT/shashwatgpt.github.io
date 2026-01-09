@@ -70,24 +70,80 @@
         <main class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h2>OPTIMACS</h2>
+                    <h2>OPTiMACS</h2>
                 </div>
 
-                <div class="project-details">
-                    <h3>OPTIMACS: Learning Optimal Message Representations for Agentic Communication</h3>
-                    <p class="authors"><em>Shashwat Gupta, Anson Bastos, Mayukh Das, Supriyo Ghosh, Nagarajan Natarajan,
-                            Chetan Bansal, Saravan Rajmohan</em></p>
+                <div class="project-details research-paper">
+                    <h3>Introduction</h3>
 
-                    <p>This blog talks about my take on building OPTiMACs, and the challenges.</p>
+                    <p><b>OPTiMACS (Optimal Parsing Techniques in Message-Aware Computational Structures)</b> is a framework designed to learn optimal format for passing queries to an LLM suited to
+                        different tasks. This blog serves to introduce the framework, the key design choices and the
+                        reasons for those, some preliminary results. Broadly, OPTiMACs has a task-predictor, and a format-selector whcich is passed to LLM, all the while maintaining some interal states. We use some samples from the data to train and update the internal states, and use these states for inference/evaluation. </p>
 
-                    <h3>Why?</h3>
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/optimacs_framework.svg" alt="OPTiMACS Framework Diagram"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: #666;">Figure 1: The OPTiMACS Framework Architecture</p>
+                    </div>
+                        
+                    <p>We are writing a research paper on this which will
+                        soon be available here [COMING SOON]. This work was done as part of my intern at Microsoft Research India (M365 Research Team). Full authors and contributors include Shashwat Gupta (me) , Anson Bastos, Mayukh Das, Supriyo Ghosh,
+                        Nagarajan Natarajan, Chetan Bansal, Saravan Rajmohan
+                    </p>
+
+                    <h3>WHYs?</h3>
+                    <h4>Why Alternative Format?</h4>
                     <p>
-                        Current LLM frameworks predominantly rely on natural language for communication, an approach
-                        that is often ambiguous and unoptimized for specific task requirements. While alternative
-                        formats exist, the literature remains fragmented: (1) studies rely on narrow, ad-hoc selections
-                        of representations; (2) fail to generalize to new domains; (3) overlook multi-agent complexities
-                        like agentic scaffolding considerations; and (4) lack a theoretically grounded framework for
-                        efficient format discovery.
+                        There are a couple of issues with using Natural Language as the format to encode information to
+                        Natural Language.
+
+                    <ol>
+                        <li>
+                            <b>Efficient Token Usage:</b> Natural Language is often verbose. Structured formats strip
+                            away conversational "fluff", leading to significant gains in efficiency.
+                            Studies have shown up to a <b>72.7% reduction in token usage</b> [1] in multi-agent systems
+                            without sacrificing task success.
+                            Formats like <b>TOON (Token-Oriented Object Notation)</b> [17] and <b>POML
+                                (Prompt-Optimisation-Markup-Language)</b> [18] are designed for this purpose. (though we limit the results to show a boost in accuracy but rewards on OPTiMACs could be set up to show boost in accuracy and efficiency both.)
+                        </li>
+                        <li>
+                            <b>Reduced Ambiguity:</b> Natural Language is inherently ambiguous (e.g. complex temporal
+                            dependencies).
+                            Alternative formats can eliminate this ambiguity (e.g., using
+                            <code>(E1 &lt; E2 &lt; E3)</code> instead of a long sentence) [1],
+                            forcing the model to be precise and mitigating format biases.
+                        </li>
+                        <li>
+                            <b>Enhanced Reasoning:</b> Switching to formats like Code or Logic activates different
+                            internal circuits ("inductive biases")
+                            better suited for rigorous logic. This can lead to a <b>3% to 5% improvement</b> in
+                            reasoning performance [1].
+                            This parallels the success of frameworks like <b>Chain-of-Thought (CoT)</b> [11], <b>Program
+                                of Thoughts (PoT)</b> [12], <b>Tree of
+                                Thoughts (ToT)</b> [15],
+                            and <b>Graph of Thoughts (GoT)</b> [16].
+                        </li>
+                        <li>
+                            <b>Machine Parsability:</b> In agentic workflows, the output of one agent is the input for
+                            another.
+                            Structured formats (like JSON) ensure deterministic ingestion, reducing error propagation
+                            compared to parsing free-form natural language [1].
+                        </li>
+                    </ol>
+
+                    Ok, so alternative formats are there for some tasks and there are some (very very few studies), but why not use those. What's the need for an entirely new framework dedicated to finding optimal formats?
+
+                    <h4>Why OPTiMACs?</h4>
+                    <p>
+                        TODO
+                    </p>
+
+                    Current LLM frameworks predominantly rely on natural language for communication, an approach
+                    that is often ambiguous and unoptimized for specific task requirements. While alternative
+                    formats exist, the literature remains fragmented: (1) studies rely on narrow, ad-hoc selections
+                    of representations; (2) fail to generalize to new domains; (3) overlook multi-agent complexities
+                    like agentic scaffolding considerations; and (4) lack a theoretically grounded framework for
+                    efficient format discovery.
                     </p>
                     <p>
                         We address these limitations through a unified optimization framework. Our contributions are
@@ -216,11 +272,7 @@
                         drives learning.
                     </p>
 
-                    <div class="image-container" style="text-align: center; margin: 20px 0;">
-                        <img src="images/optimacs_framework.svg" alt="OPTiMACS Framework Diagram"
-                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
-                        <p style="font-size: 0.9em; color: #666;">Figure 1: The OPTiMACS Framework Architecture</p>
-                    </div>
+                    
 
                     <h4>OPTiMACS for Prompting (Single-Agent)</h4>
                     <p>
@@ -307,7 +359,7 @@
 
                     <h3>Limitations</h3>
                     <p>
-                        A key limitation is the dependency on the LLM's ability to follow format conversion
+                        A key key limitation is the dependency on the LLM's ability to follow format conversion
                         instructions. Performance is bounded by how effectively the underlying model can adhere to the
                         requested structure.
                     </p>
@@ -384,6 +436,12 @@
                         <p><b>[13] Sutton & Barto (2018)</b>. <i>Reinforcement Learning: An Introduction</i>. MIT Press.
                         </p>
                         <p><b>[14] Watkinds & Dayan (1992)</b>. <i>Q-learning</i>. Machine Learning.</p>
+                        <p><b>[15] Yao et al. (2023)</b>. <i>Tree of Thoughts: Deliberate Problem Solving with Large
+                                Language Models</i>. NeurIPS 2023.</p>
+                        <p><b>[16] Besta et al. (2023)</b>. <i>Graph of Thoughts: Solving Elaborate Problems with Large
+                                Language Models</i>. arXiv:2308.09687.</p>
+                        <p><b>[17] TOON (2023)</b>. <i>Token-Oriented Object Notation</i>. GitHub Repository.</p>
+                        <p><b>[18] POML (2024)</b>. <i>Prompt-Optimisation-Markup-Language</i>.</p>
                     </div>
                 </div>
             </section>

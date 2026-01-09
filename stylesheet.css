@@ -1042,3 +1042,82 @@ a[href*="scholar.google.com"] .social-icon {
   z-index: -1;
   opacity: 0.7;
 }
+
+/* Research Paper Styling */
+.research-paper {
+  font-family: 'Times New Roman', Times, serif;
+  line-height: 1.8;
+  color: #111;
+  text-align: justify;
+  max-width: 850px;
+  margin: 0 auto;
+  counter-reset: section;
+}
+
+.research-paper h3 {
+  counter-reset: subsection;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #000;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.research-paper h3::before {
+  counter-increment: section;
+  content: counter(section) ". ";
+}
+
+.research-paper h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.research-paper h4::before {
+  counter-increment: subsection;
+  content: counter(section) "." counter(subsection) " ";
+}
+
+.research-paper p {
+  margin-bottom: 1.5rem;
+  font-size: 1.15rem;
+}
+
+.research-paper ul,
+.research-paper ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2.5rem;
+  font-size: 1.15rem;
+}
+
+.research-paper li {
+  margin-bottom: 0.75rem;
+}
+
+.research-paper .algorithm-block {
+  font-family: 'Courier New', Courier, monospace;
+  background: #f8f9fa;
+  border: 1px solid #000;
+  box-shadow: none;
+  margin: 2rem 0;
+}
+
+.research-paper .algorithm-block strong {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.1rem;
+}
+
+.research-paper .references p {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  text-align: left;
+  line-height: 1.5;
+}
