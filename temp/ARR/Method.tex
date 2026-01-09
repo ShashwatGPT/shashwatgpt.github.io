@@ -1,0 +1,246 @@
+% \section{\method: RL-based Format Selector for Optimal Agentic Communication}
+% \section{\method: Deciding Optimal Structure for Agentic Communication}
+% \section{\method: Learning Optimal Message Representations for Agentic Communication}
+\section{Learning Optimal Representations for Agentic Communication}
+
+Having seen the problem setup in the previous section, this section outlines our method, \method which consists of the following components: 1) Task classification 2) Policy for optimal representation selection. The message from the source agent  $\mathfrak{A}_i$ is categorized into the appropriate task. This is done using an LLM, since LLMs have exhibited capabilities for few/zero shot text classification tasks \cite{brown2020languagemodelsfewshotlearners}. Once the task is decided, the learnt policy then selects the optimal structure using which the message is formatted for communication with destination agent $\mathfrak{A}_j$. The policy is learnt using an adapted policy learning framework as we shall see in the next sections. The system overview for \method is in figure \ref{fig:system_overview}.
+% The system operates through two main LLM-based components: task classification and format selection, followed by Q-learning updates from trajectory outcomes.
+
+\begin{figure*}[t!]
+    \centering
+    \includegraphics[width=0.95\linewidth]{AAAI/figures/system_overviewV2.png}
+    % \caption{Framework Overview: Left figure shows the overview of our method which consists of two components namely the task categorization and the optimal representation policy learning module. The optimal representation module learns the policy for the chosen task using historical data or online from the reward on achieving the end goal. Right figure compares the outcomes of multi-agent communication on a sample problem, using base and our method. We see that the system without our method chooses natural language and arrives at the wrong answer whereas our method selects code as the message representation to deduce the correct answer.}
+    \caption{Left figure shows the overview of our method which consists of two components namely the task categorization and the policy learning module (in blue). The policy module learns the policy for the chosen task using historical data or online from the reward on achieving the end goal. Right figure compares the outcomes on a sample problem, using base and our method. The vanilla system chooses natural language and arrives at the wrong answer whereas our method selects code as the message representation to deduce the correct answer.}
+    \label{fig:system_overview}
+\end{figure*}
+
+% \subsection{State and Action Selection via LLM Prompting}
+% \subsection{Task categorization}
+
+\noindent \textbf{\textcolor{blue}{1) Initialization:}}
+\textcolor{blue}{In order to initialize the task and representations, we sample and process the data (if available) to build a knowledge base (KB), by prompting the LLM. In case of a pure online setting, we bootstrap the KB from prior knowledge of data from similar domain. The novel tasks and representations are then updated as the learning progresses. Note, we do not aim for OOD generalization but adaptation to the concerned task/domain.
+}
+
+\noindent \textbf{2) Task categorization:}
+Tasks serve as an abstraction to help generalize to novel messages. Prior to selecting the optimal representation using the policy, the system needs to classify the incoming message into one of the known tasks or a new one. For this categorization, we use an LLM. We warm start the task taxonomy with a few known categories and adopt a chain of thought style prompting, where the LLM is prompted to first review the message and decide whether the message fits into one of the existing tasks or a new task category needs to be added to the set, followed by the categorization of the message into the task. Following are the inputs to the LLM:
+(i) Source agent name and description (e.g., ``problem\_solver: mathematical reasoning agent'')
+(ii) Target agent name and description (e.g., ``code\_executor: computational verification agent'') 
+(iii) Raw message content requiring formatting
+(iv) Current task taxonomy with descriptions.
+
+% \begin{itemize}
+% \item Source agent name and description (e.g., ``problem\_solver: mathematical reasoning agent'')
+% \item Target agent name and description (e.g., ``code\_executor: computational verification agent'') 
+% \item Raw message content requiring formatting
+% \item Current task taxonomy with descriptions
+% \end{itemize}
+Thus the module considers the message as well as the agent context in order to decide the task category. 
+\textcolor{blue}{If the existing task categories do not fit the current message context, the module (LLM) creates a new task category.}
+The prompt for selection of task is provided in the \textcolor{blue}{Appendix $\S$ \ref{prompts}}. Once the task is decided, we then provide the task to the policy which learns and decides the optimal representation for that task and agent pair.
+
+% \paragraph{Task Classification (State Selection)}
+% When \texttt{get\_format()} is invoked, \method first identifies the communication task type through an LLM call. The prompt includes:
+% \begin{itemize}
+% \item Source agent name and description (e.g., "problem\_solver: mathematical reasoning agent")
+% \item Target agent name and description (e.g., "code\_executor: computational verification agent") 
+% \item Raw message content requiring formatting
+% \item Current task taxonomy with descriptions
+% \end{itemize}
+
+% Depending on the learning phase within an epoch, the system either: (1) \textbf{Expansion Phase}: allows the LLM to generate novel task types, or (2) \textbf{Convergence Phase}: constrains selection to existing task categories to ensure Q-value convergence. The exact prompt for task-identification is given in appendix.
+
+% \paragraph{Format Selection (Action Selection)}
+% \paragraph{Optimal Structure Representation Discovery}
+% \subsection{Deciding Message Representation}
+\noindent \textcolor{blue}{
+\textbf{3) Policy for Representation Selection:}
+We have seen the formulation of the problem-setting as expanding MDP. This module learns a policy ($\pi$) to sample from the action (structure) distribution given the state (task). In order to learn the optimal policy $\pi^*$, we design a policy learning method for our problem setting. The algorithm is an off policy method to allow for exploration using a behavior policy $\mu(a|s)$.
+% to sample trajectories (at inference we sample greedily from the learnt optimal policy).
+At inference we sample greedily from the learnt optimal policy.
+Exact methods would require an exponential complexity to compute the system dynamics (cf. $\S$ \ref{intro}). Thus we approach the solution using trajectories as the agents explore the environment and employ Monte Carlo (MC) based methods \cite{sutton2018reinforcement}.
+}
+% \noindent \underline{(I) \emph{Deciding Message Representations:}}
+% At inference, 
+% the optimal representation module takes a task (given by the task categorization module) and decides the structure in which to format the message for downstream communication; formulating the problem-setting as expanding MDP. Internally, the module learns a policy ($\pi$) to sample from the action (structure) distribution given the state (task). In order to learn the optimal policy $\pi^*$, we design a policy learning method for our problem setting. During inference, we desire to adopt a simple $\epsilon$-greedy policy that selects the best action $\pi(a|s)$. Thus the algorithm is an off policy method to allow for exploration using a behavior policy $\mu(a|s)$ to sample trajectories. As we have seen exact methods would require an exponential complexity to compute the system dynamics, we rather approach the solution using empirical trajectories as the agents explore the environment. As such, we employ Monte Carlo (MC) based methods \cite{sutton2018reinforcement} for the learning algorithm.
+
+% \subsection{Discovery of Optimal Representations}
+% \noindent \textbf{3) Discovery of Tasks and Representations:}
+% \noindent \textbf{\textcolor{blue}{4) Discovery of Representations:}}
+\noindent \underline{\textcolor{blue}{(3.1) \emph{Discovery of Representations:}}}
+In our method, the behavior policy explores the tasks and representations followed by policy optimization. We first describe the behavior policy before we see how we use it in our algorithm to find the optimal policy ($\pi^*(a|s)$). The behavior policy $\mu(a|s)$ consists of sampling using three strategies namely: 1) Sampling from Q values (Q) 2) LLMs as a sampler (L) and 3) Diverse Exploration (D).
+The motivation for using these policies comes from the seminal work by Freud \cite{freud1989ego}, which suggests that human behavior is influenced by unconscious memories/patterns and rational thoughts. Inspired by human behavior, the behavior policy samples actions from its ``unconscious'' learnt patterns (Q-values), ``conscious'' rational module (LLM) and random exploration (diversity policy).
+% In order to give differential preference to each of the samplers, as the learning progresses, we use adaptive weights $\mathbf{w} = [w_Q, w_L, w_D]$ for each strategy respectively. Below we elaborate on each of the strategy.
+% In order to give differential preference to each of the samplers, we use weights $\mathbf{w} = [w_Q, w_L, w_D]$ for each strategy respectively. 
+In order to give differential preference to each of the samplers, we use strategy-wise weights $\mathbf{w} = [w_Q, w_L, w_D]$. 
+% Below we elaborate on each of the strategy.
+
+\noindent \textbf{Sampling from Q values (Q)}: 
+This policy samples structures from the learnt Q values, akin to a scoreboard, in an $\epsilon-$greedy manner. Specifically, the probability of the action (message structure) is computed as:
+$\pi_Q(a|s) = \frac{\exp(Q(s,a)/\tau)}{\sum_{a'} \exp(Q(s,a')/\tau)}$ if $\text{random()}>\epsilon$ else $\frac{1}{\lvert \mathcal{F} \lvert}$.
+where $\tau$ is the sampling temperature. Thus this policy encourages message structures that are known to work well for a task.
+% This policy simply exploits the learnt Q values to perform sampling. Specifically, a softmax is taken over the Q values as follows
+% $\pi_Q(a|s) = \frac{\exp(Q(s,a)/\tau)}{\sum_{a'} \exp(Q(s,a')/\tau)}$
+% where $\tau$ is the sampling temperature.
+
+\noindent \textbf{LLMs as a sampler (L)}: This policy selects the action (message structure) by prompting an LLM with comprehensive context:
+1) Source and target agent context descriptions
+2) Message content and categorized task type
+3) Historical pass rates (\% success) for each structure previously used with this task
+4) Currently overused formats to encourage diversity
+% 5) High-level optimization goals: ``enhance clarity, increase brevity, provide structured formats that represent logical relationships, reduce token usage ...''.
+5) High-level optimization goals (e.g. enhance clarity, efficiency etc.).
+% \item High-level optimization goals: "enhance clarity, increase brevity, provide structured formats that represent logical relationships, reduce token usage, enable systematic analysis"
+% \begin{itemize}
+% \item Source and target agent context descriptions
+% % \item Source and target agent descriptions for context-aware formatting
+% \item Message content and categorized task type
+% \item Historical pass rates (\% success) for each structure previously used with this task
+% \item Currently overused formats to encourage diversity
+% \item High-level optimization goals: ``enhance clarity, increase brevity, provide structured formats that represent logical relationships, reduce token usage ...''
+% % \item High-level optimization goals: "enhance clarity, increase brevity, provide structured formats that represent logical relationships, reduce token usage, enable systematic analysis"
+% \end{itemize}
+% This is analogous to hard-mining,
+% in Dense-Passage-Retriever (DPR) \cite{dpr}, 
+In doing so, we look for representations that are specifically designed with the current query in mind. 
+\textcolor{blue}{This phase also allows for addition of new message structures as needed and decided by the LLM.
+The prompt for structure selection via LLM is given in $\S \ref{prompts}$.}
+
+% \textcolor{blue}{
+\noindent \textbf{Diverse Exploration (D)}: 
+% In addition to exploiting the Q-values learnt or relying on the inductive biases of the LLM to sample message representations for a task, we would also like the method to explore diverse structures not yet encountered in previous trajectories. 
+Here, we explore diverse formats that did not appear for concerned task but appeared for other tasks. To give a fair chance to the under-sampled formats, we sample inversely by frequency.
+% explore diverse structures not yet encountered in previous trajectories. 
+Thus we design this policy which samples inversely to usage frequency for exploration across tasks from the distribution $p_i = \frac{(1- n_i/N)}{(N-1)}$, 
+% where $p_i$ is the sampling probability for task $i$, $n_i$ is the count of occurrence of each task and $N$ is the total steps. 
+where $p_i, n_i$ are the sampling probability and count for task $i$ and $N$ is the total steps. 
+% This is analogous to soft-mining in DPR.
+
+% The strategy weights are updated using softmax over performance: $w_i^{(t+1)} = \frac{\exp(\bar{R}_i^{(t)})}{\sum_{j} \exp(\bar{R}_j^{(t)})}$, where $\bar{R}_i^{t}$ is the average reward received till time $t$ using policy $i$.
+% }
+% \subsection{Off-Policy Monte Carlo Learning with Environment Expansion}
+% \paragraph{Off-Policy Monte Carlo Learning with Environment Expansion}
+% \noindent \textbf{5) Learning the Optimal Policy:}
+\noindent \textcolor{blue}{\underline{(3.2) \emph{Learning the Optimal Policy:}}}
+Having described the behavior policy, we now explain our algorithm in this section. As seen, we adopt an off policy method in which the states and actions are not fixed. 
+We adopt a Monte Carlo (MC) based learning since we obtain feedback at the end of the trajectory. MC methods are known to be unbiased, stable and avoid spurious noisy rewards.
+Specifically, the method can be described as an off-policy MC learning with environment expansion.
+The target policy $\pi(a|s)$ (for inference) greedily selects structures. 
+Formally,
+% \begin{align}\label{target_policy_eq}
+% \begin{split}
+%   \pi(a|s) &= 1 \quad \text{if} \quad a = \arg\max_{a'} Q(s,a')\\ 
+%            &= 0 \quad \text{otherwise}
+% \end{split}
+% \end{align}
+\begin{align}\label{target_policy_eq}
+\pi(a|s) = \begin{cases}
+  1 & \text{if } a = \arg\max_{a'} Q(s,a') \\ 
+  0 & \text{otherwise}
+\end{cases}
+\end{align}
+% $\pi(a|s) = 1$ if $a = \arg\max_{a'} Q(s,a')$, else $0$.
+The behavior policy combines the exploration strategies as follows:
+\textcolor{blue}{
+% {\small
+\begin{equation*}\label{behavior_policy_eq}
+    \mu(a|s) = w_Q \pi_Q(a|s) + w_L \pi_L(a|s) + w_D \pi_D(a|s)
+\end{equation*}
+% }
+}\vspace{-0.5cm}
+% $\mu(a|s) = w_S \pi_S(a|s) + w_L \pi_L(a|s) + w_R \pi_R(a|s)$.
+
+The Q-values are updated using importance sampling, on every visit as per the below expression:
+\vspace{-0.5cm}\textcolor{blue}{
+% {\small
+\begin{align*}\label{q_update}
+Q_{t+1}(s,a) &\leftarrow Q_t(s,a) + \frac{W_{t+1}}{C_t(s,a)}(G_t - Q_t(s,a)) \\
+G_{t+1} &= \gamma G_t + R_{t+1}, \quad W_{t+1} = \frac{W_t}{\mu(a|s)}
+\end{align*}
+% }
+}
+where $Q \in \mathcal{R^{\lvert T \lvert \times \lvert F \lvert}}$ is the Q table, $W$ is the importance sampling ratio, $R_{t+1}$ is the reward at time $t$ for taking action $a \in \mathcal{R^F}$ (message structure) in state $s \in \mathcal{R^T}$ (task), $C_t(s,a)$ is a normalizing factor (generally count of the times $s,a$ is visited).
+
+In the above, the tasks (state) and structures (action) could evolve as the learning progresses.
+Since new state-action pairs are discovered during learning, we employ the below two phases in learning:
+
+\textbf{Expansion Phase}: Allow discovery of new $(s,a)$ pairs up to threshold $\alpha$ fraction of interactions. In this phase the LLM generates new tasks categories and structures as seen previously.
+
+\textbf{Convergence Phase}: 
+% Once new tasks and structures appear infrequently, we fix the state-action space and allow for Q-value convergence. 
+Once new tasks and formats become rare, we fix the state-action space and allow for Q-value convergence. 
+
+% For deployment, the system samples greedily from learned Q-values, using the target policy $\pi(a|s)$ for optimal performance.
+
+% The off-policy Monte-Carlo Algorithm is adapted from \cite{sutton2018reinforcement} (and given in Appendix) and is not a novel contribution of the paper. The novel contribution is the design of \method and the design of behaviour-policy $\mu$
+
+The system learns from the complete multi-agent conversation trajectories of length $L_T$ ending with outcome $R \in \{0,1\}$. Algorithm \ref{appendix:offpolicy_mc} in appendix summarizes the method. The complexity of the method is $\mathcal{O}(\mathcal{(\lvert T \rvert + \lvert F \rvert) \lvert D \rvert}L_T)$ (cf. $\S$ \ref{computational_complexity}), which is linear in number of tasks ($\mathcal{T}$), formats ($\mathcal{F}$), dataset size ($\mathcal{D}$) and trajectory length ($L_T$).
+
+% \begin{algorithm}[h]
+% % \caption{Off-Policy Every-Visit MC Control Algorithm Using Weighted Importance Sampling}
+% % \caption{Off-Policy Every Visit Monte Carlo Learning using Importance Sampling with Environment Expansion}
+% \caption{\method Algorithm}
+% \label{alg:offpolicy_mc}
+% \begin{algorithmic}[1]
+% \STATE \textbf{Initialize}, for all $s \in \mathcal{T}$, $a \in \mathcal{F}(s)$:
+% \STATE \quad $Q(s,a) \leftarrow$ arbitrary
+% \STATE \quad $C(s,a) \leftarrow 0$
+% \STATE \quad $\mu(a|s) \leftarrow w_Q \pi_Q(a|s) + w_L \pi_L(a|s) + w_D \pi_D(a|s)$ (behavior policy)
+% \STATE \quad $\pi(s) \leftarrow$ a deterministic policy that is greedy wrt $Q$
+% % \STATE
+% \REPEAT
+%     % \STATE //Note in the below the policy $\pi_L$ (component of $\mu$) will add new tasks and structures as needed and expand the state action space
+%     \STATE msg $\leftarrow$ Sample from the set of queries/problems
+%     \STATE Generate an episode using behavior policy $\mu(a|s)$:
+%         \REPEAT 
+%             \STATE $\mathcal{T}_{t} \leftarrow \text{TaskCategorization(msg, context)}$
+%             \STATE $\mathcal{F}_t \leftarrow \mu(T_{t}, context)$
+%             \STATE prompt $\leftarrow$ ApplyStructure(msg, $\mathcal{F}_t$)
+%             \STATE msg, $R_{t+1} \leftarrow \mathfrak{A}_t$(prompt)
+%             % \STATE // New tasks and structures are added during expansion phase
+%             \IF{Expansion Phase} 
+%                 \STATE $\mathcal{T} \leftarrow \mathcal{T} \cup \{\mathcal{T}_{t}\}$, $\mathcal{F} \leftarrow \mathcal{F} \cup \{F_t\}$
+%             \ENDIF
+%             \STATE $t \leftarrow t+1$
+%         \UNTIL{Episode end}
+%     % \STATE \quad $\mathcal{T}_0, \mathcal{F}_0, R_1, \mathcal{T}_1, \mathcal{F}_1, R_2, \ldots, \mathcal{T}_{T-1}, \mathcal{F}_{T-1}, R_T, S_T$
+%     \STATE $G \leftarrow 0$
+%     \STATE $W \leftarrow 1$
+%     \FOR{$t = T-1, T-2, \ldots$ down to $0$}
+%         \STATE $G \leftarrow \gamma G + R_{t+1}$
+%         \STATE $C(\mathcal{T}_t, \mathcal{F}_t) \leftarrow C(\mathcal{T}_t, \mathcal{F}_t) + W$
+%         \STATE $Q(\mathcal{T}_t, \mathcal{F}_t) \leftarrow Q(\mathcal{T}_t, \mathcal{F}_t) + \frac{W}{C(\mathcal{T}_t, \mathcal{F}_t)}[G - Q(\mathcal{T}_t, \mathcal{F}_t)]$
+%         \STATE $\pi(\mathcal{F}_t|\mathcal{T}_t) \leftarrow 1 \quad \text{if} \quad  \mathcal{F}_t=\arg\max_a Q(\mathcal{T}_t, a)$ else 0 (with ties broken arbitrarily)
+%         \STATE $W \leftarrow W \cdot \frac{\pi(\mathcal{F}_t|\mathcal{T}_t)}{\mu(\mathcal{F}_t|\mathcal{T}_t)}$
+%         \IF{$W = 0$}
+%             \STATE \textbf{Exit For Loop}
+%         \ENDIF
+%     \ENDFOR
+% \UNTIL{Convergence or max iterations}
+% \end{algorithmic}
+% \end{algorithm}
+% \begin{align}
+% \mathbb{E}\left[\sum_{h=0}^{H} \gamma^h R_h\right] \text{ where } R_h = \alpha \cdot O - \beta
+% \end{align}
+% where $\alpha$ rewards correct outcomes, $\beta$ encourages efficiency, and $\gamma$ is the discount factor. 
+% Unlike traditional RL settings, our action space dynamically expands as new formats are discovered through LLM generation, requiring adaptive exploration strategies.
+
+
+\noindent \textcolor{blue}{\underline{(3.3) \emph{Inferring Representations:}}}
+\textcolor{blue}{At inference, 
+the policy module takes a task (given by the task categorization module) and decides the structure in which to format the message for downstream communication. We adopt a greedy policy (eq. \ref{target_policy_eq}) that selects the best action $\pi^*(a|s)$.}
+
+% % \subsection{Integration in Multi-Agent Systems}
+% \noindent \textbf{4) Integration in Multi-Agent Systems: }
+% During inference, the method categorizes the message into one of the 
+% % frozen 
+% task taxonomies and samples the message structure greedily from the learned Q-values as in equation \ref{target_policy_eq}, using the target policy $\pi(a|s)$ for optimal performance.
+% Each agent invokes \method through a \texttt{modify\_message(source, target, message)} call, 
+% for optimizing message representation.
+% % creating a seamless integration where format optimization occurs transparently during agent communication. 
+% % The system learns from complete multi-agent conversation trajectories of length $H$ ending with outcome $O \in \{0,1\}$:
+% % \begin{align}
+% % \mathbb{E}\left[\sum_{h=0}^{H} \gamma^h R_h\right] \text{ where } R_h = \alpha \cdot O - \beta
+% % \end{align}
+% % where $\alpha$ rewards correct outcomes, $\beta$ encourages efficiency, and $\gamma$ is the discount factor. Unlike traditional RL settings, our action space dynamically expands as new formats are discovered through LLM generation, requiring adaptive exploration strategies.
+
+

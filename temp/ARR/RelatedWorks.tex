@@ -1,0 +1,97 @@
+\section{Related Works}
+
+Here we briefly compare our work with related works for LLM agents and defer detailed discussion to the appendix.
+
+% \subsection{Multi-Agent Systems (MAS)}
+% Recent advances in MAS have evolved from single-shot LLM interactions to structured communication \cite{zhao2023survey}. The framework proposed in \cite{googadk2025} formalizes the model-orchestration-tools stack with persistent memory systems.
+% % while their Agent Development Kit (ADK) supports complex multi-agent orchestration with persistent memory systems \cite{google2023adk}. 
+% \cite{magenticone2024} demonstrates practical coordination through specialized agents 
+% % (WebSurfer, FileSurfer, Coder, ComputerTerminal) 
+% managed by a central Orchestrator. 
+% % These systems exemplify four core agentic reasoning patterns: reflection \cite{madaan2023self,shinn2023reflexion}, tool-use, planning, and multi-agent collaboration \cite{wang2023survey}. 
+% However, existing frameworks focus primarily on agent coordination mechanisms rather than optimizing communication structures between agents.
+
+% \subsection{Multi-Agent Communication Protocols}
+\subsection{Agentic Communication Protocols}
+Traditional agent communication has relied on standardized protocols like KQML \cite{finin1994kqml}, FIPA-ACL \cite{fipa1997acl}, MASIF \cite{milojicic1999masif}, Web Services \cite{berners2001web}, Event Stream Processing \cite{cugola2012processing} etc.
+In the era of LLMs researchers have explored communication using function calling mechanisms \cite{schick2023toolformer} and tool usage \cite{schick2023toolformer}.
+% Traditional agent communication has relied on standardized protocols like KQML \cite{finin1994kqml} and FIPA-ACL \cite{fipa1997acl}, with MASIF \cite{milojicic1999masif} enabling cross-platform mobility. Modern approaches integrate Web Services \cite{berners2001web}, Event Stream Processing \cite{cugola2012processing}, and RAG architectures \cite{lewis2020retrieval} for enhanced grounding capabilities. Function calling mechanisms \cite{schick2023toolformer} and Toolformer \cite{schick2023toolformer} demonstrate autonomous tool usage through structured interfaces.
+Recent standardization efforts include protocols such as MCP \cite{anthropic2024mcp}, ACP \cite{acp2024protocol}, A2A \cite{a2a2024protocol} and ANP \cite{anp2024protocol}. While these establish agent communication infrastructure, they provide static, rule-based schemas that cannot adapt to varying task requirements or agent capabilities.
+% Recent standardization efforts include the Model Context Protocol (MCP) \cite{anthropic2024mcp} for LLM context ingestion, Agent Communication Protocol (ACP) \cite{acp2024protocol} for REST-native messaging, Agent-to-Agent Protocol (A2A) \cite{a2a2024protocol} for capability-based delegation, and Agent Network Protocol (ANP) \cite{anp2024protocol} for decentralized agent discovery. While these protocols establish communication infrastructure, they provide static, rule-based schemas that cannot adapt to varying task requirements or agent capabilities.
+
+% \subsection{Learning in Multi-Agent Systems}
+% Multi-Agent Reinforcement Learning (RL) has explored communication optimization through various approaches. 
+% Message pruning \cite{singh2019message} and graph based \cite{zhang2019graph} methods focus on reducing communication overhead and optimizing information flow between agents. 
+% % Message pruning techniques \cite{singh2019message} focus on reducing communication overhead while maintaining coordination effectiveness. Graph-based coordination methods \cite{zhang2019graph} leverage network structures to optimize information flow between agents. 
+% % Emergent symbolic languages \cite{havrylov2017emergence} demonstrate how agents can develop communication protocols through interaction.
+% Task-oriented communication protocols have been developed using RL to enable agents to discover efficient communication strategies between classical RL agents \cite{karten2023role,foerster2016learning}. However LLMs differ in linguistically mediated communication \cite{sumers2023cognitive}.
+% Existing multi-agent LLM frameworks leverage world knowledge for coordination through open-loop and closed-loop methods \cite{shinn2023reflexion}, but do not adapt message structures to optimize task performance.
+% % However, these works primarily focus on classical RL agets and Language Model agents exhibit fundamental differences, including statelessness, stochastic behavior, semantic sensitivity, and linguistically mediated communication \cite{sumers2023cognitive}.
+% % While LM agent scaffolding approaches employ extended memory systems, tool integration, and cognitive architectures \cite{sumers2023cognitive}, 
+% % the communication optimization problem remains largely unaddressed. 
+
+\subsection{Structured Communication among LLM Agents}
+
+\cite{yuan2023structured} prompt LLMs to generate optimal formats for fine-tuning tasks, but do not explore inter-agent communication contexts.
+Recent work on structured communication focused on leveraging the inductive biases in LLM for format generation \cite{chen2022program}, though without mechanisms for dynamically learning or domain adaptation. These methods suffer from over-reliance on static LLM biases without learning from environment feedback.
+% adaptive learning mechanisms.
+% The AutoForm framework \cite{chen-etal-2024-beyond-natural} demonstrates that LLMs can autonomously select non-natural language formats for single-LLM reasoning and multi-agent communication, achieving 3.3-5.7\% improvements in reasoning efficiency and up to 72.7\% reductions in token usage. This work reveals that LLMs can devise suitable formats from task-specific examples and that these formats are transferable across different LLMs. Importantly, the communication formats adopted by LLMs mirror traditional Agent Communication Languages like KQML, highlighting their clarity, brevity, and structured nature.
+% Parallel work in chain-of-thought reasoning demonstrates that reasoning quality depends more on structural patterns than factual content \cite{wang2023plan}. We extend this insight to multi-agent communication: message effectiveness depends crucially on structural encoding rather than content alone, suggesting that optimal communication strategies emerge from adaptive format selection rather than fixed schemas.
+
+Our work differs from existing research in that, unlike existing approaches that focus on either agent coordination infrastructure or static / LLM prompted format generation, we focus on the optimization of message representations/structures/formats in multi-agent communication by \emph{dynamically learning} from the environment.
+
+% % \section{Changes}
+% % \subsection{Related Work}
+% [1] Add intro from Optima + Justification of the 2 types of setting : https://arxiv.org/pdf/2410.08115
+% [2] The Prompts are inspired from FIPA-KQQML ACLs. Though we could select any states, we chose the task as the states based on Autoform (2-level)
+% [3] MultiHopQA DataSet Preprocessing inspired by A2 Appendix in Autoform
+% [4] In Related Work, add AgentPrune and Optima works.
+% [5] For Debate, cite Due et al, ChatEval (again from Optima Paper)
+% [6] For 0.7 as threshold, we picked this from works: \cite{gokhan2024regnlp, louis2023opinesum, shen2023quantifying} 
+% [7] Justify the DataPoint Numbers from Autoform
+% [8] Why need of dynamic structuriser - (1) dynamism helps break inductive biases, where for a given task, we start with some bootstrapped actions and increment the set of actions through LLM's inductive bias; while scoring them (as Q-values). The need for dynamic structurizers stems from their ability to overcome the fundamental limitation that asking LLMs to directly generate the optimal action is less effective than asking them to generate multiple candidate actions and selecting among them. This principle is well-established in the pass@k literature, where generating k candidate solutions and selecting the best one consistently outperforms single-shot generation (pass@1) \cite{chen2021evaluating,wang2022self}. This superiority of multiple candidate generation extends naturally to action selection in reinforcement learning settings. Best-of-N (BoN) sampling strategies demonstrate that generating multiple candidate outputs and selecting the optimal one based on a scoring function significantly outperforms single-output generation \cite{ichihara2025evaluation,jinnai2024regularized}. In dynamic action spaces, this becomes even more critical, as "repeated sampling with multiple LLMs yield better results than with a single LLM" because different models can generate complementary candidate actions that collectively cover a broader solution space \cite{chen2024truly}. Dynamic structurizers leverage this principle by continuously generating diverse action candidates through LLM's inductive bias, then scoring them as Q-values to identify optimal actions. This approach enables the system to break free from static action biases by maintaining a dynamic exploration of the action space, where "a prior optimal policy plays an important role in action pick-up by providing useful knowledge and experience" when new actions emerge \cite{dang2023action}. The theoretical foundation for this improvement lies in the fact that multiple candidate generation provides better coverage of the solution space, allowing the system to discover actions that a single greedy generation would miss.
+% (2) dynamism makes the structuriser robust to data-shifts in an online-setting where it could start with prior beliefs about the values, and gradually update them while discovering the new beliefs.
+% [9] Analyse structures based on : (1) training and model architecture - Paper : Remnants of Autoregression; Style Transfer Metrics (2) Prompt Optimisation Methods (Literature Review)
+% [10] 
+
+
+
+% Recent advances in multi-agent systems have evolved from single-shot LLM interactions to sophisticated autonomous architectures capable of reasoning, planning, and coordination through structured communication \cite{zhao2023survey}. Google's three-layer framework formalizes the model-orchestration-tools stack \cite{google2023framework}, while their Agent Development Kit (ADK) supports complex multi-agent orchestration with persistent memory systems \cite{google2023adk}. Microsoft's Magnetic-One demonstrates practical coordination through specialized agents (WebSurfer, FileSurfer, Coder, ComputerTerminal) managed by a central Orchestrator \cite{microsoft2023magnetic}.
+
+% These systems exemplify four core agentic reasoning patterns: reflection \cite{madaan2023self,shinn2023reflexion}, tool-use, planning, and multi-agent collaboration \cite{wang2023survey}. However, existing frameworks focus primarily on agent coordination mechanisms rather than optimizing communication formats between agents.
+
+% Traditional agent communication has relied on standardized protocols like KQML \cite{finin1994kqml} and FIPA-ACL \cite{fipa1997acl} for speech acts, with MASIF \cite{milojicic1999masif} enabling cross-platform mobility. Modern approaches integrate Web Services \cite{berners2001web}, Event Stream Processing \cite{cugola2012processing}, and RAG architectures \cite{lewis2020retrieval} for enhanced grounding capabilities. Function calling mechanisms \cite{schick2023toolformer} and Toolformer \cite{schick2023toolformer} demonstrate autonomous tool usage through structured interfaces.
+
+% Recent standardization efforts include the Model Context Protocol (MCP) \cite{anthropic2024mcp} for LLM context ingestion, Agent Communication Protocol (ACP) \cite{acp2024protocol} for REST-native messaging, Agent-to-Agent Protocol (A2A) \cite{a2a2024protocol} for capability-based delegation, and Agent Network Protocol (ANP) \cite{anp2024protocol} for decentralized agent discovery. While these protocols establish communication infrastructure, they provide static, rule-based schemas that cannot adapt to varying task requirements or agent capabilities.
+
+% \subsection{Multi-Agent Reinforcement Learning for Communication}
+
+% Multi-Agent Reinforcement Learning has explored communication optimization through various approaches. Message pruning techniques \cite{singh2019message} focus on reducing communication overhead while maintaining coordination effectiveness. Graph-based coordination methods \cite{zhang2019graph} leverage network structures to optimize information flow between agents. Emergent symbolic languages \cite{havrylov2017emergence} demonstrate how agents can develop communication protocols through interaction.
+
+% Task-oriented communication protocols have been developed using reinforcement learning to enable agents to discover efficient communication strategies \cite{karten2023role,foerster2016learning}. However, Language Model agents exhibit fundamental differences from classical RL agents, including statelessness, stochastic behavior, semantic sensitivity, and linguistically mediated communication \cite{sumers2023cognitive}.
+
+% While LM agent scaffolding approaches employ extended memory systems, tool integration, and cognitive architectures \cite{sumers2023cognitive}, the communication optimization problem remains largely unaddressed. Existing multi-agent LLM frameworks leverage world knowledge for coordination through open-loop (ReAct, ADaPT) and closed-loop methods (Refiner, Retroformer, REX) \cite{shinn2023reflexion}, but do not adapt message formats to optimize task performance.
+
+% \subsection{Structured Communication and Format Optimization}
+
+% Early work on structured communication focused on leveraging LLM inductive biases for format generation \cite{chen2022program}, though without mechanisms for online learning or domain adaptation. Recent approaches prompt LLMs to generate optimal formats for fine-tuning tasks \cite{yuan2023structured}, but do not explore inter-agent communication contexts. These methods suffer from over-reliance on static LLM biases without adaptive learning mechanisms.
+
+% The AutoForm framework \cite{chen-etal-2024-beyond-natural} demonstrates that LLMs can autonomously select non-natural language formats for single-LLM reasoning and multi-agent communication, achieving 3.3-5.7\% improvements in reasoning efficiency and up to 72.7\% reductions in token usage. This work reveals that LLMs can devise suitable formats from task-specific examples and that these formats are transferable across different LLMs. Importantly, the communication formats adopted by LLMs mirror traditional Agent Communication Languages like KQML, highlighting their clarity, brevity, and structured nature.
+
+% Parallel work in chain-of-thought reasoning demonstrates that reasoning quality depends more on structural patterns than factual content \cite{wang2023plan}. We extend this insight to multi-agent communication: message effectiveness depends crucially on structural encoding rather than content alone, suggesting that optimal communication strategies emerge from adaptive format selection rather than fixed schemas.
+
+% \subsection{Neurosymbolic Systems and Representation Learning}
+
+% Contemporary neurosymbolic systems insert explicit, machine-verifiable representations between language generation and reasoning. SymbCoT translates natural language problems into first-order logic for symbolic solving \cite{zhang2023symbcot}, while VERUS-LM decouples knowledge construction from inference using satisfiable logical theories \cite{bogdan2023verus}. These approaches optimize solver fidelity while maintaining fixed intermediate schemas.
+
+% Program-of-Thought (PoT) \cite{chen2022program,gao2023pal} prompts models to generate code as thought and offloads answer generation to code interpreters. X-of-Thought \cite{liu2023x} integrates CoT, PoT, and Equation-of-Thought, dynamically ensembling these methods for improved reasoning. Tree-of-Thought \cite{yao2023tree} employs depth and breadth-first search techniques to produce high-quality reasoning chains.
+
+% While some CoT variants explore formats beyond natural language for reasoning, the chosen formats' improvements are often obscured by concurrent use of supplementary tools such as code interpreters, blurring the distinction between format efficacy and tool execution.
+
+% \subsection{Our Contribution}
+
+% Unlike existing approaches that focus on either agent coordination infrastructure or static format generation, MetaPromptor addresses the adaptive optimization of message formats in multi-agent communication. Our system bridges the gap between rigid communication protocols and open-ended natural language by learning task-specific structural representations through reinforcement learning.
+
+% MetaPromptor diverges from neurosymbolic approaches by treating the schema itself as a learnable component, using reinforcement learning to select and evolve message formats based on downstream task success. This creates a structure-aware system that remains adaptively plastic—capable of tailoring representations to specific agent pairs, task contexts, and performance constraints that static symbolic formalisms cannot accommodate.
+
+% By treating format selection as a POMDP and employing off-policy Monte Carlo learning with dynamic action space expansion, MetaPromptor can discover and optimize communication formats that enhance multi-agent task performance—a capability not addressed by current agent frameworks or communication protocols.

@@ -1,0 +1,252 @@
+\documentclass[11pt]{article}
+
+% Change "review" to "final" to generate the final (sometimes called camera-ready) version.
+% Change to "preprint" to generate a non-anonymous version with page numbers.
+\usepackage[review]{acl}
+% \usepackage[preprint]{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+
+% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+\usepackage[T1]{fontenc}
+% For Vietnamese characters
+% \usepackage[T5]{fontenc}
+% See https://www.latex-project.org/help/documentation/encguide.pdf for other character sets
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+% This is also not strictly necessary, and may be commented out.
+% However, it will improve the aesthetics of text in
+% the typewriter font.
+\usepackage{inconsolata}
+
+%Including images in your LaTeX document requires adding
+%additional package(s)
+\usepackage{graphicx}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amssymb,amsmath}
+
+% \usepackage{subfigure}
+\usepackage{subcaption} % For subfigures
+
+
+\usepackage{xspace}
+% \newcommand{\method}{MetaPrompter\xspace}
+\newcommand{\method}{OPTiMACS\xspace}
+% \usepackage{verbatimbox}
+
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+%
+% These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
+\usepackage{newfloat}
+\usepackage{listings}
+
+\usepackage{amsmath, amsthm, amssymb} 
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+
+
+%--------------- MACROS ---------
+% \usepackage{xcolor}
+\usepackage{xcolor, soul}
+\definecolor{ForestGreen}{rgb}{0.133, 0.545, 0.133}
+\newcommand{\review}[2]{{\textcolor{#1}{(#2)}}}
+\newcommand{\md}[1]{\review{red}{md: #1}}
+\newcommand{\sg}[1]{\review{blue}{sg}}
+\newcommand{\ab}[1]{\review{green}{ab: #1}}
+
+% If the title and author information does not fit in the area allocated, uncomment the following
+%
+%\setlength\titlebox{<dim>}
+%
+% and set <dim> to something 5cm or larger.
+
+% \title{Instructions for *ACL Proceedings}
+% \title{Learning Optimal Message Representations for Multi-Agent Communication}
+\title{Learning Optimal Message Representations for Agentic Communication}
+
+% Author information can be set in various styles:
+% For several authors from the same institution:
+% \author{Author 1 \and ... \and Author n \\
+%         Address line \\ ... \\ Address line}
+% if the names do not fit well on one line use
+%         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
+% For authors from different institutions:
+% \author{Author 1 \\ Address line \\  ... \\ Address line
+%         \And  ... \And
+%         Author n \\ Address line \\ ... \\ Address line}
+% To start a separate ``row'' of authors use \AND, as in
+% \author{Author 1 \\ Address line \\  ... \\ Address line
+%         \AND
+%         Author 2 \\ Address line \\ ... \\ Address line \And
+%         Author 3 \\ Address line \\ ... \\ Address line}
+
+% \author{First Author \\
+%   Affiliation / Address line 1 \\
+%   Affiliation / Address line 2 \\
+%   Affiliation / Address line 3 \\
+%   \texttt{email@domain} \\\And
+%   Second Author \\
+%   Affiliation / Address line 1 \\
+%   Affiliation / Address line 2 \\
+%   Affiliation / Address line 3 \\
+%   \texttt{email@domain} \\}
+
+% \author{Shashwat Gupta \\
+%   Affiliation / Address line 1 \\
+%   Affiliation / Address line 2 \\
+%   Affiliation / Address line 3 \\
+%   \texttt{t-shashgupta@microsoft.com} \\\And
+%   Second Author \\
+%   Affiliation / Address line 1 \\
+%   Affiliation / Address line 2 \\
+%   Affiliation / Address line 3 \\
+%   \texttt{email@domain} \\}
+
+\author{
+ \textbf{Shashwat Gupta\textsuperscript{1}},
+ \textbf{Anson Bastos\textsuperscript{1}},
+ \textbf{Mayukh Das\textsuperscript{1}},
+ \textbf{Supriyo Ghosh\textsuperscript{1}},
+ \\
+ \textbf{Nagarajan Natarajan\textsuperscript{2}},
+ \textbf{Chetan Bansal\textsuperscript{1}},
+ \textbf{Saravan Rajmohan\textsuperscript{1}}
+\\
+\\
+ \textsuperscript{1}M365 Research, Microsoft ,
+ \textsuperscript{2}Microsoft Research India
+% \\
+%  \small{
+%    \textbf{Correspondence:} \href{mailto:email@domain}{email@domain}
+%  }
+}
+
+%\author{
+%  \textbf{First Author\textsuperscript{1}},
+%  \textbf{Second Author\textsuperscript{1,2}},
+%  \textbf{Third T. Author\textsuperscript{1}},
+%  \textbf{Fourth Author\textsuperscript{1}},
+%\\
+%  \textbf{Fifth Author\textsuperscript{1,2}},
+%  \textbf{Sixth Author\textsuperscript{1}},
+%  \textbf{Seventh Author\textsuperscript{1}},
+%  \textbf{Eighth Author \textsuperscript{1,2,3,4}},
+%\\
+%  \textbf{Ninth Author\textsuperscript{1}},
+%  \textbf{Tenth Author\textsuperscript{1}},
+%  \textbf{Eleventh E. Author\textsuperscript{1,2,3,4,5}},
+%  \textbf{Twelfth Author\textsuperscript{1}},
+%\\
+%  \textbf{Thirteenth Author\textsuperscript{3}},
+%  \textbf{Fourteenth F. Author\textsuperscript{2,4}},
+%  \textbf{Fifteenth Author\textsuperscript{1}},
+%  \textbf{Sixteenth Author\textsuperscript{1}},
+%\\
+%  \textbf{Seventeenth S. Author\textsuperscript{4,5}},
+%  \textbf{Eighteenth Author\textsuperscript{3,4}},
+%  \textbf{Nineteenth N. Author\textsuperscript{2,5}},
+%  \textbf{Twentieth Author\textsuperscript{1}}
+%\\
+%\\
+%  \textsuperscript{1}Affiliation 1,
+%  \textsuperscript{2}Affiliation 2,
+%  \textsuperscript{3}Affiliation 3,
+%  \textsuperscript{4}Affiliation 4,
+%  \textsuperscript{5}Affiliation 5
+%\\
+%  \small{
+%    \textbf{Correspondence:} \href{mailto:email@domain}{email@domain}
+%  }
+%}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Large Language Models (LLMs) have demonstrated remarkable capabilities in multi-agent collaborative problem-solving, albeit a gap exists. 
+Existing frameworks predominantly rely on natural language as a primary representation (format) for agentic communication. However natural language could be ambiguous and verbose. 
+% Furthermore due to inherent  bias of LLMs, certain representations could produce correct results in task where natural language might lead to incorrect results.
+Furthermore, recent works have shown that alternative representations can enhance performance in LLMs on certain tasks.
+% and do not optimize the representation of messages or context that agents communicate with one another, which can be indispensable for task-specific performance. 
+% While recent work has shown that alternative representations can enhance performance in LLMs,
+But current approaches lack the intelligence necessary to understand, learn or apply optimal communication representations adaptively. 
+% We model the problem of dynamically learning the optimal message structures as a Partially Observable Markov Decision Process (POMDP) and propose our method named \method.
+In this paper, we propose to dynamically learn the optimal message representations to enhance agentic performance.
+We model the optimization problem as an Expanding Markov Decision Process (EMDP) and propose our method named \method.
+% We introduce \method, a reinforcement learning-based system that adaptively selects and optimizes message formats for multi-agent communication. Our approach models agentic communication as a Partially Observable Markov Decision Process (POMDP) and employs modified off-policy Monte Carlo learning to discover optimal formatting strategies. 
+% MetaPromptor seamlessly integrates with existing multi-agent frameworks through a \texttt{modify\_message(source, target, message)} interface, enabling transparent format optimization during agent interactions. 
+We evaluate our system across benchmark datasets of collaborative problem-solving.
+% with GSMPlus and information exchange via MultiHopQA. 
+The results show significant performance improvements while maintaining efficiency.
+Our work bridges the gap between rigid communication protocols and open-ended natural language by providing an adaptive framework that learns task-aware structural representations.
+
+% Large Language Models (LLMs) have demonstrated remarkable capabilities in multi-agent collaborative problem-solving, albeit a gap exists. Existing frameworks predominantly rely on natural language as a primary representation for inter/intra-agentic communication and do not optimize the representation of messages or context that agents communicate/share with one another, which can be indispensable for task-specific performance. 
+% While recent work has shown that alternative representations can enhance reasoning in LLMs, current approaches lack the intelligence necessary to understand, learn or apply optimal communication structures adaptively. 
+% % We model the problem of dynamically learning the optimal message structures as a Partially Observable Markov Decision Process (POMDP) and propose our method named \method.
+% We model the problem of dynamically learning the optimal (formal/semi-formal) representations for agentic communication as an Expanding Markov Decision Process (EMDP) and propose our method named \method.
+% % We introduce \method, a reinforcement learning-based system that adaptively selects and optimizes message formats for multi-agent communication. Our approach models agentic communication as a Partially Observable Markov Decision Process (POMDP) and employs modified off-policy Monte Carlo learning to discover optimal formatting strategies. 
+% % MetaPromptor seamlessly integrates with existing multi-agent frameworks through a \texttt{modify\_message(source, target, message)} interface, enabling transparent format optimization during agent interactions. 
+% We evaluate our system across benchmark datasets of collaborative problem-solving.
+% % with GSMPlus and information exchange via MultiHopQA. 
+% The results show significant performance improvements while maintaining efficiency.
+% Our work bridges the gap between rigid communication protocols and open-ended natural language by providing an adaptive framework that learns task-aware structural representations.
+% % Results demonstrate significant improvements in task completion accuracy while maintaining efficient communication, with our learned formats exhibiting parallels to established agent communication languages. Our work bridges the gap between rigid communication protocols and open-ended natural language by providing an adaptive framework that learns task-specific structural representations through reinforcement learning.
+% % Large Language Models (LLMs) have demonstrated remarkable capabilities in multi-agent collaborative problem-solving, yet existing frameworks predominantly rely on natural language communication without optimizing message formats for task-specific performance. While recent work has shown that alternative structured formats can enhance single-LLM reasoning and reduce token usage in multi-agent settings, current approaches lack adaptive mechanisms to learn optimal communication structures dynamically. We introduce MetaPromptor, a reinforcement learning-based system that adaptively selects and optimizes message formats for multi-agent communication. Our approach models agentic communication as a Partially Observable Markov Decision Process (POMDP) and employs modified off-policy Monte Carlo learning to discover optimal formatting strategies. MetaPromptor seamlessly integrates with existing multi-agent frameworks through a \texttt{modify\_message(source, target, message)} interface, enabling transparent format optimization during agent interactions. We evaluate our system across three domains: collaborative problem-solving with GSMPlus mathematical reasoning, information exchange via MultiHopQA datasets (NarrativeQA, WikiHopQA, HotpotQA), and the FLASH multi-agent triage framework. Results demonstrate significant improvements in task completion accuracy while maintaining efficient communication, with our learned formats exhibiting parallels to established agent communication languages. Our work bridges the gap between rigid communication protocols and open-ended natural language by providing an adaptive framework that learns task-specific structural representations through reinforcement learning.
+
+
+\end{abstract}
+
+% Uncomment the following to link to your code, datasets, an extended version or similar.
+% You must keep this block between (not within) the abstract and the main body of the paper.
+% \begin{links}
+%     \link{Code}{https://aaai.org/example/code}
+%     \link{Datasets}{https://aaai.org/example/datasets}
+%     \link{Extended version}{https://aaai.org/example/extended-version}
+% \end{links}
+
+\input{ARR/Introduction}
+\input{ARR/RelatedWorks}
+\input{ARR/Preliminaries}
+\input{ARR/Method}
+\input{ARR/Experiments}
+\input{ARR/Results}
+\input{ARR/Conclusion}
+
+\section{Limitations}
+While \method demonstrates strong empirical results on standard benchmarks, we encourage practitioners to apply the techniques proposed in the paper to their real world scenarios to see whether structured representations benefit the task. 
+In our study, we optimize the policy for trajectories sampled from a given dataset. However, it remains to be studied whether this policy can be transferred to another related dataset.
+% We expect the results to improve especially for smaller models, however in our limited experiments we were not able to optimize the method for many of the small language models (SLMs) and this remains an open future research direction to characterize the performance gains of structured representations for SLMs. 
+While we observe improvements in task performance, we also note slight increase in token usage in certain cases and future works can look at prompt optimization to further enhance efficiency.
+The abstraction of tasks could be multi-dimensional and currently we only consider a single dimensional abstraction which could be expanded in future works.
+
+% transfer to another data
+% compositional
+% there can be other abstractions other tasks, eg. information, question types or agent ids
+
+% Bibliography entries for the entire Anthology, followed by custom entries
+%\bibliography{custom,anthology-overleaf-1,anthology-overleaf-2}
+
+% Custom bibliography entries only
+\bibliography{references_arr}
+
+\newpage
+
+\appendix
+
+\input{ARR/appendix}
+
+\end{document}

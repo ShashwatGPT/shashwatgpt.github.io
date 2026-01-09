@@ -1,0 +1,501 @@
+\section{Results}
+
+% As we have already seen in the motivation study (cf. fig. \ref{fig:single_agent}), learning optimal representations to prompt the LLM outperforms the vanilla counterpart using natural language message representation. In this section we extend the experiments and present results on the multi-agentic communication setup to demonstrate the efficacy of learning optimal message representations in this setting.
+% 1. Incorporating real-world datasets such as WebArena, GAIA etc.
+% 2. Incorporating situations with partial-observability
+% 3. Complex Debates (mejority voting, reward-guided tree search, latent space reasoning via step distillation)
+\begin{table}[t!]
+  \caption{\textcolor{blue}{\method outperforms the vanilla MAS using NL and Autoform (fixed formats by the LLM).}} 
+    \label{tab:main_results}
+    \centering
+    % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+    % \resizebox{\columnwidth}{!}{
+    \resizebox{0.5\textwidth}{!}{
+    \begin{tabular}{c c c c c c c}
+      % \textbf{Base LLM} & \textbf{Method} & \textbf{GSM+} & \textbf{WikiHop} & \textbf{HotpotQA} & \textbf{NarrativeQA} & \textbf{Average} \\
+      \textbf{LLM} & \textbf{Method} & \textbf{GSM} & \textbf{WQA} & \textbf{HQA} & \textbf{NQA} & \textbf{Avg} \\
+        \hline \hline
+        % GPT-4o & Vanilla MAS & 86.5 & 10.2 & 60.7 & 47.1 & 51.125 \\
+        % & Autoform & 87.5 & 11.5 & 62.5 & 48.6 & 52.525 \\
+        % & \method (Ours) & 89.5 & 13.9 & 64.5 & 51.1 & 54.75 \\
+        % \hline
+        % o3 & Vanilla MAS & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % & Autoform & 93.9 & 16.3 & 66.1 & 55.8 & 58.02 \\
+        % & \method (Ours) & 94.7 & 17.2 & 67.3 & 56.7 & 58.98 \\
+        % \hline
+        % Phi4-mini & Vanilla MAS & 49.2& 5.5& 29.6& 22.9& 26.8 \\
+        % & Autoform & 50.7& 6.2& 31.4& 23.8& 28.02 \\
+        % & \method (Ours) & 53.5& 8.3& 34.2& 25.9& 30.48 \\
+        % \hline   
+        GPT-4o & Vanilla & 86.5 & 19.5 & 65.1 & 51.3 & 55.6 \\
+        & Autoform & 87.5 & 18.2 & 48.5 & 35.9 & 47.5 \\
+        & \method & \textbf{89.5} & \textbf{21.4} & \textbf{69.1} & \textbf{57.2} & \textbf{59.3} \\
+        \hline
+        o3 & Vanilla & 93.5 & 20.5 & 80.2 & 70.5 & 66.2 \\
+        & Autoform & 92.1 & 21.9 & 81.7 & 59.8 & 63.9 \\
+        & \method & \textbf{94.7} & \textbf{22.8} & \textbf{88.9} & \textbf{71.9} & \textbf{69.6} \\
+        % \hline
+        % Phi4- & Vanilla & 49.2 & 8.3 & 24.1 & 21.5 & 25.8 \\
+        % mini& Autoform & 50.7 & 12.2 & 31.5 & 12.2 & 26.6 \\
+        % & \method & 53.5 & 15.7 & 33.5 & 25.5 & 32.1 \\
+        \hline
+        
+        % Llama-3-8B & Vanilla MAS & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % & Autoform & 93.9 & 16.3 & 66.1 & 55.8 & 58.02 \\
+        % & \method (Ours) & 94.7 & 17.2 & 67.3 & 56.7 & 58.98 \\
+        % \hline
+        % Mistral-7B & Vanilla MAS & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % & Autoform & 93.9 & 16.3 & 66.1 & 55.8 & 58.02 \\
+        % & \method (Ours) & 94.7 & 17.2 & 67.3 & 56.7 & 58.98 \\
+        \hline \hline 
+        Qwen2.5- & Vanilla & 79.1 & 11.8 & 29.3 & 26.2 & 36.6 \\
+        7B (Math) & \method & \textbf{82.5} & \textbf{17.2} & \textbf{37.4} & \textbf{29.7} & \textbf{41.7} \\
+        \hline 
+        Phi4- & Vanilla & 64.5 & 6.3 & 24.5 & 22.4 & 29.4 \\
+        mini & \method & \textbf{70.5} & \textbf{11.6} & \textbf{31.8} & \textbf{23.9} & \textbf{34.4} \\
+        \hline 
+        Llama3- & Vanilla & 77.9 & 9.7 & 28.3 & 25.1 & 35.2 \\
+        8B & \method & \textbf{83.5} & \textbf{12.8} & \textbf{33.6} & \textbf{27.2} & \textbf{39.3} \\
+        \bottomrule
+        % \hline
+        \textcolor{blue}{Efficiency} & \textcolor{blue}{$\Delta$ Tokens (\%)} & \textcolor{blue}{-8.7} & \textcolor{blue}{-5.4} & \textcolor{blue}{-18.8} & \textcolor{blue}{19.3} & \textcolor{blue}{-3.4} \\
+        % \bottomrule
+        \hline
+        % \hline
+        % \hline
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+
+\subsection{Main Results (RQ1)}
+
+In this section, we present the results of our method w.r.t baselines on the benchmark datasets. Table \ref{tab:main_results} shows the accuracy results on GSMPlus and the MultiHop datasets, against the respective LLMs.
+% % \begin{wraptable}{L}{3.3cm}
+% % \caption{\small{Results on SLM}}\label{tab:slm_results}
+% % \vspace{-0.5cm}
+% % \resizebox{0.22\textwidth}{!}{
+% % \begin{tabular}{cccc}\\
+% %         % \toprule 
+% %       \hline
+% %       \hline
+% %       \\
+% %       \textbf{SLM} & \textbf{Method} & \textbf{WQA} & \textbf{HQA} \\\midrule
+% %         \hline \hline 
+% %         Qwen2.5- & Vanilla & 6.9 & 28.7 \\
+% %          7B (Math) & Ours & \textbf{7.2} & \textbf{32.5} \\ 
+% %          % \midrule
+% %          \hline
+% %         Phi4- & Vanilla & 5.3 & 24.4 \\
+% %         mini & Ours & \textbf{12.1} & \textbf{31.3} \\ 
+% %          % \midrule
+% %          \hline
+% %         Llama3- & Vanilla & 1.7 & 23.4 \\
+% %         8B & Ours & \textbf{5.3} & \textbf{25.8} \\ 
+% %         % \bottomrule
+% %         \hline
+% %         \hline
+% % \end{tabular}
+% % }
+% % \end{wraptable} 
+% \begin{wraptable}{L}{4.2cm}
+% \caption{\small{Results using SLMs}}\label{tab:slm_results}
+% \vspace{-0.5cm}
+% \resizebox{0.28\textwidth}{!}{
+% \begin{tabular}{cccccc}\\
+%         % \toprule 
+%       \hline
+%       \hline
+%       \\
+%       \textbf{SLM} & \textbf{Method} & \textbf{GSM} & \textbf{WQA} & \textbf{HQA} & \textbf{NQA}\\\midrule
+%         \hline \hline 
+%         Qwen2.5- & Vanilla & 79.1 & 11.8 & 29.3 & 26.2 \\
+%         7B (Math) & Ours & \textbf{82.5} & \textbf{17.2} & \textbf{37.4} & \textbf{29.7} \\
+%         \hline 
+%         Phi4- & Vanilla & 64.5 & 6.3 & 24.5 & 22.4 \\
+%         mini & Ours & \textbf{70.5} & \textbf{11.6} & \textbf{31.8} & \textbf{23.9} \\
+%         \hline 
+%         Llama3- & Vanilla & 77.9 & 9.7 & 28.3 & 25.1 \\
+%         8B & Ours & \textbf{83.5} & \textbf{12.8} & \textbf{33.6} & \textbf{27.2} \\
+%         % \bottomrule
+%         \hline
+%         \hline
+% \end{tabular}
+% }
+% \end{wraptable} 
+We observe that our method outperforms the baselines and the enhancements are statistically significant (using Wilcoxon signed-rank test, p-value $< 0.05$). This indicates that learning the optimal structures dynamically enhances performance in multi-agent setting, answering RQ1. 
+\textcolor{blue}{Where Roberta based NLI is used for evaluation, we perform a human evaluation on a sample ($\sim 100$) set and find a high Cohen's Kappa \cite{Cohen07} (>90\%).}
+We also find our method (vanilla), on average, needs around 3.5 (3.5), 2.5 (3) hops using GPT4o, o3 respectively. 
+% We further perform experiments on SLMs to show performance enhancement w.r.t. the vanilla multi-agent system. From the results,
+From the SLM results,
+% in table \ref{tab:slm_results}, 
+ we can observe that our method demonstrates consistent improvements compared to the vanilla method, confirming the benefit of communicating using optimal message structures even in small models. \textcolor{blue}{We further report the percent difference of tokens consumed by our method (w.r.t. vanilla system) across methods and datasets and find that the communication cost is on par or even reduced in some cases.}
+
+\noindent \textbf{Task Classification:}\label{task_classification_results} One of the important modules in our method is the task classification module, where the LLM samples a state from its observation (input message). Here we quantify the accuracy of the task classification, by a double-blind human review. We employ two human experts
+% \footnote{Authors perform review of the tasks classified by the LLM mixed with synthetic tasks to prevent bias} 
+ to label the tasks ($\sim 100$ per dataset) as classified by the module. The accuracy (across datasets) was 99.5\% and the Cohen's Kappa \cite{Cohen07} was near 100\% showing complete inter-rater agreement.  
+
+% \begin{table}[h!]
+%   \caption{Results on SLMs.} 
+%     \label{tab:slm_results}
+%     \centering
+%     % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+%     % \resizebox{\columnwidth}{!}{
+%     \resizebox{0.5\textwidth}{!}{
+%     \begin{tabular}{c c c c}
+%       \textbf{SLM} & \textbf{Method} & \textbf{WQA} & \textbf{HQA} \\
+%         \hline \hline 
+%         Qwen2.5-7B & Vanilla & 6.9 & 28.7 \\
+%          & Ours & 7.2 & 32.5 \\ 
+%         Phi4-mini & Vanilla & 5.3 & 24.4 \\
+%          & Ours & 12.1 & 31.3 \\
+%         Llama3-8B & Vanilla & 1.7 & 23.4 \\
+%          & Ours & 5.3 & 25.8 \\
+%         \hline
+        
+%         \hline
+%     \end{tabular}
+%     }
+% \end{table}
+
+% \begin{wraptable}{r}{5.5cm}
+
+% \begin{wraptable}{L}{5.5cm}
+% \caption{Results on SLMs.}\label{tab:slm_results}
+% \resizebox{0.3\textwidth}{!}{
+% \begin{tabular}{cccc}\\\toprule  
+%       \textbf{SLM} & \textbf{Method} & \textbf{WQA} & \textbf{HQA} \\\midrule
+%         \hline \hline 
+%         Qwen2.5-7B & Vanilla & 6.9 & 28.7 \\
+%          & Ours & 7.2 & 32.5 \\ \midrule
+%         Phi4-mini & Vanilla & 5.3 & 24.4 \\
+%          & Ours & 12.1 & 31.3 \\ \midrule
+%         Llama3-8B & Vanilla & 1.7 & 23.4 \\
+%          & Ours & 5.3 & 25.8 \\ \bottomrule
+% \end{tabular}
+% }
+% \end{wraptable} 
+
+ 
+% \begin{table}[h!]
+% \begin{table}[t!]
+%   \caption{\method outperforms the vanilla MAS using NL and Autoform using fixed formats prompted by the LLM.} 
+%     \label{tab:main_results}
+%     \centering
+%     % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+%     % \resizebox{\columnwidth}{!}{
+%     \resizebox{0.5\textwidth}{!}{
+%     \begin{tabular}{c c c c c c c}
+%       % \textbf{Base LLM} & \textbf{Method} & \textbf{GSM+} & \textbf{WikiHop} & \textbf{HotpotQA} & \textbf{NarrativeQA} & \textbf{Average} \\
+%       \textbf{LLM} & \textbf{Method} & \textbf{GSM} & \textbf{WQA} & \textbf{HQA} & \textbf{NQA} & \textbf{Avg} \\
+%         \hline \hline
+%         % GPT-4o & Vanilla MAS & 86.5 & 10.2 & 60.7 & 47.1 & 51.125 \\
+%         % & Autoform & 87.5 & 11.5 & 62.5 & 48.6 & 52.525 \\
+%         % & \method (Ours) & 89.5 & 13.9 & 64.5 & 51.1 & 54.75 \\
+%         % \hline
+%         % o3 & Vanilla MAS & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % & Autoform & 93.9 & 16.3 & 66.1 & 55.8 & 58.02 \\
+%         % & \method (Ours) & 94.7 & 17.2 & 67.3 & 56.7 & 58.98 \\
+%         % \hline
+%         % Phi4-mini & Vanilla MAS & 49.2& 5.5& 29.6& 22.9& 26.8 \\
+%         % & Autoform & 50.7& 6.2& 31.4& 23.8& 28.02 \\
+%         % & \method (Ours) & 53.5& 8.3& 34.2& 25.9& 30.48 \\
+%         % \hline   
+%         GPT-4o & Vanilla & 86.5 & 19.5 & 65.1 & 51.3 & 55.6 \\
+%         & Autoform & 87.5 & 18.2 & 48.5 & 35.9 & 47.5 \\
+%         & \method & 89.5 & 21.4 & 69.1 & 57.2 & 59.3 \\
+%         \hline
+%         o3 & Vanilla & 93.5 & 20.5 & 80.2 & 70.5 & 66.2 \\
+%         & Autoform & 92.1 & 21.9 & 81.7 & 59.8 & 63.9 \\
+%         & \method & 94.7 & 22.8 & 88.9 & 74.3 & 70.2 \\
+%         \hline
+%         Phi4- & Vanilla & 49.2 & 8.3 & 24.1 & 21.5 & 25.8 \\
+%         mini& Autoform & 50.7 & 12.2 & 31.5 & 12.2 & 26.6 \\
+%         & \method & 53.5 & 15.7 & 33.5 & 25.5 & 32.1 \\
+%         \hline
+        
+%         % Llama-3-8B & Vanilla MAS & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % & Autoform & 93.9 & 16.3 & 66.1 & 55.8 & 58.02 \\
+%         % & \method (Ours) & 94.7 & 17.2 & 67.3 & 56.7 & 58.98 \\
+%         % \hline
+%         % Mistral-7B & Vanilla MAS & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % & Autoform & 93.9 & 16.3 & 66.1 & 55.8 & 58.02 \\
+%         % & \method (Ours) & 94.7 & 17.2 & 67.3 & 56.7 & 58.98 \\
+%         \hline
+%     \end{tabular}
+%     }
+% \end{table}
+
+% \subsection{Abalations:}
+% \subsubsection{Do we even need a structuriser}
+
+\subsection{Performance with Fixed Structures (RQ2)}
+In this study, we analyze if finding the optimal structure is necessary by comparing with some largely adopted fixed structures in multi-agent communication literature. 
+% The following structures are used in our experiments - KQML ~\cite{labrou1999agent}
+% % ~\cite{labrou1999agent,finin1995kqml,mayfield1996evaluation}, 
+% % S-expressions~\cite{delatorre2025tool},
+% JSON~\cite{yin2024fast}, XML~\cite{aalst2003xml}, YAML~\cite{pathway2024yaml}, Code, Tabular, Equation, List ~\cite{chen-etal-2024-beyond-natural}.  
+From table \ref{tab:fixed_format_abl} we can see that among fixed methods, Pseudo-code \& List (Sequential Thinking) generally perform well due to the mathematical nature of the tasks. However, there exists no structure that performs consistently better across all datasets. This shows that the best structure is task dependent, answering RQ2. Further our method performs better than the fixed structures indicating that \method attempts to find the optimal structure for a task.
+\textcolor{blue}{We also report average tokens and time per message and across datasets. We find that alternative formats (e.g. KQML) have higher efficiency than NL and \method is able to maintain high accuracy while also finding formats that have low token count and latency.}
+% KQML supports knowledge sharing by defining performatives for agent negotiation, goal expression, and flexible run-time coordination in distributed, heterogeneous multi-agent environments~\cite{labrou1999agent,finin1995kqml,mayfield1996evaluation}. Recently introduced S-expressions enable concise, compositional exchange of symbolic concepts, allowing agents to transmit structured data and logic with minimal syntactic overhead~\cite{delatorre2025tool}. JSON is widely adopted for efficient, schema-compliant data interchange between systems, minimizing message size and maximizing compatibility~\cite{yin2024fast,shorten2024structured}.XML excels at conveying complex, hierarchical information, supporting robust validation and interoperability in enterprise and workflow-heavy contexts~\cite{mishra2002structural,aalst2003xml}. 
+% YAML improves human-editability and clarity in configuration and task orchestration, facilitating readable communication patterns for agent pipeline design~\cite{pathway2024yaml}. 
+
+% % \begin{table}[h!]
+% \begin{table}[t!]
+%   \caption{\method outperforms fixed representations indicating the importance of dynamic learning.} 
+%     \label{tab:fixed_format_abl}
+%     \centering
+%     % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+%     % \resizebox{\columnwidth}{!}{
+%     \resizebox{0.4\textwidth}{!}{
+%     \begin{tabular}{c c c c c c c}
+%       % \textbf{Structure} & \textbf{GSM+} & \textbf{WikiHop} & \textbf{HotpotQA} & \textbf{NarrativeQA} & \textbf{Average} \\
+%       \textbf{Structure} & \textbf{GSM} & \textbf{WQA} & \textbf{HQA} & \textbf{NQA} & \textbf{Avg} \\
+%         \hline \hline
+%         % NL & 86.5 & 10.2 & 60.7 & 47.1 & 51.125 \\
+%         % \method & 89.5 & 13.9 & 64.5 & 51.1 & 54.75 \\
+%         % \hline
+%         % KQML & 87.5 & 11.5 & 62.5 & 48.6 & 52.525 \\
+%         % JSON & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % YAML & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % XML & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % Code & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % Tabular & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % Exp & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % List & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+%         % \hline
+%         NL & 86.5 & 19.5 & 65.1 & 51.3 & 55.6 \\
+%         Ours & \textbf{89.5} & \textbf{21.4} & \textbf{69.1} & \textbf{57.2} & \textbf{59.3} \\
+%         \hline
+%         JSON & 71.5 & 19.5 & 66.9 & 52.9 & 52.7 \\
+%         XML & 89.1 & 17.1 & 68.1 & 52.2 & 56.6 \\
+%         KQML & \textbf{89.5} & 14.6 & 63.9 & \underline{57.1} & 56.3 \\
+%         YML & 87.6 & 18.3 & 66.8 & 50.0 & 55.7 \\
+%         Code & \underline{89.2} & \underline{21.1} & 68.0 & 54.0 & 58.1 \\
+%         Equation & 87.9 & 18.3 & \underline{69.0} & 47.4 & 55.7 \\
+%         Table  & 87.0 & 14.6 & 62.2 & 53.1 & 54.2 \\
+%         List & 88.1 & 20.8 & 67.9 & 56.3 & \underline{58.3} \\
+%         \hline
+        
+%         \hline
+%     \end{tabular}
+%     }
+% \end{table}
+
+% \begin{table}[h!]
+\begin{table}[t!]
+  \caption{\method outperforms fixed representations indicating the importance of dynamic learning.} 
+    \label{tab:fixed_format_abl}
+    \centering
+    % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+    % \resizebox{\columnwidth}{!}{
+    \resizebox{0.5\textwidth}{!}{
+    \begin{tabular}{c c c c c c | c c}
+      % \textbf{Structure} & \textbf{GSM+} & \textbf{WikiHop} & \textbf{HotpotQA} & \textbf{NarrativeQA} & \textbf{Average} \\
+      \textbf{Structure} & \textbf{GSM} & \textbf{WQA} & \textbf{HQA} & \textbf{NQA} & \textbf{Avg} & \textbf{\textcolor{blue}{Avg Tokens}} & \textbf{\textcolor{blue}{Avg Time (s)}} \\
+        \hline \hline
+        % NL & 86.5 & 10.2 & 60.7 & 47.1 & 51.125 \\
+        % \method & 89.5 & 13.9 & 64.5 & 51.1 & 54.75 \\
+        % \hline
+        % KQML & 87.5 & 11.5 & 62.5 & 48.6 & 52.525 \\
+        % JSON & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % YAML & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % XML & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % Code & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % Tabular & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % Exp & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % List & 93.5 & 15.5 & 65.2 & 53.6 & 56.95 \\
+        % \hline
+        NL & 86.5 & 19.5 & 65.1 & 51.3 & 55.6 & 87.8 & 1.58 \\
+        Ours & \textbf{89.5} & \textbf{21.4} & \textbf{69.1} & \textbf{57.2} & \textbf{59.3} & 79.8 & 1.23 \\
+        \hline
+        JSON & 71.5 & 19.5 & 66.9 & 52.9 & 52.7 & 101 & 1.5 \\
+        XML & 89.1 & 17.1 & 68.1 & 52.2 & 56.6 & 99.8 & 1.48 \\
+        KQML & \textbf{89.5} & 14.6 & 63.9 & \underline{57.1} & 56.3 & 70.5 & 1.28 \\
+        YML & 87.6 & 18.3 & 66.8 & 50.0 & 55.7 & 77.3 & 1.20 \\
+        Code & \underline{89.2} & \underline{21.1} & 68.0 & 54.0 & 58.1 & 201.7 & 2.41 \\
+        Equation & 87.9 & 18.3 & \underline{69.0} & 47.4 & 55.7 & 88.8 & 1.58 \\
+        Table  & 87.0 & 14.6 & 62.2 & 53.1 & 54.2 & 117.3 & 1.54 \\
+        List & 88.1 & 20.8 & 67.9 & 56.3 & \underline{58.3} & 106.1 & 1.34 \\
+        \hline
+        
+        \hline
+    \end{tabular}
+    }
+\end{table}
+
+\subsection{Token Efficiency (RQ3)}
+% In this study we observe how efficient our method is compared to the vanilla multi-agent system without optimizing the message structures. This would help inform practitioners of the tradeoffs in tokens/cost with enhanced performance. 
+We observe from table \ref{appendix_tab:efficiency_study} (\textcolor{blue}{Appendix}) that from all the datasets experimented, the maximum increase in token usage is not more than 20\%. In some cases \method is more efficient compared to the vanilla multi-agent system. This is, since certain formal structures require lesser tokens compared to natural language. Thus \method enhances performance while keeping the cost bounded.
+% , answering RQ3.
+
+% \begin{table}[h!]
+%   \caption{Token efficiency of \method.} 
+%     \label{tab:efficiency_study}
+%     \centering
+%     % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+%     % \resizebox{\columnwidth}{!}{
+%     \resizebox{0.45\textwidth}{!}{
+%     \begin{tabular}{c c c c c}
+%       \textbf{Dataset} & \textbf{\#Tokens (Vanilla)} & \textbf{\#Tokens (Ours)} & \textbf{$\Delta$ Tokens (\%)} \\
+%         \hline \hline
+%         GSM+ & 2667 & 2434 & -8.7  \\
+%         WikiHop & 1023 & 968 & -5.4  \\
+%         HotPotQA & 671 & 545 & -18.8  \\
+%         NarrativeQA & 925 & 1104 & +19.3  \\
+%         \hline
+%     \end{tabular}
+%     }
+% \end{table}
+
+\subsection{Ablation Study (RQ4)}
+We study the impact of fixed set of structures/tasks (w/o dynamic) and dynamic but not learning the policy from the data (w/o learning). 
+% We further study how the performance evolves with converging Q values as the learning progresses.
+From figure \ref{fig:ablation} we find that the results drop without the policy learning ($\sim 42 \%$) or dynamically evolving modules. 
+% On the WikiHop dataset we find the drop is drastic ($\sim 42 \%$) without the policy learning module whereas in the HotpotQA dataset we find that dynamically learning structures is more important to the task. Thus the importance of the modules are task/dataset dependent but nevertheless both the modules are important in \method to achieve optimal performance. 
+From the Q-plot we can see that the Q-values/accuracy converge with time. Further, the average slope ($\Delta Q/\text{step}$) in the expansion phase is $3.08\times10^{-2}$ vs $1.5\times10^{-3}$ in the convergence phase, indicating convergence once the EMDP is frozen (supporting prop. \ref{prop_emdp_convergence}).
+\textcolor{blue}{Further studies are provided in the Appendix (\ref{ablation_appendix}, \ref{ablation}).}
+% In this section we perform an ablation study to analyze the importance of each component of \method. Specifically we study the impact of having a fixed set of structures/tasks and keeping the structures/tasks dynamic but not learning the policy from the environment/data. We further study how the performance evolves with converging Q values as the learning progresses.
+% From figure \ref{fig:ablation} we find that the results drop without the policy learning or dynamically evolving modules. On the WikiHop dataset we find the drop is drastic ($\sim 42 \%$) without the policy learning module whereas in the HotpotQA dataset we find that dynamically learning structures is more important to the task. Thus the importance of the modules are task/dataset dependent but nevertheless both the modules are important in \method to achieve optimal performance. 
+% From the Q-plot we can see that the Q-values/accuracy converge with time.
+% From the Q-plot we can see that the Q values and accuracy converges as the learning progresses.
+
+% \begin{figure}[h]
+%     \centering
+%      \begin{subfigure}[b]{0.22\textwidth}
+%      \centering
+% % \includegraphics[width=\linewidth]{figures/Cloudservices_monitors.jpg}
+% % \includegraphics[width=\linewidth]{AAAI/figures/sac_ablation_old2.png}
+% \includegraphics[width=\linewidth]{AAAI/figures/sac_ablation.png}
+%         \caption{}
+%            \label{subfig:ablation_study}
+%     \end{subfigure}%
+%     \begin{subfigure}[b]{0.27\textwidth}
+%          \centering
+% \includegraphics[width=\linewidth]{AAAI/figures/hotpotqa_qvalues.png}
+%     \caption{}
+%            \label{subfig:qvalues}
+%     \end{subfigure}
+% \caption{a) Dynamic representation evolving and policy learning module are important for performance b) The Q-values/accuracy converge as learning progresses.}
+% \label{fig:ablation}
+% \end{figure}
+\begin{figure}[h]
+    \centering
+     \begin{subfigure}[b]{0.42\textwidth}
+     \centering
+% \includegraphics[width=\linewidth]{figures/Cloudservices_monitors.jpg}
+% \includegraphics[width=\linewidth]{AAAI/figures/sac_ablation_old2.png}
+\includegraphics[width=\linewidth]{AAAI/figures/sac_ablation.png}
+        \caption{}
+           \label{subfig:ablation_study}
+    \end{subfigure}%
+    
+    \begin{subfigure}[b]{0.42\textwidth}
+         \centering
+\includegraphics[width=\linewidth]{AAAI/figures/hotpotqa_qvalues.png}
+    \caption{}
+           \label{subfig:qvalues}
+    \end{subfigure}
+\caption{a) Dynamic representation evolving and policy learning module are important for performance b) The Q-values/accuracy converge as learning progresses.}
+\label{fig:ablation}
+\end{figure}
+
+\subsection{Structure Distribution (RQ5)}
+% In this section we study the distribution of the tasks and structures uncovered by \method during the expansion phase of learning. 
+In figure \ref{fig:structure_distribution} we see the structure distribution where we display 10(/64) high level structures including seed and discovered structures. 
+% In total the method discovered 64 structures and we club the fine grained structures into these high level types. 
+In addition to the seeded structures of JSON, XML, YAML, List, Code etc., our method is able to discover some new structures ($\sim 50\%$) within the categories of Trees, Graphs, Math etc. 
+% The newly discovered structures account for more than 50\% of the structures. 
+% We also analyze the structure distribution per task. The major tasks in the concerned dataset (HotPotQA) were mainly identified as ``Comparison'' (mathematical comparison between entities) and ``Bridge'' (multi hop reasoning between connected entities) with easy (E), medium (M) and hard categories (H). We see different tasks have different distributions of the optimal structures. 
+From the task wise distribution of representations, we see the hard category of the comparison task benefits from ``Math'' representation due to the nature of the task, whereas the bridge task benefits from Graph and Tree structures as expected. Thus \method is able to select the pertinent structure for the task. 
+% In this section we study the distribution of the tasks and structures uncovered by \method during the expansion phase of learning. In figure \ref{fig:structure_distribution} we see the structure distribution where we display 10 high level structures including seed and discovered structures. In total the method discovered 64 structures and we club the fine grained structures into these high level types. In addition to the seeded structures of JSON, XML, YAML, List, Code etc., our method is able to discover some new structures within the categories of Trees, Graphs, Math etc. The newly discovered structures account for more than 50\% of the structures. We also analyze the structure distribution per task. The major tasks in the concerned dataset (HotPotQA) were mainly identified as ``Comparison'' (mathematical comparison between entities) and ``Bridge'' (multi hop reasoning between connected entities) with easy (E), medium (M) and hard categories (H). We see different tasks have different distributions of the optimal structures. The hard category of the comparison task benefits from ``Math'' representation due to the nature of the task, whereas the bridge task benefits from Graph and Tree structures as expected. Thus \method is able to select the pertinent structure for the task. 
+% For brevity, we add further details in the \textcolor{blue}{Appendix \ref{apndx_format_evolution}}.
+\textcolor{blue}{For brevity, we show evolution of formats in the \textcolor{blue}{Appendix \ref{apndx_format_evolution}}.}
+% Due to space constraints, we add further experiment results \& details in the appendix.
+% \footnote{Appendix is submitted as a supplementary to the main paper.}.
+
+\begin{figure}[h]
+    \centering
+     \begin{subfigure}[b]{0.24\textwidth}
+     \centering
+% \includegraphics[width=\linewidth]{figures/Cloudservices_monitors.jpg}
+\includegraphics[width=\linewidth]{AAAI/figures/sac_structure.png}
+        \caption{}
+           \label{subfig:structure_dist}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.25\textwidth}
+         \centering
+\includegraphics[width=\linewidth]{AAAI/figures/sac_structure_for_task.png}
+    \caption{}
+           \label{subfig:struct_for_task}
+    \end{subfigure}
+% \caption{Fig. a) shows the overall structure distribution found by \method for HotPotQA dataset. Fig. b) shows the structure distribution by task type.}
+% \caption{Fig. a) shows the overall structure distribution and b)is the task-wise distribution found by \method for HotPotQA dataset.}
+\caption{Fig. a) shows the overall structure distribution and b) is the task-wise distribution found for HotPotQA.}
+\label{fig:structure_distribution}
+\end{figure}
+
+% \begin{figure}[h]
+%     \centering
+%      \begin{subfigure}[b]{0.3\textwidth}
+%      \centering
+% % \includegraphics[width=\linewidth]{figures/Cloudservices_monitors.jpg}
+% \includegraphics[width=\linewidth]{AAAI/figures/sac_structure.png}
+%         \caption{}
+%            \label{subfig:structure_dist}
+%     \end{subfigure}%
+    
+%     \begin{subfigure}[b]{0.45\textwidth}
+%          \centering
+% \includegraphics[width=\linewidth]{AAAI/figures/sac_structure_for_task.png}
+%     \caption{}
+%            \label{subfig:struct_for_task}
+%     \end{subfigure}
+% % \caption{Fig. a) shows the overall structure distribution found by \method for HotPotQA dataset. Fig. b) shows the structure distribution by task type.}
+% \caption{Fig. a) shows the overall structure distribution and b)is the task-wise distribution found for HotPotQA dataset.}
+% \label{fig:structure_distribution}
+% \end{figure}
+
+% \subsubsection{Implicit vs Explicit Struturisation} In our experiments, we first generate the natural language response and then convert it to a suitable structure based on the suggested format. This was done so that we could compare various metrics [ADD METRICS] that quantify structures in comparison with Natural-Language. We run these abalsations demonstrating similar performance when we implicitly embed the suggested structure in the prompt and directly generate the structured response like Autoform, with the difference being that. The reason why both are close is that LLMs use same inductive biases about the recipe to convert to suggested structure, same system-prompt, and similar message histories. 
+
+% [ADD RESULTS HERE]
+
+% \subsubsection{Use of Different Models}
+
+% In this ablation, we explore the role of different model scales—Small Language Models (SLMs) and Large Language Models (LLMs)—across three subtasks: (i) task prediction (states), (ii) exploration of new formats, and (iii) applying selected formats (actions). Empirical observations and previous work motivate three key hypotheses.
+
+% \begin{enumerate}
+% \item \textbf{SLMs are effective for domain adaptation and offer broader coverage of search space during exploration}, due to their higher variance and local adaptability~\cite{marquez2025fine,mwase2023uncovering,mojarradi2024improving}. However, they tend to struggle with out-of-distribution (OOD) generalization and exhibit inconsistencies, particularly in knowledge-intensive settings~\cite{kang2023knowledge,li2024simple}.
+
+% text
+% \item \textbf{LLMs are more robust in generating consistent actions and performing under distribution shift}, benefiting from instruction tuning and larger pretraining corpora~\cite{sun2023evaluating,agrawal2025enhancing,howe2024effects}. As a result, they demonstrate less sensitivity to prompt-level structurization, limiting its marginal utility~\cite{wang2025slot,geng2023grammar}.
+
+% \item \textbf{The effectiveness of optimal structured prompts depends highly on the training mode and architectural differences between model families}. Bidirectional encoder models like BERT and its derivatives, trained on masked language modeling objectives, require fundamentally different prompting strategies compared to autoregressive models like GPT~\cite{patel2022bidirectional,webson2022prompt}. BERT-based models excel with cloze-style prompts and mask-based templates that leverage their bidirectional context understanding~\cite{jiang2022promptbert,qi2023multi}, while GPT models perform optimally with sequential, instruction-following prompts that align with their left-to-right generation paradigm~\cite{brown2020language,wei2022chain}. This architectural sensitivity extends to prompt structure optimization, where encoder-only models benefit from structured template designs~\cite{liu2023structured,sun2022how}, whereas decoder-only models show greater flexibility with natural language instructions but require careful prompt engineering to avoid hallucinations~\cite{schulhoff2024prompt,li2023exploring}.
+% \end{enumerate}
+
+% Suggested Models for Evaluation:
+
+% For comprehensive evaluation across different architectural paradigms, we recommend testing the following models:
+
+% \textbf{Autoregressive (Decoder-only) Models:}
+% \begin{itemize}
+% \item \textbf{GPT-4o}: Advanced multimodal capabilities with enhanced instruction following~\cite{openai2024gpt4o}
+% \item \textbf{GPT-3.5-turbo}: Cost-effective baseline for autoregressive prompting~\cite{ouyang2022training}
+% \item \textbf{Llama-3 (8B/70B)}: Open-source alternative with strong reasoning capabilities~\cite{touvron2023llama}
+% \item \textbf{Phi-4}: Microsoft's efficient reasoning model with structured thinking capabilities~\cite{microsoft2024phi4}
+% \end{itemize}
+
+% \textbf{Encoder-only Models:}
+% \begin{itemize}
+% \item \textbf{BERT-large}: Bidirectional baseline for masked language modeling approaches~\cite{devlin2019bert}
+% \item \textbf{RoBERTa-large}: Optimized BERT variant with improved pretraining~\cite{liu2019roberta}
+% \end{itemize}
+
+% \textbf{Encoder-Decoder Models:}
+% \begin{itemize}
+% \item \textbf{Gemini-Pro}: Google's multimodal model with bidirectional reasoning~\cite{team2023gemini}
+% \item \textbf{T5-large}: Text-to-text unified framework for structured tasks~\cite{raffel2020exploring}
+% \end{itemize}
+
+% [ADD RESULTS HERE]

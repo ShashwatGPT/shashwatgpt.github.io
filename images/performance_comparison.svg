@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <!-- Title -->
+  <text x="400" y="30" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#333">Performance Comparison (Accuracy %)</text>
+
+  <!-- Legend -->
+  <rect x="550" y="50" width="15" height="15" fill="#e0e0e0" />
+  <text x="575" y="62" font-family="Arial" font-size="12">Vanilla (NL)</text>
+  <rect x="660" y="50" width="15" height="15" fill="#4caf50" />
+  <text x="685" y="62" font-family="Arial" font-size="12">OPTiMACS</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="350" x2="750" y2="350" stroke="#333" stroke-width="2"/> <!-- X -->
+  <line x1="50" y1="50" x2="50" y2="350" stroke="#333" stroke-width="2"/>  <!-- Y -->
+
+  <!-- Y-Axis Labels -->
+  <text x="40" y="350" text-anchor="end" font-size="12">0%</text>
+  <text x="40" y="275" text-anchor="end" font-size="12">25%</text>
+  <text x="40" y="200" text-anchor="end" font-size="12">50%</text>
+  <text x="40" y="125" text-anchor="end" font-size="12">75%</text>
+  <text x="40" y="50" text-anchor="end" font-size="12">100%</text>
+
+  <!-- Group 1: GSM+ (GPT-4o) -->
+  <text x="150" y="370" text-anchor="middle" font-weight="bold">GSM+ (GPT-4o)</text>
+  <rect x="110" y="90" width="30" height="260" fill="#e0e0e0" /> <!-- 86.5 -->
+  <text x="125" y="85" text-anchor="middle" font-size="10">86.5</text>
+  <rect x="150" y="81" width="30" height="269" fill="#4caf50" /> <!-- 89.5 -->
+  <text x="165" y="76" text-anchor="middle" font-size="10" font-weight="bold">89.5</text>
+
+  <!-- Group 2: HotpotQA (GPT-4o) -->
+  <text x="350" y="370" text-anchor="middle" font-weight="bold">HotpotQA (GPT-4o)</text>
+  <rect x="310" y="155" width="30" height="195" fill="#e0e0e0" /> <!-- 65.1 -->
+  <text x="325" y="150" text-anchor="middle" font-size="10">65.1</text>
+  <rect x="350" y="143" width="30" height="207" fill="#4caf50" /> <!-- 69.1 -->
+  <text x="365" y="138" text-anchor="middle" font-size="10" font-weight="bold">69.1</text>
+
+  <!-- Group 3: GSM (o3) -->
+  <text x="550" y="370" text-anchor="middle" font-weight="bold">GSM (o3)</text>
+  <rect x="510" y="69" width="30" height="281" fill="#e0e0e0" /> <!-- 93.5 -->
+  <text x="525" y="64" text-anchor="middle" font-size="10">93.5</text>
+  <rect x="550" y="66" width="30" height="284" fill="#4caf50" /> <!-- 94.7 -->
+  <text x="565" y="61" text-anchor="middle" font-size="10" font-weight="bold">94.7</text>
+
+</svg>

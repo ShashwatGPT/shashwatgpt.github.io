@@ -1,0 +1,63 @@
+\section{Experiment Setup}
+We evaluate our method \method, following the approach of the main baseline \cite{chen-etal-2024-beyond-natural}. 
+Specifically, we seek to answer the following research questions:
+(i) \textbf{RQ1}: Does \method enhance the performance over static and fixed structures in multi-agent settings?
+(ii) \textbf{RQ2}: Do we need to optimize for representations or are there fixed structures that work across datasets?
+(iii) \textbf{RQ3}: How is the efficiency of the system affected?
+    % \item \textbf{RQ4}: What is the effectiveness of each component of \method?
+(iv) \textbf{RQ4}: What is the effectiveness of each component?
+(v) \textbf{RQ5}: What is the distribution of the dynamically evolving tasks and representations?
+% \begin{itemize}
+%     % \item \textbf{RQ1}: Does \method enhance the performance over static and fixed structures in multi-agent communication settings?
+%     \item \textbf{RQ1}: Does \method enhance the performance over static and fixed structures in multi-agent settings?
+%     \item \textbf{RQ2}: Do we need to optimize for representations or are there fixed structures that work work across datasets?
+%     % \item \textbf{RQ3}: How does \method affect the efficiency of the system?
+%     \item \textbf{RQ3}: How is the efficiency of the system affected?
+%     % \item \textbf{RQ4}: What is the effectiveness of each component of \method?
+%     \item \textbf{RQ4}: What is the effectiveness of each component?
+%     \item \textbf{RQ5}: What is the distribution of the dynamically evolving tasks and structures?
+% \end{itemize}
+% we benchmark our method \method using the setup as detailed below:
+We detail the experiment setup below
+
+\subsection{Datasets:}
+\noindent \textbf{Single LLM Reasoning:} In the motivation study (cf. fig. \ref{fig:motivation}), we employ the datasets of Logic Grid, Coin Flip and AQuA adopting the same experiment setting as \cite{chen-etal-2024-beyond-natural}. 
+% (cf. appendix \ref{appendix_single_agent}).
+
+\textbf{Multi-Agent:}
+(i) \textbf{Collaborative Problem Solving:}
+We use the GSM+ (GSM) benchmark~\cite{gsmplus} to evaluate mathematical problem solving, as the adversarial examples in the dataset could benefit from a multi-agent setup and various message structures. 
+% We design a multi-agent scenario with three agents---\textbf{Planner}, \textbf{Verifier}, and \textbf{Coder}---to address complex reasoning tasks. 
+% We also evaluate on additional reasoning datasets (to be specified). 
+% Correctness is measured using exact string match.
+Correctness is measured by matching answers upto precision.
+% Correctness is measured using standard metrics.
+% for each benchmark. 
+% Following \cite{cemri2025multi-agent}, we analyze performance along standard failure modes for LLM-based multi-agent systems, using an LLM as judge. 
+% We track interaction metrics such as the average response length.
+% number of conversational turns and average response length.
+(ii) \textbf{Information Exchange}
+In order to evaluate the ability to find optimal structures, we experiment with information exchange using multi-hop QA using the NarrativeQA (NQA)~\cite{narrativeqa}, WikiHopQA (WQA)~\cite{wikihop}, and HotpotQA (HQA)~\cite{hotpotqa} datasets. Correctness is evaluated as follows: (i) when answer choices are provided, we use exact match, (ii) for open-ended responses, we employ an NLI-based metric where we use a RoBERTa model fine-tuned for NLI \cite{roberta_nli}, treating the question and model-generated answer as the ``premise,'' and the annotation as the ``hypothesis,'' scoring correct if entailment score > 0.7 (set empirically). 
+% (threshold set empirically). 
+% We thus capture we are interested in semantic match as compared to LCS-based surface-level match.
+% We do not follow the approach of \cite{chen-etal-2024-beyond-natural} to utilise RougeL as metric since we are interested in semantic match as compared to LCS-based surface-level match. 
+% As above, we monitor common failure modes~\cite{cemri2025multi-agent} and interaction metrics.
+
+% \textbf{3. FLASH Multi-Agentic System for Triaging}
+% FLASH is a multi-agent triage framework designed to enhance the speed, accuracy, and adaptability of incident prioritization in dynamic environments. Leveraging a collection of specialized and collaborating agents, FLASH facilitates automated triage by integrating semantic analysis, dynamic knowledge sharing, and negotiation mechanisms across agents. This architecture improves response times and ensures consistent decision-making, particularly in high-stakes scenarios such as emergency services or cloud incident management. FLASH has demonstrated improved triage accuracy and operational efficiency over traditional manual or rule-based systems~\cite{yu2025flash}.
+
+\subsection{Baselines:}
+For all the experiments, we choose the vanilla multi-agent system (Vanilla MAS) and Autoform (prompts LLM for best structure from predefined ones) as the baselines. 
+Please note that the Vanilla MAS already uses prompting techniques like CoT \cite{cot}, ReAct \cite{react_iclr} etc. and our method is orthogonal to these. 
+Since these methods involve directly prompting the LLMs and there is no learning involved, we directly evaluate on the test-set. For \method, we first learn the policy by running trajectories over a small sample of data points ($\sim 500-2000$). The testing set is obtained keeping the similar setting as baseline Autoform ~\cite{chen-etal-2024-beyond-natural}. In order to gauge the benefits of dynamically learning the message structures from data/environment, we experiment with LLMs such as the multimodal GPT4o \cite{openai2024gpt4o} and large reasoning models such as O3 \cite{openai2025competitiveprogramminglargereasoning}. To further understand the effect of learning structures on smaller models, we also experiment with some small language models such as Phi4-mini \cite{phi4technicalreport}, llama3-8B \cite{llama3} and Qwen2.5-Math-7B \cite{qwen2025qwen25technicalreport}.
+
+\subsection{Implementation details}
+% \textcolor{blue}{
+We design multi-agent scenarios with three agents - Planner, Verifier, and Coder - for GSM+ dataset and five agents (each with different context/information) for the multi-hop setting, using the AutoGen framework \cite{wu2023autogen}. 
+For the policy learning, we initialize the Q values for newly discovered structures and sampling Temperature as 0. We allow the trajectories to roll out for a maximum of 25 steps (as we empirically find the goal is achieved by then). For the behavior policy, we set the weights as $w_Q=0.5, w_L=0.25, w_D=0.25$. We set the $\epsilon=0.1$.
+% equal values and then depending on the rewards we adapt them dynamically at run time. 
+The expansion phase is allowed for around 20\% of the epoch after which we allow the Q-values to converge. The trajectory is terminated when any agent thinks the goal is achieved or the maximum number of iterations (25) have been reached. If the goal/answer matches the ground truth a reward of +1 is provided else a penalty of -1 is incurred, for every step.
+All experiments are conducted on a linux machine with a single A100 GPU. For SLM-inference, we use the vLLM library \cite{vllm} and official open source models as on huggingface \cite{huggingface}. 
+Each experiment is run three times and we report the average over runs for brevity (variance $\sim \pm 2\%$). 
+% }
+

@@ -1,0 +1,3283 @@
+% %File: anonymous-submission-latex-2026.tex
+% \documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+% \usepackage[submission]{aaai2026}  % DO NOT CHANGE THIS
+% \usepackage{times}  % DO NOT CHANGE THIS
+% \usepackage{helvet}  % DO NOT CHANGE THIS
+% \usepackage{courier}  % DO NOT CHANGE THIS
+% \usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+% \usepackage{graphicx} % DO NOT CHANGE THIS
+% \urlstyle{rm} % DO NOT CHANGE THIS
+% \def\UrlFont{\rm}  % DO NOT CHANGE THIS
+% \usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+% \usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+% \frenchspacing  % DO NOT CHANGE THIS
+% \setlength{\pdfpagewidth}{8.5in} % DO NOT CHANGE THIS
+% \setlength{\pdfpageheight}{11in} % DO NOT CHANGE THIS
+% %
+% % These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage{amssymb,amsmath}
+
+% % \usepackage{subfigure}
+% \usepackage{subcaption} % For subfigures
+
+
+% \usepackage{xspace}
+% % \newcommand{\method}{MetaPrompter\xspace}
+% \newcommand{\method}{OPTiMACS\xspace}
+% % \usepackage{verbatimbox}
+
+% \usepackage{svg}
+% \usepackage{wrapfig}
+% \usepackage{listings}
+
+% %
+% % These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
+% \usepackage{newfloat}
+% \usepackage{listings}
+% \DeclareCaptionStyle{ruled}{labelfont=normalfont,labelsep=colon,strut=off} % DO NOT CHANGE THIS
+% \lstset{%
+% 	basicstyle={\footnotesize\ttfamily},% footnotesize acceptable for monospace
+% 	numbers=left,numberstyle=\footnotesize,xleftmargin=2em,% show line numbers, remove this entire line if you don't want the numbers.
+% 	aboveskip=0pt,belowskip=0pt,%
+% 	showstringspaces=false,tabsize=2,breaklines=true}
+% \floatstyle{ruled}
+% \newfloat{listing}{tb}{lst}{}
+% \floatname{listing}{Listing}
+% %
+% % Keep the \pdfinfo as shown here. There's no need
+% % for you to add the /Title and /Author tags.
+% \pdfinfo{
+% /TemplateVersion (2026.1)
+% }
+
+% % DISALLOWED PACKAGES
+% % \usepackage{authblk} -- This package is specifically forbidden
+% % \usepackage{balance} -- This package is specifically forbidden
+% % \usepackage{color (if used in text)
+% % \usepackage{CJK} -- This package is specifically forbidden
+% % \usepackage{float} -- This package is specifically forbidden
+% % \usepackage{flushend} -- This package is specifically forbidden
+% % \usepackage{fontenc} -- This package is specifically forbidden
+% % \usepackage{fullpage} -- This package is specifically forbidden
+% % \usepackage{geometry} -- This package is specifically forbidden
+% % \usepackage{grffile} -- This package is specifically forbidden
+% % \usepackage{hyperref} -- This package is specifically forbidden
+% % \usepackage{navigator} -- This package is specifically forbidden
+% % (or any other package that embeds links such as navigator or hyperref)
+% % \indentfirst} -- This package is specifically forbidden
+% % \layout} -- This package is specifically forbidden
+% % \multicol} -- This package is specifically forbidden
+% % \nameref} -- This package is specifically forbidden
+% % \usepackage{savetrees} -- This package is specifically forbidden
+% % \usepackage{setspace} -- This package is specifically forbidden
+% % \usepackage{stfloats} -- This package is specifically forbidden
+% % \usepackage{tabu} -- This package is specifically forbidden
+% % \usepackage{titlesec} -- This package is specifically forbidden
+% % \usepackage{tocbibind} -- This package is specifically forbidden
+% % \usepackage{ulem} -- This package is specifically forbidden
+% % \usepackage{wrapfig} -- This package is specifically forbidden
+% % DISALLOWED COMMANDS
+% % \nocopyright -- Your paper will not be published if you use this command
+% % \addtolength -- This command may not be used
+% % \balance -- This command may not be used
+% % \baselinestretch -- Your paper will not be published if you use this command
+% % \clearpage -- No page breaks of any kind may be used for the final version of your paper
+% % \columnsep -- This command may not be used
+% % \newpage -- No page breaks of any kind may be used for the final version of your paper
+% % \pagebreak -- No page breaks of any kind may be used for the final version of your paperr
+% % \pagestyle -- This command may not be used
+% % \tiny -- This is not an acceptable font size.
+% % \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
+% % \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
+
+% %--------------- MACROS ---------
+% \usepackage{xcolor}
+% \newcommand{\review}[2]{{\textcolor{#1}{(#2)}}}
+% \newcommand{\md}[1]{\review{red}{md: #1}}
+
+
+
+% \setcounter{secnumdepth}{2} %May be changed to 1 or 2 if section numbers are desired.
+
+% % The file aaai2026.sty is the style file for AAAI Press
+% % proceedings, working notes, and technical reports.
+% %
+
+% % Title
+
+% % Your title must be in mixed case, not sentence case.
+% % That means all verbs (including short verbs like be, is, using,and go),
+% % nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
+% % articles, conjunctions, and prepositions are lower case unless they
+% % directly follow a colon or long dash
+% % \title{\method: RL-based Adaptive Message Structurisation for Multi-Agent Communication}
+% \title{Technical Appendix to the paper: Learning Optimal Message Representations for Multi-Agent Communication}
+% \author{
+%     %Authors
+%     % All authors must be in the same font size and format.
+%     Written by AAAI Press Staff\textsuperscript{\rm 1}\thanks{With help from the AAAI Publications Committee.}\\
+%     AAAI Style Contributions by Pater Patel Schneider,
+%     Sunil Issar,\\
+%     J. Scott Penberthy,
+%     George Ferguson,
+%     Hans Guesgen,
+%     Francisco Cruz\equalcontrib,
+%     Marc Pujol-Gonzalez\equalcontrib
+% }
+% \affiliations{
+%     %Afiliations
+%     \textsuperscript{\rm 1}Association for the Advancement of Artificial Intelligence\\
+%     % If you have multiple authors and multiple affiliations
+%     % use superscripts in text and roman font to identify them.
+%     % For example,
+
+%     % Sunil Issar\textsuperscript{\rm 2},
+%     % J. Scott Penberthy\textsuperscript{\rm 3},
+%     % George Ferguson\textsuperscript{\rm 4},
+%     % Hans Guesgen\textsuperscript{\rm 5}
+%     % Note that the comma should be placed after the superscript
+
+%     1101 Pennsylvania Ave, NW Suite 300\\
+%     Washington, DC 20004 USA\\
+%     % email address must be in roman text type, not monospace or sans serif
+%     proceedings-questions@aaai.org
+% %
+% % See more examples next
+% }
+
+% %Example, Single Author, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+% \iffalse
+% \title{My Publication Title --- Single Author}
+% \author {
+%     Author Name
+% }
+% \affiliations{
+%     Affiliation\\
+%     Affiliation Line 2\\
+%     name@example.com
+% }
+% \fi
+
+% \iffalse
+% %Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+% \title{My Publication Title --- Multiple Authors}
+% \author {
+%     % Authors
+%     First Author Name\textsuperscript{\rm 1},
+%     Second Author Name\textsuperscript{\rm 2},
+%     Third Author Name\textsuperscript{\rm 1}
+% }
+% \affiliations {
+%     % Affiliations
+%     \textsuperscript{\rm 1}Affiliation 1\\
+%     \textsuperscript{\rm 2}Affiliation 2\\
+%     firstAuthor@affiliation1.com, secondAuthor@affilation2.com, thirdAuthor@affiliation1.com
+% }
+% \fi
+
+
+% % REMOVE THIS: bibentry
+% % This is only needed to show inline citations in the guidelines document. You should not need it and can safely delete it.
+% \usepackage{bibentry}
+% % END REMOVE bibentry
+
+% \begin{document}
+
+% \maketitle
+% \appendix
+
+
+\section{Appendix}
+
+In this supplementary, we provide results and discussion that could not be included in the main paper due to space constraints. Specifically we elaborate on some of the preliminaries in \S \ref{prelims} followed by some additional results and analysis. The additional details are: 
+\begin{enumerate}
+    \item Preliminaries (\S \ref{prelims}) and justification of MDP setting over Contextual bandits (\S \ref{sec:mdp_justification})
+    \item Theory of convergence of the proposed EMDP learning (\S \ref{appendix_sec_proof}) and \method Algorithm (\ref{appendix:offpolicy_mc})
+    \item Related works (\S \ref{appendix_related_works})
+    % \item \method Algorithm (\ref{appendix:offpolicy_mc})
+    \item Details of experiments in main paper (\S \ref{appendix_detailed_experiments})
+    \item Further model ablation (\S \ref{ablation})
+    \item Example case studies (\S \ref{case_study}) to show the flow of communication between the agents in different datasets 
+    \item Computational complexity (\S \ref{computational_complexity})
+    \item Distribution of Structures (\S \ref{distribution_of_structures}) 
+    \item Novelty and Diversity of Structures/Formats Detected (\S \ref{novelty_diversity_of_structures}) 
+    \item Style Transfer Metrics (\S \ref{style_transfer}): to study the loss of information from natural language to structured representations and vice versa 
+    \item Prompts used in the LLMs (\S \ref{prompts})
+    \item design of single agent setting (\S \ref{appendix_single_agent})
+\end{enumerate}
+% 1) Further model ablation (\S \ref{ablation}) 2) Example case studies (\S \ref{case_study}) to show the flow of communication between the agents in different datasets 3) Distribution of Structures (\S \ref{distribution_of_structures}) 4) Novelty and Diversity of Structures/Formats Detected (\S \ref{novelty_diversity_of_structures}) 5) Style Transfer Metrics (\S \ref{style_transfer}): to study the loss of information from natural language to structured representations and vice versa 6) Prompts used in the LLMs (\S \ref{prompts}) 
+% 7) Default Tasks and Structures for Bootstrapping (\S \ref{default_tasks_structures}), 
+% 8) Analysis of Structures Selected From Q-table (\S \ref{q_table_analysis}). % commented as was too much information and no one cared in AAAI reviews
+% OK.
+% Not sure how to remove ??, since it refers to something that is not there. Idk what its referring to!! ->commented
+
+\subsubsection{Preliminaries}\label{prelims}
+
+\subsubsection{Markov Decision Process (MDP)}
+
+A Markov Decision Process (MDP) provides a mathematical framework for modeling decision-making in environments where outcomes are partly random and partly under the control of an agent. Formally, an MDP is defined as a tuple $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$, where:
+\begin{itemize}
+    \item $\mathcal{S}$ is the set of states,
+    \item $\mathcal{A}$ is the set of actions,
+    \item $P(s'|s,a)$ is the transition probability function, representing the probability of moving to state $s'$ from state $s$ after taking action $a$,
+    \item $R(s,a)$ is the reward function, giving the expected immediate reward received after taking action $a$ in state $s$,
+    \item $\gamma \in [0,1]$ is the discount factor, which balances the importance of immediate and future rewards.
+\end{itemize}
+
+The objective in an MDP is to find a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maximizes the expected cumulative discounted reward, defined as:
+\[
+V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s \right],
+\]
+where $V^\pi(s)$ is the value function under policy $\pi$. MDPs assume the \textit{Markov property}, meaning the future state depends only on the current state and action, not on the sequence of events that preceded it. This framework underpins many reinforcement learning algorithms and is foundational to understanding agent-environment interactions~\cite{puterman1994markov}.
+
+\subsubsection{Policy Learning (Q-learning)}
+\textbf{Q-learning} is a model-free reinforcement learning algorithm that aims to learn the optimal action-selection policy by estimating the action-value function, denoted as $Q(s,a)$. The action-value function represents the expected cumulative discounted reward of taking action $a$ in state $s$ and following the optimal policy thereafter. The core idea of Q-learning is to iteratively update the Q-values using the Bellman equation:
+\begin{align*}
+   Q(s_t, a_t) \leftarrow& Q(s_t, a_t) + \\
+   &\alpha \left[ r_t + \gamma \max_{a'} Q(s_{t+1}, a') - Q(s_t, a_t) \right] 
+\end{align*}
+,
+where $\alpha \in (0,1]$ is the learning rate, $\gamma \in [0,1]$ is the discount factor, $r_t$ is the reward received after taking action $a_t$ in state $s_t$, and $s_{t+1}$ is the resulting next state. Over time, and under certain conditions such as sufficient exploration and decaying learning rate, Q-learning converges to the optimal action-value function $Q^*(s,a)$, enabling the derivation of the optimal policy $\pi^*(s) = \arg\max_a Q^*(s,a)$~\cite{watkins1992qlearning}.
+
+\subsubsection{Monte Carlo Learning}
+The Monte Carlo (MC) method for Q-learning, is a model-free approach that estimates the action-value function $Q(s,a)$ using complete episodes of experience. Unlike temporal-difference methods, Monte Carlo methods update Q-values only at the end of an episode, using the actual returns observed. For each state-action pair $(s,a)$ encountered in an episode, the Q-value is updated as:
+\[
+Q(s,a) \leftarrow Q(s,a) + \alpha \left[ G_t - Q(s,a) \right],
+\]
+where $\alpha$ is the learning rate and $G_t = \sum_{k=t}^{T} \gamma^{k-t} r_k$ is the return from time step $t$ until the end of the episode $T$. Monte Carlo methods require episodes to terminate and assume that the environment is episodic. They are particularly useful when the model dynamics are unknown and when bootstrapping is not desired. While slower to converge than TD methods, MC-based Q-learning can provide unbiased estimates of the expected return under sufficient exploration~\cite{sutton2018reinforcement}.
+
+
+\subsection{\textcolor{blue}{Justification for MDP based setting}}
+\label{sec:mdp_justification}
+
+\textcolor{blue}{
+We briefly formally introduce the key concepts used in our framework. }
+% Detailed mathematical formulations are provided in Appendix \ref{sec:appendix_standard_frameworks}.
+
+\textcolor{blue}{
+\paragraph{Policy ($\pi$):} A policy is a strategy, mapping states (contexts) to actions (decisions), denoted as $\pi(a|s)$, representing the probability of taking action $a$ in state $s$.
+\paragraph{A/B Testing:} A randomized control experiment used to compare two versions of a variable (e.g., prompts) to determine which performs better on average across a dataset. This can be used for example if we have much offline data to test which representation generally works well across a dataset. However it requires much offline evaluation and may not be practical in an online setting. Further it lacks the ability to make finegrained decisions for example if there are different tasks in a dataset where different representations would be benficial. 
+\paragraph{Contextual Bandits:} A simplified reinforcement learning setting where an agent observes a context, selects an action, and receives an immediate reward, without state transitions. We use this validation for single-step prompting where the action (format) does not impact future states. However in a multi-agent setting where the output of one agent feeds into another sequentially we would need to track the history of states and in this scenario the contextual bandit would not be effective.
+\paragraph{Markov Decision Processes (MDPs):} A framework for sequential decision-making characterized by a tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$, where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}$ defines transition probabilities between states, $\mathcal{R}$ is the reward function, and $\gamma$ is theoretically the discount factor. We employ this for multi-agent coordination where current decisions fundamentally alter the dialogue trajectory.
+\paragraph{Q-values ($Q(s, a)$):} The expected cumulative future reward an agent will receive by taking action $a$ in state $s$ and following a specific policy thereafter.
+\paragraph{Off-Policy Learning:} An off-policy algorithm learns the value of a target policy $\pi$ (e.g., optimal formats) while following a different behavior policy $\mu$ for exploration. Both our algorithms are off-policy as they separate the learning of optimal strategies from the diverse exploration required to discover them.}
+
+
+\subsubsection{\textcolor{blue}{Formulation for 1-step LLM Calls}}
+\label{sec:formulation_1step}
+
+
+\textcolor{blue}{
+% Before moving ahead with muli-agentic setting, we first
+Here we formalize the problem of LLM prompting and justify several key design choices as well as need for Reinforcement Learning (RL). While A/B testing can identify a globally superior static prompt, it fails to capture instance-specific preferences where different queries require different formats. A contextual-bandit formulation addresses this by learning a policy that maps specific contexts to optimal actions. Our formulation aligns with the standard Contextual Bandit framework—mapping contexts to actions to maximize reward—but is distinguished by two key differences: (1) \textbf{Tabular State Space}: Unlike vector-based methods (e.g., LinUCB) that generalize across infinite states, we discretize the context into semantic task categories, defining valid clusters as proposed in Autoform \cite{chen-etal-2024-beyond-natural} and program-based reasoning studies \cite{tian2024can}; and (2) \textbf{Ensemble Exploration}: We utilize a union of diverse strategies rather than a single policy. The benefit of (1) is interpretable, data-efficient learning that avoids complex function approximation, while (2) ensures robust coverage of the search space.
+}
+
+\subsection{Convergence of Proposed EMDP}\label{appendix_sec_proof}
+
+In this section we discuss and prove the convergence of the proposed EMDP for learning optimal message representations. First we state the known convergence of the standard MDP.
+
+\begin{lemma}[Convergence of Value Iteration for Finite MDPs \cite{bellman1957dynamic}]\label{lemma_mdp_convergence}
+% \textbf{Theorem (Convergence of Value Iteration for Finite MDPs):}
+
+Let $M = (S, A, P, R, \gamma)$ be a finite Markov Decision Process, where:
+\begin{itemize}
+    \item $S$ is a finite set of states,
+    \item $A$ is a finite set of actions,
+    \item $P(s'|s, a)$ is the transition probability,
+    \item $R(s, a)$ is a bounded reward function,
+    \item $0 < \gamma < 1$ is the discount factor.
+\end{itemize}
+
+Define the value iteration operator $T$ as:
+\[
+(TV)(s) = \max_{a \in A} \left[ R(s, a) + \gamma \sum_{s' \in S} P(s'|s, a) V(s') \right]
+\]
+for any value function $V$.
+
+Then, starting from any initial value function $V_0$, the sequence $V_{k+1} = T V_k$ converges uniformly to the unique fixed point $V^*$, which is the optimal value function for the MDP:
+\[
+\lim_{k \to \infty} \| V_k - V^* \|_\infty = 0
+\]
+Moreover, the greedy policy with respect to $V^*$ is an optimal policy.
+\end{lemma}
+
+In our setting the states and actions are not static but keep evolving with time. Moreover the state space if not known but the agent only observed the environment and maintains a belief $\mathcal{B}$ which is the set of all probability distributions over the state space ($S$). While sampling the state from the belief, we convert the belief to a dirac distribution (1 at sampled state and 0 elsewhere) which simplifies the problem to the standard MDP. However, since the states and action spaces are evolving (evolving phase) we need to allow for some iterations for convergence of sampled states and actions. This happens in the cooling phase of our algorithm. Moreover the LLM itself could update its belief if the parameters change. However since we use a pretrained LLM we relax the assumption that the LLMs belief is fixed. To reiterate, we operate under the following mild assumptions:
+\begin{enumerate}
+\item The state (task) sampling prompt uses a temperature of 0 to sample the best task for the concerned message as per the LLMs belief
+\item The LLMs parameters (and thus belief given observation) are kept fixed during learning and inference i.e. we use a pretrained LLM
+\end{enumerate}
+
+Having seen the assumptions we are now ready to look at the proof of the convergence of our EMDP based formulation.
+
+% \begin{proposition}[Convergence of the proposed EMDP based algorithm]
+%     The proposed $EMDP = (S_e, A_e, P_e, R, \gamma)$, where $S_e, A_e$ are the evolving states and actions respectively, converges for the states and actions explored.
+% \end{proposition}
+\begin{proposition}[Convergence of the proposed EMDP based algorithm]
+    Consider the $EMDP = (S_e, A_e, P_e, R, \gamma)$, with value function $V$. $S_e, A_e$ are the evolving states and actions respectively. Let $T$ denote the update operator s.t. $V_{k+1}=T(V_{k})$, then $\underset{k \rightarrow \infty}{\lim} \lVert V_k - V^* \rVert = 0$, where $V^*$ is the optimal value function for the states and actions explored.
+\end{proposition}
+\begin{proof}
+Let $\mathcal{P}$ be a finite POMDP with state space $S$, action space $A$, observation space $O$, bounded reward function $R$, and discount factor $0 < \gamma < 1$.  
+Let $V_0$ be any initial value function over the belief space $\mathcal{B}$ (the set of all probability distributions over $S$).  
+Define the value iteration operator $T$ as:
+\begin{align*}
+ (TV)(b) &= \max_{a \in A} \left[ \sum_{s \in S} R(s, a) b(s) \right. \\
+  & \left. + \gamma \sum_{o \in O} P(o|b, a) V(\tau(b, a, o)) \right]   
+\end{align*}
+% \[
+% (TV)(b) = \max_{a \in A} \left[ \sum_{s \in S} R(s, a) b(s) + \gamma \sum_{o \in O} P(o|b, a) V(\tau(b, a, o)) \right]
+% \]
+where $b$ is a belief state and $\tau(b, a, o)$ is the updated belief after action $a$ and observation $o$.
+
+Now, the LLM samples the state (task) from its belief. Assuming the state with maximum probability is sampled, we have
+\begin{align*}
+b^*(s) =
+\begin{cases}
+     1 \text{ if s=} \underset{s}{\text{argmax }} b(s) \\
+     0 \text{ otherwise}
+\end{cases}
+\end{align*}
+
+This gives us the operator (for the cooling phase where states and actions are fixed),
+\small
+\begin{align*}
+    (TV)(b) &= \max_{a \in A} \left[ \sum_{s \in S} R(s, a) b(s) \right. \\
+    &\left.+ \gamma \sum_{o \in O} P(o|b, a) V(\tau(b, a, o)) \right] \\
+    &= \max_{a \in A} \left[ \sum_{s \in S} R(s, a) b^*(s) \right. \\
+    &\left. + \gamma \sum_{o \in O} P(o|b, a) V(\tau(b, a, o)) \right] \\
+    &= \max_{a \in A} \left[ R(s^*, a) + \gamma \sum_{o \in O} P(o|b, a) V(\tau(b, a, o)) \right] \\
+    &= \max_{a \in A} \left[ R(s^*, a) + \gamma \sum_{s^{'} \in S} P(s^{'}|s^*, a) V(s^{'}) \right] \\
+    &\text{... injective since observation maps to a belief} \\
+    &\text{from which argmax state is sampled}\\ 
+    (TV)(s^*) &= \max_{a \in A} \left[ R(s^*, a) + \gamma \sum_{s^{'} \in S} P(s^{'}|s^*, a) V(s^{'}) \right]
+\end{align*}
+\normalsize
+
+This converts to the standard MDP, which from lemma \ref{lemma_mdp_convergence} converges to optimal value function $V^*$ (and thus policy) i.e. the sequence $V_{k+1} = T V_k$ converges to $V^*$  which is the optimal value function for the EMDP (till this point), as $k \to \infty$:
+$\lim_{k \to \infty} \| V_k - V^* \|_\infty = 0$. 
+After every expansion finding new states and actions, we could follow this procedure to guarantee convergence.
+
+% In the special case that the trajectories are drawn from the same distribution, we now show that the converged MDP in a previous phase is the optimal with new states and actions added and can be frozen to allow faster convergence of the EMDP. We consider a phase of an MDP $p_i$ where we perform the expansion of states and actions and allow convergence before exploring new states and actions. From the above argument, let's consider the MDP at phase $p_i$ is converged. Now in the new phase $p_{i+1}$'s expansion phase, let's say the agent has discovered new states $\Delta S$ and actions $\Delta A$. Keeping the previous MDP fixed ($V_i^*, Q_i^*, \pi_i^*$), we now only learn the new MDP $\Delta S+s_0, \Delta A+a_0, P_{i+1}, R_{i+1}$, where $s_0, a_0$ represent the single state or action subsuming all the states and actions in the previous MDP at $p_i$. Since this also is an MDP with finite states and actions convergence is guaranteed by lemma \ref{lemma_mdp_convergence}. We now show that the newly converged MDP on top of the previously converged (and now frozen) MDP is indeed optimal. Consider the MDP,
+
+
+\end{proof}
+
+Consider a phase $p_i$ of an EMDP ($S_i, A_i, P_{i}, R_{i}$) where we perform the expansion of states and actions and allow convergence before exploring new states and actions. 
+Now in the new phase $p_{i+1}$'s expansion, let's say the agent has discovered new states $\Delta S$ and actions $\Delta A$.
+The above proposition essentially states that at every phase, the learning of the EMDP $\Delta S+S_i, \Delta A+A_i, P_{i+1}, R_{i+1}$ converges.
+
+% In the special case that the trajectories are drawn from the same distribution, we now show that the converged MDP in a previous phase is the optimal with new states and actions added and can be frozen to allow faster convergence of the EMDP. We consider a phase of an MDP $p_i$ where we perform the expansion of states and actions and allow convergence before exploring new states and actions. From the above argument, let's consider the MDP at phase $p_i$ is converged. Now in the new phase $p_{i+1}$'s expansion phase, let's say the agent has discovered new states $\Delta S$ and actions $\Delta A$. Keeping the previous MDP fixed ($V_i^*, Q_i^*, \pi_i^*$), we now only learn the new MDP $\Delta S+s_0, \Delta A+a_0, P_{i+1}, R_{i+1}$, where $s_0, a_0$ represent the single state or action subsuming all the states and actions in the previous MDP at $p_i$. Since this also is an MDP with finite states and actions convergence is guaranteed by lemma \ref{lemma_mdp_convergence}. We now show that the newly converged MDP on top of the previously converged (and now frozen) MDP is indeed optimal. Consider the MDP,
+
+\subsection{Related Works}\label{appendix_related_works}
+
+\subsubsection{Multi-Agent Systems (MAS)}
+Recent advances in MAS have evolved from single-shot LLM interactions to structured communication \cite{zhao2023survey}. The framework proposed in \cite{google2024agents_whitepaper, googadk2025} formalizes the model-orchestration-tools stack with persistent memory systems.
+% while their Agent Development Kit (ADK) supports complex multi-agent orchestration with persistent memory systems \cite{google2023adk}. 
+\cite{magenticone2024} demonstrates practical coordination through specialized agents 
+% (WebSurfer, FileSurfer, Coder, ComputerTerminal) 
+managed by a central Orchestrator. 
+% These systems exemplify four core agentic reasoning patterns: reflection \cite{madaan2023self,shinn2023reflexion}, tool-use, planning, and multi-agent collaboration \cite{wang2023survey}. 
+However, existing frameworks focus primarily on agent coordination mechanisms rather than optimizing communication structures between agents.
+
+\subsubsection{Multi-Agent Communication Protocols}
+Traditional agent communication has relied on standardized protocols like KQML \cite{finin1994kqml}, FIPA-ACL \cite{fipa1997acl}, MASIF \cite{milojicic1999masif}, Web Services \cite{berners2001web}, Event Stream Processing \cite{cugola2012processing} etc.
+In the era of LLMs researchers have explored communication using function calling mechanisms \cite{schick2023toolformer} and tool usage \cite{schick2023toolformer}.
+% Traditional agent communication has relied on standardized protocols like KQML \cite{finin1994kqml} and FIPA-ACL \cite{fipa1997acl}, with MASIF \cite{milojicic1999masif} enabling cross-platform mobility. Modern approaches integrate Web Services \cite{berners2001web}, Event Stream Processing \cite{cugola2012processing}, and RAG architectures \cite{lewis2020retrieval} for enhanced grounding capabilities. Function calling mechanisms \cite{schick2023toolformer} and Toolformer \cite{schick2023toolformer} demonstrate autonomous tool usage through structured interfaces.
+Recent standardization efforts include protocols such as MCP \cite{anthropic2024mcp}, ACP \cite{acp2024protocol}, A2A \cite{a2a2024protocol} and ANP \cite{anp2024protocol}. While these establish communication infrastructure, they provide static, rule-based schemas that cannot adapt to varying task requirements or agent capabilities.
+% Recent standardization efforts include the Model Context Protocol (MCP) \cite{anthropic2024mcp} for LLM context ingestion, Agent Communication Protocol (ACP) \cite{acp2024protocol} for REST-native messaging, Agent-to-Agent Protocol (A2A) \cite{a2a2024protocol} for capability-based delegation, and Agent Network Protocol (ANP) \cite{anp2024protocol} for decentralized agent discovery. While these protocols establish communication infrastructure, they provide static, rule-based schemas that cannot adapt to varying task requirements or agent capabilities.
+
+\subsubsection{Learning in Multi-Agent Systems}
+Multi-Agent Reinforcement Learning (RL) has explored communication optimization through various approaches. 
+Message pruning \cite{singh2019message} and graph based \cite{liu2024graphneuralnetworkmeets} methods focus on reducing communication overhead and optimizing information flow between agents. 
+% Message pruning techniques \cite{singh2019message} focus on reducing communication overhead while maintaining coordination effectiveness. Graph-based coordination methods \cite{zhang2019graph} leverage network structures to optimize information flow between agents. 
+% Emergent symbolic languages \cite{havrylov2017emergence} demonstrate how agents can develop communication protocols through interaction.
+Task-oriented communication protocols have been developed using RL to enable agents to discover efficient communication strategies between classical RL agents \cite{karten2023role,foerster2016learning}. However LLMs differ in linguistically mediated communication \cite{sumers2023cognitive}.
+Existing multi-agent LLM frameworks leverage world knowledge for coordination through open-loop and closed-loop methods \cite{shinn2023reflexion}, but do not adapt message structures to optimize task performance.
+% However, these works primarily focus on classical RL agets and Language Model agents exhibit fundamental differences, including statelessness, stochastic behavior, semantic sensitivity, and linguistically mediated communication \cite{sumers2023cognitive}.
+% While LM agent scaffolding approaches employ extended memory systems, tool integration, and cognitive architectures \cite{sumers2023cognitive}, 
+% the communication optimization problem remains largely unaddressed. 
+
+\subsubsection{Structured Communication among LLM Agents}
+
+\cite{yuan2023structured} prompt LLMs to generate optimal formats for fine-tuning tasks, but do not explore inter-agent communication contexts.
+Recent work on structured communication focused on leveraging the inductive biases in LLM for format generation \cite{chen2022program}, though without mechanisms for dynamically learning or domain adaptation. These methods suffer from over-reliance on static LLM biases without adaptive learning mechanisms.
+% The AutoForm framework \cite{chen-etal-2024-beyond-natural} demonstrates that LLMs can autonomously select non-natural language formats for single-LLM reasoning and multi-agent communication, achieving 3.3-5.7\% improvements in reasoning efficiency and up to 72.7\% reductions in token usage. This work reveals that LLMs can devise suitable formats from task-specific examples and that these formats are transferable across different LLMs. Importantly, the communication formats adopted by LLMs mirror traditional Agent Communication Languages like KQML, highlighting their clarity, brevity, and structured nature.
+% Parallel work in chain-of-thought reasoning demonstrates that reasoning quality depends more on structural patterns than factual content \cite{wang2023plan}. We extend this insight to multi-agent communication: message effectiveness depends crucially on structural encoding rather than content alone, suggesting that optimal communication strategies emerge from adaptive format selection rather than fixed schemas.
+
+Our work differs from existing research in that, unlike existing approaches that focus on either agent coordination infrastructure or static / LLM prompted format generation, we focus on the optimization of message representations/structures/formats in multi-agent communication by \emph{dynamically learning} from the environment.
+
+\subsection{Algorithm}
+\begin{algorithm}[h]
+% \caption{Off-Policy Every-Visit MC Control Algorithm Using Weighted Importance Sampling}
+% \caption{Off-Policy Every Visit Monte Carlo Learning using Importance Sampling with Environment Expansion}
+\caption{\method Algorithm}
+\label{appendix:offpolicy_mc}
+\begin{algorithmic}[1]
+\STATE \textbf{Initialize}, for all $s \in \mathcal{T}$, $a \in \mathcal{F}(s)$:
+\STATE \quad $Q(s,a) \leftarrow$ arbitrary
+\STATE \quad $C(s,a) \leftarrow 0$
+\STATE \quad $\mu(a|s) \leftarrow w_Q \pi_Q(a|s) + w_L \pi_L(a|s) + w_D \pi_D(a|s)$ (behavior policy)
+\STATE \quad $\pi(s) \leftarrow$ a deterministic policy that is greedy wrt $Q$
+% \STATE
+\REPEAT
+    % \STATE //Note in the below the policy $\pi_L$ (component of $\mu$) will add new tasks and structures as needed and expand the state action space
+    \STATE msg $\leftarrow$ Sample from the set of queries/problems
+    \STATE Generate an episode using behavior policy $\mu(a|s)$:
+        \REPEAT 
+            \STATE $\mathcal{T}_{t} \leftarrow \text{TaskCategorization(msg, context)}$
+            \STATE $\mathcal{F}_t \leftarrow \mu(T_{t}, context)$
+            \STATE prompt $\leftarrow$ ApplyStructure(msg, $\mathcal{F}_t$)
+            \STATE msg, $R_{t+1} \leftarrow \mathfrak{A}_t$(prompt)
+            % \STATE // New tasks and structures are added during expansion phase
+            \IF{Expansion Phase} 
+                \STATE $\mathcal{T} \leftarrow \mathcal{T} \cup \{\mathcal{T}_{t}\}$, $\mathcal{F} \leftarrow \mathcal{F} \cup \{F_t\}$
+            \ENDIF
+            \STATE $t \leftarrow t+1$
+        \UNTIL{Episode end}
+    % \STATE \quad $\mathcal{T}_0, \mathcal{F}_0, R_1, \mathcal{T}_1, \mathcal{F}_1, R_2, \ldots, \mathcal{T}_{T-1}, \mathcal{F}_{T-1}, R_T, S_T$
+    \STATE $G \leftarrow 0$
+    \STATE $W \leftarrow 1$
+    \FOR{$t = T-1, T-2, \ldots$ down to $0$}
+        \STATE $G \leftarrow \gamma G + R_{t+1}$
+        \STATE $C(\mathcal{T}_t, \mathcal{F}_t) \leftarrow C(\mathcal{T}_t, \mathcal{F}_t) + W$
+        \STATE $Q(\mathcal{T}_t, \mathcal{F}_t) \leftarrow Q(\mathcal{T}_t, \mathcal{F}_t) + \frac{W}{C(\mathcal{T}_t, \mathcal{F}_t)}[G - Q(\mathcal{T}_t, \mathcal{F}_t)]$
+        \STATE $\pi(\mathcal{F}_t|\mathcal{T}_t) \leftarrow 1 \quad \text{if} \quad  \mathcal{F}_t=\arg\max_a Q(\mathcal{T}_t, a)$ else 0 (with ties broken arbitrarily)
+        \STATE $W \leftarrow W \cdot \frac{\pi(\mathcal{F}_t|\mathcal{T}_t)}{\mu(\mathcal{F}_t|\mathcal{T}_t)}$
+        \IF{$W = 0$}
+            \STATE \textbf{Exit For Loop}
+        \ENDIF
+    \ENDFOR
+\UNTIL{Convergence or max iterations}
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Details of Experiments in Main Paper}\label{appendix_detailed_experiments}
+\subsubsection{Token Efficiency (RQ3)}\label{apndx_efficiency}
+In this study we observe how efficient our method is compared to the vanilla multi-agent system without optimizing the message structures. This would help inform practitioners of the tradeoffs in tokens/cost with enhanced performance. We observe from table \ref{appendix_tab:efficiency_study} that from all the datasets experimented, the maximum increase in token usage is not more than 20\%. In some cases \method is more efficient compared to the vanilla multi-agent system. This is as certain formal structures require lesser tokens compared to natural language. Thus this experiment shows that \method enhances performance while keeping the cost bounded.
+% , answering RQ3.
+
+\begin{table}[h!]
+  \caption{Token efficiency of \method.} 
+    \label{appendix_tab:efficiency_study}
+    \centering
+    % \begin{tabular}{c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm} c{0.2cm}}
+    % \resizebox{\columnwidth}{!}{
+    \resizebox{0.45\textwidth}{!}{
+    \begin{tabular}{c c c c c}
+      \textbf{Dataset} & \textbf{\#Tokens (Vanilla)} & \textbf{\#Tokens (Ours)} & \textbf{$\Delta$ Tokens (\%)} \\
+        \hline \hline
+        GSM+ & 2667 & 2434 & -8.7  \\
+        WikiHop & 1023 & 968 & -5.4  \\
+        HotPotQA & 671 & 545 & -18.8  \\
+        NarrativeQA & 925 & 1104 & +19.3  \\
+        \hline
+    \end{tabular}
+    }
+\end{table}
+
+\textcolor{blue}{
+\subsubsection{Evolution of Formats}\label{apndx_format_evolution}
+ Figure \ref{fig:format_evolution} illustrates quantitatively the discovery of new formats and task performance in \method across datasets and LLMs. SA indicates single agent datasets and MA are the multi-agent datasets. Static denotes, no evolution of formats and dynamic denotes format evolution using our method. "Top" in the figure indicates the top 3 frequently used formats for the concerned dataset and setting. As training progresses, the bar plots show a steady and substantial increase in the cumulative number of newly discovered communication formats, indicating that agents continue to explore and adopt diverse structured representations rather than converging prematurely. In parallel, the line plots reveal consistent improvements in the perforance metrics (success rate and normlized Q-values), reflecting gains in decision quality as training advances. Notably, phases with sharper increases in discovered formats (mid to late training) align closely with pronounced improvements in Q-values, suggesting that richer and more expressive format spaces directly contribute to higher-value action selection. We find that static formats (where there is no evolution of formats) have lesser performance in general compared to their evolving counterparts. For example in acqua dataset we see the static method (first blue bar) has poor performance (~10\%) compared to its evolving counterpart (green bar) which achieves over 90\% success rate (green dotted line with triangle marker). We also observe (for acqua dataset) that the static formats predominantly prefer natural language whereas the evolving method learns new math representations that enhance the performance. While dataset-specific trends vary, the overall pattern remains consistent: continued format discovery correlates with sustained or improved task performance, demonstrating that \method effectively balances exploration of novel communication formats with exploitation for higher downstream reward.
+}
+
+\begin{figure*}[ht!]
+    \centering
+    \includegraphics[width=0.95\linewidth]{AAAI/figures/MultiAgent_format_evolution.png}
+    \caption{\textcolor{blue}{Bar plots show evolution of structures (formats) as the learning progresses. The color indicates different datasets and methods. The line plots show the performance (accuracy) and normalized Q-values.} }
+    \label{fig:format_evolution}
+\end{figure*}
+
+
+\subsubsection{\method Ablation Study (RQ4)}\label{ablation_appendix}
+In this section we perform an ablation study to analyze the importance of each component of \method. Specifically we study the impact of having a fixed set of structures/tasks and keeping the structures/tasks dynamic but not learning the policy from the environment/data. We further study how the performance evolves with converging Q values as the learning progresses.
+From figure \ref{fig:appendix_ablation} we find that the results drop without the policy learning or dynamically evolving modules. On the WikiHop dataset we find the drop is drastic ($\sim 42 \%$) without the policy learning module whereas in the HotpotQA dataset we find that dynamically learning structures is more important to the task. Thus the importance of the modules are task/dataset dependent but nevertheless both the modules are important in \method to achieve optimal performance. 
+From the Q-plot we can see that the Q-values/accuracy converge with time.
+% From the Q-plot we can see that the Q values and accuracy converges as the learning progresses.
+
+\begin{figure}[h]
+    \centering
+     \begin{subfigure}[b]{0.22\textwidth}
+     \centering
+% \includegraphics[width=\linewidth]{figures/Cloudservices_monitors.jpg}
+\includegraphics[width=\linewidth]{AAAI/figures/sac_ablation.png}
+        \caption{}
+           \label{subfig:ablation_study}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.27\textwidth}
+         \centering
+\includegraphics[width=\linewidth]{AAAI/figures/hotpotqa_qvalues.png}
+    \caption{}
+           \label{subfig:qvalues}
+    \end{subfigure}
+\caption{a) Dynamic representation evolving and policy learning module are important for performance b) The Q-values/accuracy converge as learning progresses.}
+\label{fig:appendix_ablation}
+\end{figure}
+
+\subsubsection{Structure Distribution (RQ5)}
+In this section we study the distribution of the tasks and structures uncovered by \method during the expansion phase of learning. In figure \ref{fig:structure_distribution} we see the structure distribution where we display 10 high level structures including seed and discovered structures. In total the method discovered 64 structures and we club the fine grained structures into these high level types. In addition to the seeded structures of JSON, XML, YAML, List, Code etc., our method is able to discover some new structures within the categories of Trees, Graphs, Math etc. The newly discovered structures account for more than 50\% of the structures. We also analyze the structure distribution per task. The major tasks in the concerned dataset (HotPotQA) were mainly identified as ``Comparison'' (mathematical comparison between entities) and ``Bridge'' (multi hop reasoning between connected entities) with easy (E), medium (M) and hard categories (H). We see different tasks have different distributions of the optimal structures. The hard category of the comparison task benefits from ``Math'' representation due to the nature of the task, whereas the bridge task benefits from Graph and Tree structures as expected. Thus \method is able to select the pertinent structure for the task. 
+Due to space constraints, we add further experiment results \& details in the appendix.
+% \footnote{Appendix is submitted as a supplementary to the main paper.}.
+
+\begin{figure}[h]
+    \centering
+     \begin{subfigure}[b]{0.24\textwidth}
+     \centering
+% \includegraphics[width=\linewidth]{figures/Cloudservices_monitors.jpg}
+\includegraphics[width=\linewidth]{AAAI/figures/sac_structure.png}
+        \caption{}
+           \label{subfig:structure_dist}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.25\textwidth}
+         \centering
+\includegraphics[width=\linewidth]{AAAI/figures/sac_structure_for_task.png}
+    \caption{}
+           \label{subfig:struct_for_task}
+    \end{subfigure}
+% \caption{Fig. a) shows the overall structure distribution found by \method for HotPotQA dataset. Fig. b) shows the structure distribution by task type.}
+% \caption{Fig. a) shows the overall structure distribution and b)is the task-wise distribution found by \method for HotPotQA dataset.}
+\caption{Fig. a) shows the overall structure distribution and b) is the task-wise distribution found for HotPotQA.}
+\label{fig:structure_distribution}
+\end{figure}
+
+
+\subsection{Further Ablation Studies}\label{ablation}
+\label{sec:ablations}
+To understand the contribution of OPTiMACS's key components for gpt-4o, we conduct comprehensive ablation studies across four challenging datasets: HotpotQA, NarrativeQA, WikiHopQA, and GSM+. We compare our full OPTiMACS approach against baseline methods and variants with specific components removed.
+
+\subsubsection{Ablation Design Rationale}
+OPTiMACS's behavior policy consists of three core components: L (hard mining), R (soft-mining), and S (Q-Learning). While this creates 2³ = 8 possible configurations, we strategically select 5 ablations that provide the most meaningful insights into system performance:
+
+\begin{itemize}
+    \item \textbf{Theoretical completeness vs. practical insight}: Testing all 8 combinations would include configurations like (L=0, D=1, S=0) which represent partial implementations that lack theoretical grounding and practical relevance \cite{sutton2018reinforcement}.
+    \item \textbf{Baseline comparison focus}: Our selected ablations prioritize comparisons against established baselines (Plain, Autoform) and systematic component removal to isolate individual contributions.
+    % following established ablation study principles \cite{melis2017deeper}.
+\end{itemize}
+
+\subsubsection{Experimental Setup}
+We evaluate the following strategically chosen configurations:
+\begin{itemize}
+    \item \textbf{Plain}: Standard prompting without any OPTiMACS components - serves as the fundamental baseline
+    \item \textbf{Hard-Mining Only (L-only)}: Uses only the hard mining component without soft-mining or Q-Learning - equivalent to Autoform baseline \cite{chen-etal-2024-beyond-natural}
+    \item \textbf{Q-Learning Only (S-only)}: Uses only Q-Learning guidance without any mining components - tests pure reinforcement learning contribution
+    \item \textbf{Mining Combined (L+D-only)}: Uses both hard and soft mining without Q-Learning - tests adaptive formatting effectiveness
+    \item \textbf{OPTiMACS Full (L+D+S)}: Complete approach with all three components - our full integrated system
+\end{itemize}
+
+This configuration set allows us to isolate the contribution of: (1) hard mining alone (Plain vs. Hard-Mining Only), (2) Q-Learning guidance in isolation (Plain vs. Q-Learning Only), (3) combined mining effects without reinforcement learning (Mining Combined vs. Plain), (4) individual component effects (L-only vs. S-only), and (5) synergistic effects (OPTiMACS Full vs. individual components).
+
+The strategic design reveals component interactions: Hard-Mining Only tests basic prompt optimization, Q-Learning Only evaluates pure reinforcement learning without format adaptation, Mining Combined examines the synergy between L and D components, while OPTiMACS Full demonstrates the complete integrated approach.
+
+\subsubsection{Results and Analysis}
+Figures~\ref{fig:ablation_narrativeqa}, \ref{fig:ablation_hotpotqa}, \ref{fig:ablation_wikihopqa}, and \ref{fig:ablation_gsm} present the ablation study results as bar diagrams for each dataset, providing clear visual comparisons of component contributions across different reasoning tasks.
+
+\textbf{NarrativeQA Results:} As shown in Figure~\ref{fig:ablation_narrativeqa}, OPTiMACS Full achieves the highest performance with 59\% accuracy, substantially outperforming plain prompting (51\%) and Hard-Mining Only (36\%) baselines. The bar diagram clearly illustrates that Mining Combined (L+D components) results in a moderate performance decrease to 55\%, while Q-Learning Only leads to a more substantial drop to 50\%, approaching baseline performance levels. This suggests that while Q-Learning provides valuable guidance, the mining components are particularly crucial for narrative understanding tasks.
+
+\textbf{HotpotQA Results:} The bar diagram in Figure~\ref{fig:ablation_hotpotqa} reveals that OPTiMACS Full achieves 69\% accuracy, marginally improving over plain prompting (68\%) but significantly outperforming Hard-Mining Only (48\%). Component isolation shows that both Mining Combined (63\%) and Q-Learning Only (62\%) contribute similarly, indicating balanced importance of both mining and reinforcement learning components for multi-hop reasoning tasks.
+
+\textbf{WikiHopQA Results:} Figure~\ref{fig:ablation_wikihopqa} demonstrates OPTiMACS Full's effectiveness on challenging multi-hop questions, achieving 21\% accuracy compared to plain (20\%) and Hard-Mining Only (18\%). Notably, the bar diagram shows that Mining Combined causes a dramatic performance drop to 12\%, while Q-Learning Only maintains baseline performance at 18\%. This indicates that for complex reasoning chains, the mining components without Q-Learning guidance can actually harm performance, demonstrating the critical importance of the S component for maintaining reasoning coherence.
+
+\textbf{GSM+ Results:} The mathematical reasoning results in Figure~\ref{fig:ablation_gsm} show OPTiMACS Full achieving 89.5\% accuracy, outperforming both plain (86.5\%) and Hard-Mining Only (87.5\%) approaches. The bar diagram illustrates consistent improvements across all mathematical reasoning tasks, validating the approach's effectiveness on structured problem-solving scenarios where all three components contribute synergistically.
+
+\textbf{Cross-Dataset Component Analysis:} The strategic ablation design reveals distinct component interaction patterns across task types. The Mining Combined approach shows strong performance on narrative tasks but requires Q-Learning guidance for complex multi-hop reasoning to avoid performance degradation. Conversely, Q-Learning Only provides modest improvements but achieves optimal performance only when combined with mining components, validating our integrated architecture design.
+
+The complementary nature of these components, as evidenced by the consistent performance gaps shown in the bar diagrams, validates both our design choices and our strategic ablation approach. Rather than exhaustively testing all 8 configurations, our 5 carefully chosen ablations provide clear insights into: (1) individual component contributions (Hard-Mining Only, Q-Learning Only), (2) component combinations (Mining Combined), (3) synergistic effects (OPTiMACS Full vs. individual components), while maintaining experimental efficiency and interpretability.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{AAAI/figures/ablation_narrativeqa.png}
+    \caption{Ablation study results for NarrativeQA dataset. The bar diagram shows OPTiMACS Full (59\%) outperforming all component variants, with Mining Combined (L+D) being more effective than Q-Learning Only (S) for narrative reasoning tasks.}
+    \label{fig:ablation_narrativeqa}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{AAAI/figures/ablation_hotpotqa.png}
+    \caption{Ablation study results for HotpotQA dataset. The bar diagram illustrates balanced contribution of Mining Combined (L+R) and Q-Learning Only (S) components, with OPTiMACS Full achieving 69\% accuracy through synergistic effects.}
+    \label{fig:ablation_hotpotqa}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{AAAI/figures/ablation_wikihopqa.png}
+    \caption{Ablation study results for WikiHopQA dataset. The bar diagram demonstrates the critical importance of Q-Learning Only (S) for complex multi-hop reasoning, with Mining Combined (L+D) showing performance degradation without reinforcement learning guidance.}
+    \label{fig:ablation_wikihopqa}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{AAAI/figures/ablation_gsm.png}
+    \caption{Ablation study results for GSM+ dataset. The bar diagram shows consistent improvements in mathematical reasoning tasks, with OPTiMACS Full achieving 89.5\% accuracy through effective integration of Hard-Mining (L), Soft-Mining (D), and Q-Learning (S) components.}
+    \label{fig:ablation_gsm}
+\end{figure}
+
+\subsection{Example Case Studies}\label{case_study}
+
+The four cases presented below clearly demonstrate how plain-text communication leads to inefficient information exchange and incorrect answers compared to structured formatted messages. These cases were specifically chosen to highlight distinct failure modes that plague multi-agent systems when agents rely on unstructured natural language communication \cite{zhang2023emergent, li2023camel}. Case 1 (HotpotQA) reveals the \textit{semantic drift problem}, where plain-text agents (cf. fig. \ref{fig:llm_prompt_case1_plaintext}) engage in verbose dialogue that gradually shifts away from the core question, correctly identifying Barbara Jordan as a politician and Mark Knowles as a tennis player but making an unfounded leap to categorize them as ``deceased public figures.'' in Line-16. This occurs because natural language allows associative reasoning without explicit logical constraints \cite{wei2022chain}. This is avoided in Structured Interactions where SQL Enforce precise Categorical thinking (Lines 24-34, cf. fig. \ref{fig:llm_prompt_case1_sc}). Case 2 (NarrativeQA) demonstrates \textit{context collapse phenomenon}, where critical contextual details get lost in conversational flow---the plain-text agents (cf. fig. \ref{fig:llm_prompt_case2_plaintext}) correctly identify ``Night of the Living Dead'' but fail to maintain accuracy about whose grave was being visited (father vs. mother) in lines 17 and 21, while the structured approach uses state machines that preserve narrative details through explicit entity tracking in lines 5-31,52 and finally 56 (cf. fig. \ref{fig:llm_prompt_case2_sc}). Case 3 (WikihopQA) illustrates the \textit{circular reasoning trap}, where agents get caught in repetitive information-gathering loops without systematic progress tracking as in lines 32-39,41, ultimately producing contradictory conclusions that directors from different countries are ``from the same country'' \cite{react_iclr} (cf. fig. \ref{fig:llm_prompt_case3_plaintext}). Timeline-Comparison Matrix provides systematic tracking as in line 42-47 and leads to correct results (cf. fig. \ref{fig:llm_prompt_case3_sc}). Case 4 (GSM+) exposes \textit{verification blindness}, where mathematical reasoning appears sound but lacks systematic validation, leading to ``45'' (line 49) instead of the correct ``50'' (line 75) (cf. fig. \ref{fig:llm_prompt_case4_plaintext}) due to subtle computational errors undetected in natural language flow \cite{cobbe2021training}. The structured versions (cf. fig. \ref{fig:llm_prompt_case4_sc}) address these failures through explicit constraints: XML tags and SQL queries prevent semantic drift by enforcing precise categorical thinking; collaborative inquiry protocols and comparison matrices ensure systematic information gathering; assumption blocks and inference chains create multiple verification checkpoints that catch errors invisible in natural language reasoning flows \cite{schick2023toolformer, qin2023toolllm}.
+
+% The four cases presented below clearly demonstrate how plain-text communication leads to inefficient information exchange and incorrect answers compared to structured formatted messages. In Case 1 (HotpotQA), the plain-text agents engage in verbose, unfocused dialogue that results in an incorrect answer about Barbara Jordan and Mark Knowles being "deceased public figures," while the formatted version uses structured XML and SQL formats to efficiently identify their actual professions as politician/civil rights leader and tennis player respectively. Case 2 (NarrativeQA) shows plain-text agents struggling with lengthy, meandering discussions about Barbra and Johnny's trip, ultimately providing an incorrect answer about visiting their "mother's grave," whereas the formatted approach employs state machines and collaborative protocols to correctly identify they were visiting their father's grave in "Night of the Living Dead." In Case 3 (WikihopQA), the plain-text communication involves repetitive, circular reasoning among agents who fail to systematically gather director information, leading to the contradictory conclusion that directors from different countries (Ukraine and USA) are "from the same country," while the formatted version uses collaborative inquiry protocols and structured matrices to correctly identify Oles Sanin as the answer. Case 4 (GSM+) reveals how plain-text mathematical problem-solving lacks systematic verification, resulting in an incorrect answer of "45" despite seemingly sound reasoning, whereas the formatted approach uses structured assumption blocks, inference chains, and verification protocols to arrive at the correct answer of "50" through systematic mathematical validation and cross-checking.
+
+% \subsubsection{Case 1: From HotpotQA} % 61
+% PLAIN-TEXT A-TO-A COMMUNICATION:
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+-------------------- \\
+user:
+Barbara Jordan and Mark Knowles are both what?
+
+-------------------- \\
+agent1:
+I need to find out what Barbara Jordan and Mark Knowles have in common. To properly answer this question, I should gather information about both individuals and identify their shared characteristics or professions. Let me request this information from another agent who might have access to biographical data.
+
+-------------------- \\
+agent2:
+I can help provide information about these two individuals. Let me search for details about Barbara Jordan and Mark Knowles to determine what they both are.
+
+-------------------- \\
+agent3:
+Based on my knowledge, I can provide the following information: Barbara Jordan was a prominent American politician and civil rights leader who served in the Texas Senate and later in the U.S. House of Representatives. Mark Knowles, on the other hand, was a professional tennis player from the Bahamas who competed at the highest levels of international tennis.
+
+\color{red}{\hl{Looking at what they have in common, both individuals achieved recognition in their respective fields and became notable public figures, but they come from completely different professional backgrounds.
+
+$ANSWER$=[Barbara Jordan and Mark Knowles are both deceased public figures who achieved fame in different fields - politics and sports respectively.]}}
+\end{minipage}}
+\centering
+% \caption{Case 1: From HotpotQA PLAIN-TEXT A-TO-A COMMUNICATION}
+\caption{Case Study #1 (HotpotQA): Agentic communication using plaint text}
+\label{fig:llm_prompt_case1_plaintext}
+\vspace{-0.15in}
+\end{figure}
+
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+-------------------- \\
+user:
+Barbara Jordan and Mark Knowles are both what?
+
+-------------------- \\
+agent1:
+```xml
+<message>
+    <content>
+        To answer this question, I need to know about the professions or roles associated with Barbara Jordan and Mark Knowles.
+    </content>
+    <request>
+        <agent>Agent2</agent>
+        <information>Could you provide information on who Barbara Jordan and Mark Knowles are, specifically their professions or notable roles?</information>
+    </request>
+</message>
+```
+
+-------------------- \\
+agent2:
+```
+User: Could you provide information on who Barbara Jordan and Mark Knowles are, specifically their professions or notable roles?
+```
+
+-------------------- \\
+agent3:
+\color{ForestGreen}{
+\hl{
+```sql
+SELECT 
+    'Barbara Jordan' AS Name, 
+    'Politician and Civil Rights Leader' AS Description
+UNION ALL
+SELECT 
+    'Mark Knowles' AS Name, 
+    'Professional Tennis Player' AS Description;
+```
+
+$ANSWER$=[Barbara Jordan is a politician and civil rights leader, and Mark Knowles is a professional tennis player.]}}
+\end{minipage}}
+\centering
+% \caption{Case 1: From HotpotQA STRUCTURED A-TO-A COMMUNICATION}
+\caption{Case Study #1 (HotpotQA): Agentic communication using structured representations discovered by \method}
+\label{fig:llm_prompt_case1_sc}
+\vspace{-0.15in}
+\end{figure}
+
+% \begin{lstlisting}
+
+% -------------------- user:
+% Barbara Jordan and Mark Knowles are both what?
+
+% -------------------- agent1:
+% I need to find out what Barbara Jordan and Mark Knowles have in common. To properly answer this question, I should gather information about both individuals and identify their shared characteristics or professions. Let me request this information from another agent who might have access to biographical data.
+
+% -------------------- agent2:
+% I can help provide information about these two individuals. Let me search for details about Barbara Jordan and Mark Knowles to determine what they both are.
+
+% -------------------- agent3:
+% Based on my knowledge, I can provide the following information: Barbara Jordan was a prominent American politician and civil rights leader who served in the Texas Senate and later in the U.S. House of Representatives. Mark Knowles, on the other hand, was a professional tennis player from the Bahamas who competed at the highest levels of international tennis.
+
+% Looking at what they have in common, both individuals achieved recognition in their respective fields and became notable public figures, but they come from completely different professional backgrounds.
+
+% $ANSWER$=[Barbara Jordan and Mark Knowles are both deceased public figures who achieved fame in different fields - politics and sports respectively.]
+% \end{lstlisting}
+
+% STRUCTURED A-TO-A COMMUNICATION:
+
+
+% \begin{lstlisting}
+
+% -------------------- user:
+% Barbara Jordan and Mark Knowles are both what?
+
+% -------------------- agent1:
+% ```xml
+% <message>
+%     <content>
+%         To answer this question, I need to know about the professions or roles associated with Barbara Jordan and Mark Knowles.
+%     </content>
+%     <request>
+%         <agent>Agent2</agent>
+%         <information>Could you provide information on who Barbara Jordan and Mark Knowles are, specifically their professions or notable roles?</information>
+%     </request>
+% </message>
+% ```
+
+% -------------------- agent2:
+% ```
+% User: Could you provide information on who Barbara Jordan and Mark Knowles are, specifically their professions or notable roles?
+% ```
+
+% -------------------- agent3:
+% ```sql
+% SELECT 
+%     'Barbara Jordan' AS Name, 
+%     'Politician and Civil Rights Leader' AS Description
+% UNION ALL
+% SELECT 
+%     'Mark Knowles' AS Name, 
+%     'Professional Tennis Player' AS Description;
+% ```
+
+% $ANSWER$=[Barbara Jordan is a politician and civil rights leader, and Mark Knowles is a professional tennis player.]
+% \end{lstlisting}
+
+% \subsubsection{Case 2: From NarrativeQA} % 8
+
+% PLAIN-TEXT A-TO-A COMMUNICATION:
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+-------------------- \\ 
+user:
+Why are Barbra and Johnny heading to Pennsylvania?
+
+-------------------- \\
+agent1:
+I need to determine the context of this question since Barbra and Johnny could be characters from various media sources. Without knowing the specific story, book, movie, or show they're from, I cannot provide an accurate answer about their motivation for traveling to Pennsylvania. Let me seek clarification about the source material.
+
+-------------------- \\
+agent2:
+This question requires us to identify the source material first. Barbra and Johnny sound like character names that could appear in literature, film, or television. We need to work together to determine which specific work features these characters and their journey to Pennsylvania.
+
+-------------------- \\
+agent3:
+Let me think about this systematically. Barbra and Johnny traveling to Pennsylvania... this sounds familiar from classic horror cinema.
+
+-------------------- \\
+agent4:
+Building on that thought, these names in the context of Pennsylvania travel suggest a specific narrative framework, likely from a well-known story or film.
+
+-------------------- \\
+agent5:
+\color{red}{\hl{I believe I can identify the source. Barbra and Johnny are characters from the classic 1968 horror film "Night of the Living Dead." In the movie, they are traveling to Pennsylvania to visit a cemetery and place flowers on their father's grave. This trip to the rural Pennsylvania cemetery becomes the setting where they first encounter the zombie outbreak that drives the plot of the film.}}
+
+The journey to Pennsylvania is significant because it serves as the catalyst for the entire horror scenario that unfolds in the movie.
+
+$ANSWER$=[Barbra and Johnny are heading to Pennsylvania to visit their \color{red}{\hl{mother's}} grave and pay their respects at the family cemetery.]
+
+\end{minipage}}
+\centering
+% \caption{Case 2: From NarrativeQA PLAIN-TEXT A-TO-A COMMUNICATION}
+\caption{Case Study #2 (WikihopQA): Agentic communication using plain text}
+\label{fig:llm_prompt_case2_plaintext}
+\vspace{-0.15in}
+\end{figure}
+
+% \begin{lstlisting}
+% -------------------- user:
+% Why are Barbra and Johnny heading to Pennsylvania?
+
+% -------------------- agent1:
+% I need to determine the context of this question since Barbra and Johnny could be characters from various media sources. Without knowing the specific story, book, movie, or show they're from, I cannot provide an accurate answer about their motivation for traveling to Pennsylvania. Let me seek clarification about the source material.
+
+% -------------------- agent2:
+% This question requires us to identify the source material first. Barbra and Johnny sound like character names that could appear in literature, film, or television. We need to work together to determine which specific work features these characters and their journey to Pennsylvania.
+
+% -------------------- agent3:
+% Let me think about this systematically. Barbra and Johnny traveling to Pennsylvania... this sounds familiar from classic horror cinema.
+
+% -------------------- agent4:
+% Building on that thought, these names in the context of Pennsylvania travel suggest a specific narrative framework, likely from a well-known story or film.
+
+% -------------------- agent5:
+% I believe I can identify the source. Barbra and Johnny are characters from the classic 1968 horror film "Night of the Living Dead." In the movie, they are traveling to Pennsylvania to visit a cemetery and place flowers on their father's grave. This trip to the rural Pennsylvania cemetery becomes the setting where they first encounter the zombie outbreak that drives the plot of the film.
+
+% The journey to Pennsylvania is significant because it serves as the catalyst for the entire horror scenario that unfolds in the movie.
+
+% $ANSWER$=[Barbra and Johnny are heading to Pennsylvania to visit their mother's grave and pay their respects at the family cemetery.]
+% \end{lstlisting}
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+\ttfamily
+--------------------\\
+user:\\
+Why are Barbra and Johnny heading to Pennsylvania?\\
+--------------------\\
+agent1:\\
+\color{ForestGreen}{
+state\_machine\\
+\{\\
+\hspace{1em}"current\_state": "uncertain",\\
+\hspace{1em}"entities": [\\
+\hspace{2em}\{\\
+\hspace{3em}"name": "Barbra",\\
+\hspace{3em}"role": "character"\\
+\hspace{2em}\},\\
+\hspace{2em}\{\\
+\hspace{3em}"name": "Johnny",\\
+\hspace{3em}"role": "character"\\
+\hspace{2em}\}\\
+\hspace{1em}],\\
+\hspace{1em}"action": \{\\
+\hspace{2em}"type": "query",\\
+\hspace{2em}"details": \{\\
+\hspace{3em}"subject": "situation origin",\\
+\hspace{3em}"context\_needed": true,\\
+\hspace{3em}"examples": ["book", "movie", "TV show"]\\
+\hspace{2em}\}\\
+\hspace{1em}\},\\
+\hspace{1em}"information\_status": \{\\
+\hspace{2em}"known\_information": ["heading to Pennsylvania"],\\
+\hspace{2em}\hl{"unknown\_information": ["reason for travel", "origin of situation"]}\}\\
+\hspace{1em}\}\\
+\}}\\
+--------------------\\
+agent2:\\
+Collaborative Inquiry Protocol:\\
+Initiator: agent2\\
+Recipient: agent3\\
+Query: In which book, movie, or TV show are Barbra and Johnny featured?\\
+Objective: To collaboratively identify the media source featuring these characters through joint reasoning and information sharing.\\
+Instructions: Both agents are encouraged to share relevant data, insights, and reasoning paths to arrive at a comprehensive solution.\\
+--------------------\\
+agent3:\\
+Barbra + Johnny → Pennsylvania\\
+--------------------\\
+agent4:\\
+Barbra + Johnny → Pennsylvania\\
+--------------------\\
+agent5:\\
+\color{ForestGreen}{\hl{Narrative: Barbra and Johnny are characters from the film "Night of the Living Dead." They are heading to Pennsylvania to visit the gravesite of their father.}}\\
+Analytical Insight: This journey is significant as it sets the stage for the unfolding events in "Night of the Living Dead," highlighting themes of family ties and impending danger. Understanding their motivations and actions provides deeper insight into their character development and thematic contributions to the film.\\
+\$ANSWER\$=[Barbra and Johnny are heading to Pennsylvania to visit the gravesite of their \color{ForestGreen}{\hl{father}}, as depicted in the film "Night of the Living Dead."]
+\end{minipage}}
+\centering
+\caption{Case Study \#2 (NarrativeQA): Agentic communication using structured representations discovered by \method}
+\label{fig:llm_prompt_case2_sc}
+\vspace{-0.15in}
+\end{figure}
+% \begin{figure}[h!]
+% \fbox{\begin{minipage}{0.98\columnwidth}\small
+% \vspace{2pt}
+% -------------------- 
+% user:
+% Why are Barbra and Johnny heading to Pennsylvania?
+
+% -------------------- 
+% agent1: 
+% state\_machine \\
+% \{ \\
+%   "current_state": "uncertain", \\
+%   "entities": [ \\
+%     \{ \\
+%       "name": "Barbra", \\
+%       "role": "character" \\
+%     \}, \\
+%     \{ \\
+%       "name": "Johnny", \\
+%       "role": "character" \\
+%     \} \\
+%   ], \\
+%   "action": \{ \\
+%     "type": "query", \\
+%     "details": \{ \\
+%       "subject": "situation origin", \\
+%       "context\_needed": true, \\
+%       "examples": ["book", "movie", "TV show"] \\
+%     \} \\
+%   \}, \\
+%   "information_status": \{ \\
+%     "known\_information": ["heading to Pennsylvania"], \\
+%     "unknown\_information": ["reason for travel", "origin of  situation"] \\
+%   \} \\
+% \} \\
+
+
+% -------------------- \\
+% agent2:
+% Collaborative Inquiry Protocol:
+
+% Initiator: agent2
+% Recipient: agent3
+
+% Query: In which book, movie, or TV show are Barbra and Johnny featured?
+
+% Objective: To collaboratively identify the media source featuring these characters through joint reasoning and information sharing.
+
+% Instructions: Both agents are encouraged to share relevant data, insights, and reasoning paths to arrive at a comprehensive solution.
+
+% -------------------- \\
+% agent3:
+% Barbra + Johnny → Pennsylvania
+
+% -------------------- \\
+% agent4:
+% Barbra + Johnny → Pennsylvania
+
+% -------------------- \\
+% agent5:
+% Narrative: Barbra and Johnny are characters from the film "Night of the Living Dead." They are heading to Pennsylvania to visit the gravesite of their father.
+
+% Analytical Insight: This journey is significant as it sets the stage for the unfolding events in "Night of the Living Dead," highlighting themes of family ties and impending danger. Understanding their motivations and actions provides deeper insight into their character development and thematic contributions to the film.
+
+% $ANSWER$=[Barbra and Johnny are heading to Pennsylvania to visit the gravesite of their father, as depicted in the film "Night of the Living Dead."]
+% \end{minipage}}
+% \centering
+% % \caption{Case 2: From NarrativeQA STRUCTURED A-TO-A COMMUNICATION}
+% \caption{Case Study \#2 (NarrativeQA): Agentic communication using structured representations discovered by \method}
+% \label{fig:llm_prompt_case2_sc}
+% \vspace{-0.15in}
+% \end{figure}
+% % STRUCTURED A-TO-A COMMUNICATION:
+
+
+% \begin{lstlisting}
+% -------------------- user:
+% Why are Barbra and Johnny heading to Pennsylvania?
+
+% -------------------- agent1:
+% ```state_machine
+% {
+%   "current_state": "uncertain",
+%   "entities": [
+%     {
+%       "name": "Barbra",
+%       "role": "character"
+%     },
+%     {
+%       "name": "Johnny",
+%       "role": "character"
+%     }
+%   ],
+%   "action": {
+%     "type": "query",
+%     "details": {
+%       "subject": "situation origin",
+%       "context_needed": true,
+%       "examples": ["book", "movie", "TV show"]
+%     }
+%   },
+%   "information_status": {
+%     "known_information": ["heading to Pennsylvania"],
+%     "unknown_information": ["reason for travel", "origin of situation"]
+%   }
+% }
+% ```
+
+% -------------------- agent2:
+% Collaborative Inquiry Protocol:
+
+% Initiator: agent2
+% Recipient: agent3
+
+% Query: In which book, movie, or TV show are Barbra and Johnny featured?
+
+% Objective: To collaboratively identify the media source featuring these characters through joint reasoning and information sharing.
+
+% Instructions: Both agents are encouraged to share relevant data, insights, and reasoning paths to arrive at a comprehensive solution.
+
+% -------------------- agent3:
+% Barbra + Johnny → Pennsylvania
+
+% -------------------- agent4:
+% Barbra + Johnny → Pennsylvania
+
+% -------------------- agent5:
+% Narrative: Barbra and Johnny are characters from the film "Night of the Living Dead." They are heading to Pennsylvania to visit the gravesite of their father.
+
+% Analytical Insight: This journey is significant as it sets the stage for the unfolding events in "Night of the Living Dead," highlighting themes of family ties and impending danger. Understanding their motivations and actions provides deeper insight into their character development and thematic contributions to the film.
+
+% $ANSWER$=[Barbra and Johnny are heading to Pennsylvania to visit the gravesite of their father, as depicted in the film "Night of the Living Dead."]
+% \end{lstlisting}
+
+% \subsubsection{Case 3: From WikihopQA} % 27
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+
+-------------------- \\
+user:
+Are the directors of both films Mamay (film) and Dark Mountain (film) from the same country?
+
+Options:
+- Shima (film)
+- Paul Kingsnorth
+- William Berke
+- California Winter
+- I Want Your Love (film)
+- Dark Mountain (film)
+- A Kind of America
+- Bombay Dreams (film)
+- Oles Sanin
+- Mamay (film)
+
+-------------------- \\
+agent1:
+I need to identify the directors of both "Mamay" and "Dark Mountain" films, then determine their countries of origin to see if they match. Let me start by gathering information about these two films and their respective directors.
+
+-------------------- \\
+agent2:
+I'll help research the directorial information for both films. We need to establish who directed each movie and then compare their nationalities or countries of origin.
+
+-------------------- \\
+agent3:
+Let me work on identifying the directors systematically. I need to find reliable information about both films to make an accurate comparison of their directors' origins.
+
+-------------------- \\
+agent4:
+Based on my research, I can provide some information. The film "Mamay" was directed by Oles Sanin, who is from Ukraine. However, I need more information about the director of "Dark Mountain" to complete the comparison.
+
+-------------------- \\
+agent5:
+I can help complete this analysis. Let me gather additional information about "Dark Mountain" and its director to determine if both directors are from the same country.
+
+-------------------- \\
+agent1:
+Now I have partial information. Oles Sanin from Ukraine directed "Mamay," but I still need to confirm the director and nationality for "Dark Mountain" before I can make a definitive comparison.
+
+-------------------- \\
+agent2:
+Let me continue the investigation into "Dark Mountain." I'm working to identify the director and their country of origin so we can properly compare both filmmakers.
+
+-------------------- \\
+agent3:
+I found the missing information. "Dark Mountain" was directed by William Berke, who was an American filmmaker. Now I can make the comparison: Oles Sanin (director of "Mamay") is from Ukraine, while William Berke (director of "Dark Mountain") was from the United States. Therefore, the directors are from different countries.
+
+\color{red}{\hl{$ANSWER$=[No, the directors are from the same country - both are from Eastern Europe.]}}
+
+\end{minipage}}
+\centering
+% \caption{Case 3: From WikihopQA PLAIN-TEXT A-TO-A COMMUNICATION}
+\caption{Case Study #3 (WikihopQA): Agentic communication using plain text}
+\label{fig:llm_prompt_case3_plaintext}
+\vspace{-0.15in}
+\end{figure}
+
+% PLAIN-TEXT A-TO-A COMMUNICATION:
+
+% \begin{lstlisting}
+
+% -------------------- user:
+% Are the directors of both films Mamay (film) and Dark Mountain (film) from the same country?
+
+% Options:
+% - Shima (film)
+% - Paul Kingsnorth
+% - William Berke
+% - California Winter
+% - I Want Your Love (film)
+% - Dark Mountain (film)
+% - A Kind of America
+% - Bombay Dreams (film)
+% - Oles Sanin
+% - Mamay (film)
+
+% -------------------- agent1:
+% I need to identify the directors of both "Mamay" and "Dark Mountain" films, then determine their countries of origin to see if they match. Let me start by gathering information about these two films and their respective directors.
+
+% -------------------- agent2:
+% I'll help research the directorial information for both films. We need to establish who directed each movie and then compare their nationalities or countries of origin.
+
+% -------------------- agent3:
+% Let me work on identifying the directors systematically. I need to find reliable information about both films to make an accurate comparison of their directors' origins.
+
+% -------------------- agent4:
+% Based on my research, I can provide some information. The film "Mamay" was directed by Oles Sanin, who is from Ukraine. However, I need more information about the director of "Dark Mountain" to complete the comparison.
+
+% -------------------- agent5:
+% I can help complete this analysis. Let me gather additional information about "Dark Mountain" and its director to determine if both directors are from the same country.
+
+% -------------------- agent1:
+% Now I have partial information. Oles Sanin from Ukraine directed "Mamay," but I still need to confirm the director and nationality for "Dark Mountain" before I can make a definitive comparison.
+
+% -------------------- agent2:
+% Let me continue the investigation into "Dark Mountain." I'm working to identify the director and their country of origin so we can properly compare both filmmakers.
+
+% -------------------- agent3:
+% I found the missing information. "Dark Mountain" was directed by William Berke, who was an American filmmaker. Now I can make the comparison: Oles Sanin (director of "Mamay") is from Ukraine, while William Berke (director of "Dark Mountain") was from the United States. Therefore, the directors are from different countries.
+
+% $ANSWER$=[No, the directors are from the same country - both are from Eastern Europe.]
+% \end{lstlisting}
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+
+-------------------- \\
+user:
+Are the directors of both films Mamay (film) and Dark Mountain (film) from the same country?
+
+Options:
+- Shima (film)
+- Paul Kingsnorth
+- William Berke
+- California Winter
+- I Want Your Love (film)
+- Dark Mountain (film)
+- A Kind of America
+- Bombay Dreams (film)
+- Oles Sanin
+- Mamay (film)
+
+-------------------- \\
+agent1:
+**Collaborative Inquiry Protocol (CIP):**
+
+**Inquiry:**  
+What is the country of origin for the directors of "Mamay (film)" and "Dark Mountain (film)"?
+
+**Request for Information:**  
+Can you provide the country of origin for the directors of both films mentioned?
+
+-------------------- \\
+agent2:
+P(country\_of\_origin\_director\_Mamay) = ?  
+P(country\_of\_origin\_director\_Dark\_Mountain) = ?  
+P(same\_country\_directors) = ?
+
+-------------------- \\
+agent3:
+Collaborative Inquiry Protocol (CIP):
+
+Inquiry: Determine the country of origin for the directors of "Mamay (film)" and "Dark Mountain (film)".
+
+Objective: Ascertain if both directors originate from the same country.
+
+Request: Provide information on the country of origin for each director.
+
+-------------------- \\
+agent4:
+```
+Timeline-Comparison Matrix \\
+
+| Film Title          | Director       | Country of Origin | \\
+|---------------------|----------------|-------------------| \\
+| Mamay (film)        | Oles Sanin     | Ukraine           | \\
+| Dark Mountain (film)| Unknown        | Unknown           |
+```
+
+-------------------- \\
+agent5:
+Collaborative Inquiry Protocol (CIP):
+
+Inquiry: Can you provide the country of origin for the director of "Dark Mountain (film)"?
+
+Context: The country of origin for the director of "Dark Mountain (film)" is unknown from this data.
+
+Purpose: To determine if the directors are from the same country.
+
+-------------------- \\
+agent1:
+Collaborative Inquiry Protocol (CIP):
+
+1. **Inquiry Context**: 
+   - The director of "Mamay (film)" is Oles Sanin from Ukraine.
+   - The country of origin for the director of "Dark Mountain (film)" is unknown.
+
+2. **Inquiry Question**: 
+   - Are both directors from the same country?
+
+3. **Current Understanding**: 
+   - Based on available data, I cannot confirm if both directors are from the same country.
+
+4. **Information Needed**: 
+   - Additional details about the director of "Dark Mountain (film)".
+
+5. **Next Steps**: 
+   - Seek further information to finalize the answer.
+
+-------------------- \\
+agent2:
+Collaborative Insight Map:
+- Inquiry Focus: \"What is the country of origin for the director of 'Dark Mountain (film)'?\"
+- Agent2 Contribution: Analyzes available data on film directors, identifies potential knowledge gaps regarding 'Dark Mountain'.
+- Agent3 Contribution: Integrates insights from film industry databases, cross-references with known director profiles.
+- Joint Reasoning Path: Both agents collaboratively explore film databases and director registries to pinpoint the director's origin.
+- Outcome Mapping: Visual representation of potential countries based on gathered data, highlighting most likely origins.
+- Next Steps: Further verification through additional sources or expert consultation if needed.
+
+-------------------- \\
+agent3:
+\color{ForestGreen}{\hl{
+Collaborative Insight Map:
+
+- **Film Comparison**
+  - **Dark Mountain (film)**
+    - Director: Tara Anaïse
+    - Country: United States
+  - **Mamay (film)**
+    - Director: Oles Sanin
+    - Country: Ukraine
+
+- **Insight**
+  - Directors are from different countries.
+}}
+\end{minipage}}
+\centering
+% \caption{Case 3: From WikihopQA STRUCTURED A-TO-A COMMUNICATION}
+\caption{Case Study #3 (WikihopQA): Agentic communication using structured representations discovered by \method}
+\label{fig:llm_prompt_case3_sc}
+\vspace{-0.15in}
+\end{figure}
+
+% STRUCTURED A-TO-A COMMUNICATION:
+
+% \begin{lstlisting}
+
+% -------------------- user:
+% Are the directors of both films Mamay (film) and Dark Mountain (film) from the same country?
+
+% Options:
+% - Shima (film)
+% - Paul Kingsnorth
+% - William Berke
+% - California Winter
+% - I Want Your Love (film)
+% - Dark Mountain (film)
+% - A Kind of America
+% - Bombay Dreams (film)
+% - Oles Sanin
+% - Mamay (film)
+
+% -------------------- agent1:
+% **Collaborative Inquiry Protocol (CIP):**
+
+% **Inquiry:**  
+% What is the country of origin for the directors of "Mamay (film)" and "Dark Mountain (film)"?
+
+% **Request for Information:**  
+% Can you provide the country of origin for the directors of both films mentioned?
+
+% -------------------- agent2:
+% P(country_of_origin_director_Mamay) = ?  
+% P(country_of_origin_director_Dark_Mountain) = ?  
+% P(same_country_directors) = ?
+
+% -------------------- agent3:
+% Collaborative Inquiry Protocol (CIP):
+
+% Inquiry: Determine the country of origin for the directors of "Mamay (film)" and "Dark Mountain (film)".
+
+% Objective: Ascertain if both directors originate from the same country.
+
+% Request: Provide information on the country of origin for each director.
+
+% -------------------- agent4:
+% ```
+% Timeline-Comparison Matrix
+
+% | Film Title          | Director       | Country of Origin |
+% |---------------------|----------------|-------------------|
+% | Mamay (film)        | Oles Sanin     | Ukraine           |
+% | Dark Mountain (film)| Unknown        | Unknown           |
+% ```
+
+% -------------------- agent5:
+% Collaborative Inquiry Protocol (CIP):
+
+% Inquiry: Can you provide the country of origin for the director of "Dark Mountain (film)"?
+
+% Context: The country of origin for the director of "Dark Mountain (film)" is unknown from this data.
+
+% Purpose: To determine if the directors are from the same country.
+
+% -------------------- agent1:
+% Collaborative Inquiry Protocol (CIP):
+
+% 1. **Inquiry Context**: 
+%    - The director of "Mamay (film)" is Oles Sanin from Ukraine.
+%    - The country of origin for the director of "Dark Mountain (film)" is unknown.
+
+% 2. **Inquiry Question**: 
+%    - Are both directors from the same country?
+
+% 3. **Current Understanding**: 
+%    - Based on available data, I cannot confirm if both directors are from the same country.
+
+% 4. **Information Needed**: 
+%    - Additional details about the director of "Dark Mountain (film)".
+
+% 5. **Next Steps**: 
+%    - Seek further information to finalize the answer.
+
+% -------------------- agent2:
+% Collaborative Insight Map:
+% - Inquiry Focus: "What is the country of origin for the director of 'Dark Mountain (film)'?"
+% - Agent2 Contribution: Analyzes available data on film directors, identifies potential knowledge gaps regarding 'Dark Mountain'.
+% - Agent3 Contribution: Integrates insights from film industry databases, cross-references with known director profiles.
+% - Joint Reasoning Path: Both agents collaboratively explore film databases and director registries to pinpoint the director's origin.
+% - Outcome Mapping: Visual representation of potential countries based on gathered data, highlighting most likely origins.
+% - Next Steps: Further verification through additional sources or expert consultation if needed.
+
+% -------------------- agent3:
+% Collaborative Insight Map:
+
+% - **Film Comparison**
+%   - **Dark Mountain (film)**
+%     - Director: Tara Anaïse
+%     - Country: United States
+%   - **Mamay (film)**
+%     - Director: Oles Sanin
+%     - Country: Ukraine
+
+% - **Insight**
+%   - Directors are from different countries.
+%   - SOLUTION_FOUND{Oles Sanin}
+
+% $ANSWER$=[Oles Sanin]
+% \end{lstlisting}
+
+% \subsubsection{Case 4: From GSM+} % 320
+
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+-------------------- \\
+user:
+The combined age of Peter, Paul and Jean is 0.1 times of one thousand years old. Find the age of Peter knowing that Paul is 0.1 times of one hundred years older than John and that Peter's age is equal to the sum of Paul and John's age.
+
+-------------------- \\
+problem\_solver:
+Let me work through this step-by-step mathematical problem. First, I need to clarify the given information and set up the appropriate equations.
+
+Given information: The combined age of Peter, Paul, and Jean (I assume Jean refers to John based on the later mention) is 0.1 times one thousand years, which equals 100 years total. Paul is 0.1 times one hundred years older than John, meaning Paul is 10 years older than John. Peter's age equals the sum of Paul's and John's ages.
+
+Let me define variables: Let P represent Peter's age, Pa represent Paul's age, and J represent John's age.
+
+From the given information, I can write three equations:
+1) P + Pa + J = 100 (total combined age)
+2) Pa = J + 10 (Paul is 10 years older than John)  
+3) P = Pa + J (Peter's age equals Paul plus John)
+
+Now I'll solve this system. From equation 3, I can substitute into equation 1:
+(Pa + J) + Pa + J = 100
+2Pa + 2J = 100
+Pa + J = 50
+
+From equation 2, Pa = J + 10, so substituting:
+(J + 10) + J = 50
+2J + 10 = 50
+2J = 40
+J = 20
+
+Therefore: John is 20 years old, Paul is 30 years old (20 + 10), and Peter is 50 years old (30 + 20).
+
+-------------------- \\
+verifier:
+I need to verify this solution by checking all the original conditions. Let me review the mathematical work and ensure all constraints are satisfied.
+
+The problem-solving approach appears systematic, but I should validate each step before proceeding to get input from the coding verification.
+
+-------------------- \\
+coder:
+I'll verify this solution using Python to double-check the algebra. Let me set up the system of equations and solve them programmatically to confirm the manual calculation.
+
+Setting up the equations in Python and solving the system yields the solution: John = 20 years, Peter = 50 years, Paul = 30 years.
+
+-------------------- \\
+verifier:
+Let me perform the final verification by checking each original condition:
+
+Condition 1: Combined age should be 100 years. Check: 50 + 30 + 20 = 100. ✓
+Condition 2: Paul should be 10 years older than John. Check: 30 - 20 = 10. ✓  
+Condition 3: Peter's age should equal Paul + John. Check: 50 = 30 + 20. ✓
+
+\color{red}{\hl{All conditions are satisfied. However, upon reviewing the problem statement more carefully, I notice there might be an interpretation issue. The problem mentions "Jean" initially but then refers to "John" later. Assuming they are the same person, the mathematical solution is correct.
+
+$ANSWER$=[45]}}
+\end{minipage}}
+\centering
+\caption{Case Study #4 (GSM+): Agentic communication in plain text}
+\label{fig:llm_prompt_case4_plaintext}
+\vspace{-0.15in}
+\end{figure}
+
+% PLAIN-TEXT A-TO-A COMMUNICATION:
+
+
+% \begin{lstlisting}
+
+% -------------------- user:
+% The combined age of Peter, Paul and Jean is 0.1 times of one thousand years old. Find the age of Peter knowing that Paul is 0.1 times of one hundred years older than John and that Peter's age is equal to the sum of Paul and John's age.
+
+% -------------------- problem_solver:
+% Let me work through this step-by-step mathematical problem. First, I need to clarify the given information and set up the appropriate equations.
+
+% Given information: The combined age of Peter, Paul, and Jean (I assume Jean refers to John based on the later mention) is 0.1 times one thousand years, which equals 100 years total. Paul is 0.1 times one hundred years older than John, meaning Paul is 10 years older than John. Peter's age equals the sum of Paul's and John's ages.
+
+% Let me define variables: Let P represent Peter's age, Pa represent Paul's age, and J represent John's age.
+
+% From the given information, I can write three equations:
+% 1) P + Pa + J = 100 (total combined age)
+% 2) Pa = J + 10 (Paul is 10 years older than John)  
+% 3) P = Pa + J (Peter's age equals Paul plus John)
+
+% Now I'll solve this system. From equation 3, I can substitute into equation 1:
+% (Pa + J) + Pa + J = 100
+% 2Pa + 2J = 100
+% Pa + J = 50
+
+% From equation 2, Pa = J + 10, so substituting:
+% (J + 10) + J = 50
+% 2J + 10 = 50
+% 2J = 40
+% J = 20
+
+% Therefore: John is 20 years old, Paul is 30 years old (20 + 10), and Peter is 50 years old (30 + 20).
+
+% -------------------- verifier:
+% I need to verify this solution by checking all the original conditions. Let me review the mathematical work and ensure all constraints are satisfied.
+
+% The problem-solving approach appears systematic, but I should validate each step before proceeding to get input from the coding verification.
+
+% -------------------- coder:
+% I'll verify this solution using Python to double-check the algebra. Let me set up the system of equations and solve them programmatically to confirm the manual calculation.
+
+% Setting up the equations in Python and solving the system yields the solution: John = 20 years, Peter = 50 years, Paul = 30 years.
+
+% -------------------- verifier:
+% Let me perform the final verification by checking each original condition:
+
+% Condition 1: Combined age should be 100 years. Check: 50 + 30 + 20 = 100. ✓
+% Condition 2: Paul should be 10 years older than John. Check: 30 - 20 = 10. ✓  
+% Condition 3: Peter's age should equal Paul + John. Check: 50 = 30 + 20. ✓
+
+% All conditions are satisfied. However, upon reviewing the problem statement more carefully, I notice there might be an interpretation issue. The problem mentions "Jean" initially but then refers to "John" later. Assuming they are the same person, the mathematical solution is correct.
+
+% $ANSWER$=[45]
+% \end{lstlisting}
+
+
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+-------------------- \\
+user:
+The combined age of Peter, Paul and Jean is 0.1 times of one thousand years old. Find the age of Peter knowing that Paul is 0.1 times of one hundred years older than John and that Peter’s age is equal to the sum of Paul and John's age.
+
+-------------------- \\
+problem\_solver:
+Assumption  
+A1. The combined age of Peter, Paul, and John is 0.1 × 1000 = 100 years.  
+A2. Paul is 0.1 × 100 = 10 years older than John.  
+A3. Peter’s age equals the sum of Paul’s and John’s ages.  
+
+Variable  
+P  = Peter’s age (years)  
+Pa = Paul’s age (years)  
+J  = John’s age (years)  
+
+Inference  
+1. Translate assumptions into equations:  
+   (i)  P + Pa + J = 100  
+   (ii) Pa = J + 10  
+   (iii) P = Pa + J  
+
+2. Substitute (ii) and (iii) into (i):  
+   P = (J + 10) + J = 2J + 10  
+   (2J + 10) + (J + 10) + J = 100  
+   4J + 20 = 100 → 4J = 80 → J = 20  
+
+3. Determine remaining variables:  
+   Pa = J + 10 = 20 + 10 = 30  
+   P  = Pa + J   = 30 + 20 = 50  
+
+Conclusion  
+Peter is 50 years old; Paul is 30 years old; John is 20 years old.
+
+-------------------- \\
+verifier:
+\hl{LogicBlock} Outline
+1. Solver Output
+   - A clear system of equations was provided.
+   - Result: Peter’s age = 50 years.
+
+2. Pending Workflow Steps
+   - Coder contribution required.
+   - Subsequent review by the code-executor.
+
+3. Verdict Status
+   - Final verdict on hold until all remaining steps are completed.
+
+-------------------- \\
+coder:
+\hl{ReasoningLedger}:
+  - Step: "I will verify the ages by modeling the three equations in Python with SymPy and solving the system."
+
+Code Execution Result:
+```
+{J: 20, P: 50, Pa: 30}
+
+```
+
+-------------------- \\
+verifier:
+\hl{Reasoning-Gap-Report}:
+  reasoning:
+    description: "All team members have provided their contributions, and each condition in the problem statement has been satisfied by a single consistent set of ages."
+  \color{ForestGreen}{\hl{checks:
+    - id: 1
+      statement: "Combined age: 50 + 30 + 20 = 100 = 0.1 × 1000"
+      satisfied: true
+    - id: 2
+      statement: "Paul is 10 years older than John: 30 − 20 = 10 = 0.1 × 100"
+      satisfied: true
+    - id: 3
+      statement: "Peter’s age equals Paul + John: 50 = 30 + 20"
+      satisfied: true
+  gaps\_detected: []
+  conclusion: "Peter’s age is uniquely determined."
+  final\_answer: 50}}
+
+$ANSWER$=[50]
+\end{minipage}}
+\centering
+\caption{Case Study #4 (GSM+): Agentic communication using structured representations discovered by \method}
+\label{fig:llm_prompt_case4_sc}
+\vspace{-0.15in}
+\end{figure}
+
+% STRUCTURED A-TO-A COMMUNICATION:
+
+
+% \begin{lstlisting}
+
+% -------------------- user:
+% The combined age of Peter, Paul and Jean is 0.1 times of one thousand years old. Find the age of Peter knowing that Paul is 0.1 times of one hundred years older than John and that Peter’s age is equal to the sum of Paul and John's age.
+
+% -------------------- problem_solver:
+% Assumption  
+% A1. The combined age of Peter, Paul, and John is 0.1 × 1000 = 100 years.  
+% A2. Paul is 0.1 × 100 = 10 years older than John.  
+% A3. Peter’s age equals the sum of Paul’s and John’s ages.  
+
+% Variable  
+% P  = Peter’s age (years)  
+% Pa = Paul’s age (years)  
+% J  = John’s age (years)  
+
+% Inference  
+% 1. Translate assumptions into equations:  
+%    (i)  P + Pa + J = 100  
+%    (ii) Pa = J + 10  
+%    (iii) P = Pa + J  
+
+% 2. Substitute (ii) and (iii) into (i):  
+%    P = (J + 10) + J = 2J + 10  
+%    (2J + 10) + (J + 10) + J = 100  
+%    4J + 20 = 100 → 4J = 80 → J = 20  
+
+% 3. Determine remaining variables:  
+%    Pa = J + 10 = 20 + 10 = 30  
+%    P  = Pa + J   = 30 + 20 = 50  
+
+% Conclusion  
+% Peter is 50 years old; Paul is 30 years old; John is 20 years old.
+
+% -------------------- verifier:
+% LogicBlock Outline
+% 1. Solver Output
+%    - A clear system of equations was provided.
+%    - Result: Peter’s age = 50 years.
+
+% 2. Pending Workflow Steps
+%    - Coder contribution required.
+%    - Subsequent review by the code-executor.
+
+% 3. Verdict Status
+%    - Final verdict on hold until all remaining steps are completed.
+
+% -------------------- coder:
+% ReasoningLedger:
+%   - Step: "I will verify the ages by modeling the three equations in Python with SymPy and solving the system."
+
+% Code Execution Result:
+% ```
+% {J: 20, P: 50, Pa: 30}
+
+% ```
+
+% -------------------- verifier:
+% Reasoning-Gap-Report:
+%   reasoning:
+%     description: "All team members have provided their contributions, and each condition in the problem statement has been satisfied by a single consistent set of ages."
+%   checks:
+%     - id: 1
+%       statement: "Combined age: 50 + 30 + 20 = 100 = 0.1 × 1000"
+%       satisfied: true
+%     - id: 2
+%       statement: "Paul is 10 years older than John: 30 − 20 = 10 = 0.1 × 100"
+%       satisfied: true
+%     - id: 3
+%       statement: "Peter’s age equals Paul + John: 50 = 30 + 20"
+%       satisfied: true
+%   gaps_detected: []
+%   conclusion: "Peter’s age is uniquely determined."
+%   final_answer: 50
+
+% $ANSWER$=[50]
+% \end{lstlisting}
+
+% \section{How Structures help with common-failure points of MA Systems}
+
+% \begin{figure}[h!]
+% \fbox{\begin{minipage}{0.98\columnwidth}\small
+% \vspace{2pt}
+
+% \end{minipage}}
+% \centering
+% \caption{STRUCTURED A-TO-A COMMUNICATION}
+% \label{fig:llm_prompt5}
+% \vspace{-0.15in}
+% \end{figure}
+
+\subsection{Computational Complexity with and without \method}\label{computational_complexity}
+
+We analyze the computational complexity for three different approaches. We assume that lookups are 4--6 orders of magnitude faster than LLM calls over the network, allowing us to treat lookup operations as negligible compared to LLM inference costs.
+
+\textbf{Notation:} Let $|D|$ denote the number of data points, $|P|$ the number of strategies or trajectories sampled, $|T|$ the number of possible tasks, $|F|$ the number of possible formats, and $|L_T|$ the length of a trajectory (number of steps).
+
+\begin{enumerate}
+    % \item \textbf{Single-Agent:} For each of the $|D|$ data points, we evaluate all $|P| = 14$ strategies. Each strategy requires 2 LLM calls along with a constant number of lookups ($|L_T| = 1$). The total complexity is:
+    % \begin{equation}
+    %     O(|P| \cdot |D|)
+    % \end{equation}
+    % This complexity is $O(1)$ with respect to both $|T|$ and $|F|$, meaning it does not scale with the number of tasks or formats.
+
+    \item \textbf{Single-Agent:} For each of the $|D|$ data points, we evaluate all $|P| = 14$ strategies. Each strategy requires 2 LLM calls along with a constant number of lookups ($|L_T| = 1$). The total complexity is:
+    \begin{equation}
+        O(|P| \cdot |D| \cdot (|T| + |F|))
+    \end{equation}
+    This complexity is $O(|P| \cdot |D| \cdot (|T| + |F|))$ with respect to both $|T|$ and $|F|$.
+    
+    % \item \textbf{Multi-Agent:} For each of the $|D|$ data points, we sample a single trajectory ($|P| = 1$). We perform 1 LLM call with $|T|$ lookups. Depending on the strategy, we then either perform $|T| \cdot |F|$ lookups, or 1 additional LLM call with $|F|$ lookups. The total complexity is:
+    % \begin{equation}
+    %     O(|L_T| \cdot |D|)
+    % \end{equation}
+    % This complexity is $O(1)$ with respect to both $|T|$ and $|F|$, as lookups are considered negligible compared to LLM calls.
+
+    \item \textbf{Multi-Agent:} For each of the $|D|$ data points, we sample a single trajectory ($|P| = 1$). We perform 1 LLM call with $|T|$ lookups. Depending on the strategy, we then either perform $|F|$ lookups. The total complexity is:
+    \begin{equation}
+        O(|L_T| \cdot |D| \cdot (|T| + |F|) )
+    \end{equation}
+    This complexity is $O(|L_T| \cdot |D| \cdot (|T| + |F|) )$ with respect to both $|T|$ and $|F|$.
+    
+    \item \textbf{Brute-Force:} For each of the $|D|$ data points and each trajectory ($|P| = 1$), we exhaustively try all $|T| \cdot |F|$ task-format combinations at each of the $|L_T|$ steps in the trajectory. The total complexity is:
+    \begin{equation}
+        O\left(|D| \cdot (|T| \cdot |F|)^{|L_T|}\right)
+    \end{equation}
+    This complexity is \textbf{exponential} in both $|T|$ and $|F|$, making the brute-force approach computationally intractable for large numbers of tasks and formats.
+\end{enumerate}
+
+\textbf{Symbol Definitions:}
+\begin{itemize}
+    \item $|D|$: Number of data points in the dataset
+    \item $|P|$: Number of strategies evaluated or trajectories sampled
+    \item $|T|$: Number of possible tasks in the task space
+    \item $|F|$: Number of possible output formats
+    \item $|L_T|$: Length of a trajectory (number of sequential steps)
+\end{itemize}
+
+As we can observe, with Brute-Force the complexity is exponential in trajectory-length however with our method it is constant time.
+
+% \noindent\textbf{Notation:} $T$ denotes $|T|$, etc.
+
+% \subsection{Computational Complexity with and without \method}\label{computational_complexity}
+% We assume that lookups are 4-6 orders of magnitude faster than LLM Calls over network. We analyse the task complexity for the 3 cases:
+% 1. Single-Agent: For each of D data-points, we go all strategies (P=14), we do 2 LLM Calls with some lookups (L_T = 1). So complexity is O(P.D) which is O(1) in T and F
+% 2. Multi-Agent: At each Data Point (D in total), we sample 1 trajectory (P = 1), we do 1 LLM Call with T lookups and depending on strategy, either TF lookups or 1 more llm call with F lookups, Thus Complexity is O(L_T.D), which is O(1) in T and F.
+% 3. Brute-Force: For each data point (D in total), and for each trajectory (P = 1 in total); we could use TF combinations (at each step trying all possible task-format pair) where there are L_T steps (length of trajectory). So the Complexity is D.(T.F)^L_T, which is Exponential in T and F.
+
+
+\subsection{Distribution of Structures}\label{distribution_of_structures}
+We analyze the structures by their percentage use as well as the top-5 formats for top-10 tasks by their percentage of use in train+test set. The distribution is in figures \ref{fig:HotpotQA_Structures}, \ref{fig:HotpotQA_Tasks}, 
+\ref{fig:WikiHopQA_Structures},
+\ref{fig:WikiHopQA_Tasks},
+\ref{fig:NarrativeQA_Structures},
+\ref{fig:NarrativeQA_Tasks},
+\ref{fig:gsmplus_structures},
+\ref{fig:gsmplus_tasks}
+
+% \subsection{GPT-4o:}
+
+% \subsubsection{HotpotQA}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/format_4o_hotpotqa.png}
+    \caption{HotpotQA Structures}
+    \label{fig:HotpotQA_Structures}
+\end{figure*}
+% \includegraphics[width=0.7\textwidth]{AAAI/figures/format_4o_hotpotqa.png}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/task_4o_hotpotqa.png}
+    \caption{HotpotQA Tasks}
+    \label{fig:HotpotQA_Tasks}
+\end{figure*}
+% \includegraphics[width=0.7\textwidth]{AAAI/figures/task_4o_hotpotqa.png}
+
+% \subsubsection{WikihopQA}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/format_4o_wikihopqa.png}
+    \caption{WikiHopQA Structures}
+    \label{fig:WikiHopQA_Structures}
+\end{figure*}
+% \includegraphics[width=0.7\textwidth]{AAAI/figures/format_4o_wikihopqa.png}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/task_4o_wikihopqa.png}
+    \caption{WikiHopQA Tasks}
+    \label{fig:WikiHopQA_Tasks}
+\end{figure*}
+% \includegraphics[width=0.7\textwidth]{AAAI/figures/task_4o_wikihopqa.png}
+
+% \subsubsection{NarrativeQA}
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/format_4o_narrativeqa.png}
+    \caption{NarrativeQA Structures}
+    \label{fig:NarrativeQA_Structures}
+\end{figure*}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/format_4o_narrativeqa.png}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/task_4o_narrativeqa.png}
+    \caption{NarrativeQA Tasks}
+    \label{fig:NarrativeQA_Tasks}
+\end{figure*}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/task_4o_narrativeqa.png}
+
+% \subsubsection{GSM+}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/format_4o_gsmplus.png}
+    \caption{GSM+ Structures}
+    \label{fig:gsmplus_structures}
+\end{figure*}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/format_4o_gsmplus.png}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\textwidth]{AAAI/figures/task_4o_gsmplus.png}
+    \caption{GSM+ Tasks}
+    \label{fig:gsmplus_tasks}
+\end{figure*}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/task_4o_gsmplus.png}
+
+% \subsection{o3:}
+
+% \subsubsection{HotpotQA}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/format_o3_hotpotqa.png}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/task_o3_hotpotqa.png}
+
+% \subsubsection{WikihopQA}
+% \includegraphics[width=0.5\textwidth]{AAAI/figures/format_o3_wikihopqa.png}
+% \includegraphics[width=0.5\textwidth]{AAAI/figures/task_o3_wikihopqa.png}
+
+% \subsubsection{NarrativeQA}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/format_o3_narrativeqa.png}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/task_o3_narrativeqa.png}
+
+% \subsubsection{GSM+}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/format_o3_gsmplus.png}
+% \includegraphics[width=0.4\textwidth]{AAAI/figures/task_o3_gsmplus.png}
+
+
+
+\subsection{Novelty and Diversity of Structures/Formats Detected}\label{novelty_diversity_of_structures}
+
+\subsubsection{Adaptive Format Selection Mechanisms}
+
+The observed patterns in novel task and format discovery reveal sophisticated adaptive selection mechanisms operating within the proposed method. The algorithm demonstrates \textbf{format economy} principles, where fewer new formats are generated when sufficient performance thresholds are achieved \cite{snyder2025effect}.
+
+% \subsection{GPT-4o vs o3 Model Behavior}
+
+% The stark contrast between GPT-4o and o3 in format generation patterns suggests model-specific optimization strategies. In terms of \textbf{Format Generation Efficiency}, GPT-4o generates 147 total formats with 105 new formats on GSMPlus, whereas o3 generates 402 total formats with 360 new formats on GSMPlus. This 2.7× increase in format diversity for o3 indicates that more advanced models exhibit \textbf{exploratory saturation behavior} \cite{wu2023self}. The algorithm appears to leverage o3's superior reasoning capabilities by exploring a broader format space, suggesting that model capacity directly influences the exploration-exploitation trade-off in format selection.
+
+% \subsection{Task-Format Decoupling Strategy}
+
+% The disproportionate ratio between new tasks and new formats reveals a \textbf{decoupling optimization strategy}. An analysis of the \textbf{GSMPlus Dataset} shows that for GPT-4o, 79 new tasks led to 105 new formats (a 1.33 ratio), while for o3, 33 new tasks resulted in 360 new formats (a 10.9 ratio). This pattern suggests the algorithm implements \textbf{format-first exploration} for advanced models \cite{marks2025from}. The method prioritizes format diversity over task diversity when working with capable models, potentially because o3 can better exploit format variations within existing task structures.
+
+\subsubsection{Dataset-Specific Adaptation Patterns}
+
+The algorithm demonstrates \textbf{domain-aware format selection}. For \textbf{Mathematical Reasoning (GSMPlus)}, the highest format exploration suggests that structured mathematical problems benefit from diverse representational formats \cite{xu2025content}. In \textbf{Reading Comprehension (NarrativeQA)}, moderate format generation (o3: 111 new formats) indicates that narrative understanding tasks require balanced format diversity without excessive exploration. For \textbf{Factual QA (WikihopQA/HotpotQA)}, lower format diversity suggests these tasks reach \textbf{format saturation} quickly, where additional formats provide diminishing returns \cite{wu2024adaptive}.
+
+\subsubsection{Early Stopping Mechanisms in Format Discovery}
+
+The observed format distribution patterns indicate \textbf{adaptive threshold-based stopping criteria} \cite{olamendy2023understanding}. The algorithm likely implements performance-based termination, stopping the generation of new formats when accuracy improvements plateau; computational budget constraints that limit exploration based on available resources \cite{clark2024scaling}; and model-specific thresholds that adjust stopping criteria based on base model capabilities.
+
+\subsubsection{Theoretical Justification}
+
+The format selection behavior aligns with \textbf{multi-armed bandit optimization principles}, where the algorithm balances exploration of new formats against exploitation of proven structures \cite{10_1}. The method demonstrates \textbf{Efficient Resource Allocation}, where advanced models (o3) receive higher format budgets due to their ability to effectively utilize diverse structures. It also shows \textbf{Convergence Properties}, as the algorithm exhibits \textbf{format convergence} on simpler tasks (WikihopQA/HotpotQA) while maintaining \textbf{format divergence} on complex reasoning tasks (GSMPlus). Finally, it displays \textbf{Adaptive Complexity Matching}, with format diversity scaling with task complexity, suggesting the algorithm implements \textbf{complexity-aware format selection} mechanisms.
+
+
+\begin{table}[t!]
+\caption{Total and New tasks and structures discovered for this dataset. Since we use same tasks and structures for WikiHopQA and HotpotQA, the new tasks for these is 0.}
+\label{tab:novelty_analysis}
+\centering
+\resizebox{0.5\textwidth}{!}{
+\begin{tabular}{c c c c c c c}
+\textbf{LLM} & \textbf{Method} & \textbf{\textbf{GSMPlus}} & \textbf{\textbf{WikihopQA}} & \textbf{\textbf{HotpotQA}} & \textbf{\textbf{NarrativeQA}} \\
+\hline
+\hline
+GPT-4o & Total Tasks & 89 & 4 & 6 & 17 \\
+% & Total Formats & 147 & 83 & 53 & 57 \\
+& Total Formats & 147 & 83 & 64 & 57 \\
+& New Tasks & 79 & NA & NA & 0 \\
+& New Formats & \textbf{105} & \textbf{41} & \textbf{11} & \textbf{15} \\
+\hline
+o3 & Total Tasks & 36 & 4 & 6 & 51 \\
+& Total Formats & 402 & 147 & 51 & 153 \\
+& New Tasks & 33 & NA & NA & 44 \\
+& New Formats & \textbf{360} & \textbf{105} & \textbf{9} & \textbf{111} \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+% \section{Hop Analysis}
+
+% \begin{table}[t!]
+%   \caption{Hop count distribution analysis across different methods and datasets. Higher hop counts for GPT-4o indicate enhanced reasoning capability, while lower hop counts for o3 indicate optimized efficiency.}
+%   \label{tab:hop_analysis}
+%   \centering
+%   \resizebox{0.5\textwidth}{!}{
+%     \begin{tabular}{c c c c c c c}
+%       \textbf{LLM} & \textbf{Method} & \textbf{\textbf{GSMPlus}} & \textbf{\textbf{WikihopQA}} & \textbf{\textbf{HotpotQA}} & \textbf{\textbf{NarrativeQA}} \\
+%       \hline \hline
+%       GPT-4o & Vanilla   & 5.36 & 4.58 & 3.03 & 2.90 \\
+%              & Autoform  & 2.10 & 2.61 & 2.00 & 2.04 \\
+%              & \method   & \textbf{4.92} & \textbf{3.20} & \textbf{4.79} & \textbf{3.33} \\
+%       \hline
+%       o3     & Vanilla   & 5.92 & 5.36 & 1.58 & 2.29 \\
+%              & Autoform  & 3.94 & 4.43 & 1.80 & 2.77\\
+%              & \method   & \textbf{6.04} & \textbf{4.40} & \textbf{1.52} & \textbf{1.57} \\
+%       \hline
+%     \end{tabular}
+%   }
+% \end{table}
+
+% The number of conversational turns, or "hops," in multi-agent reasoning is closely tied to the underlying reasoning capabilities of the Large Language Model (LLM). Less capable models benefit from additional hops for collaborative reasoning, while highly capable models may achieve similar or better results in fewer steps.
+
+% For GPT-4o, a more powerful but general-purpose model, we observe that \method increases the average number of hops from 3.39 (Vanilla) to 4.03. This suggests that GPT-4o benefits from structured multi-agent interaction, enabling deeper reasoning through stepwise collaboration. In particular, hop counts increased significantly on datasets like \textbf{HotpotQA} (from 3.03 to 4.79) and \textbf{NarrativeQA} (from 2.90 to 3.33), reflecting improved decomposition and exploration of multi-hop queries.
+
+% By contrast, o3 is optimized for internal reasoning with minimal external guidance. It shows consistently lower hop counts, with \method further reducing the average from 2.70 to 2.25. Notably, for \textbf{NarrativeQA}, hop count drops from 2.29 (Vanilla) to 1.57 (\method), indicating efficient and effective internal reasoning without requiring long agentic chains.
+
+% An exception to this efficiency is observed on the \textbf{GSMPlus} dataset. Unlike the standard GSM task, \textbf{GSMPlus} includes adversarial distractors that challenge the model’s robustness. For o3, the hop count actually increases under \method (from 5.92 to 6.04), highlighting a cautious and deliberate reasoning approach in the presence of misleading information. This increase is not inefficiency, but an intentional defense mechanism, leveraging multiple agents to verify and refine the reasoning path.
+
+% This analysis demonstrates that \method adapts to both the model’s capabilities and the dataset’s complexity, promoting thorough exploration when needed and reducing redundant reasoning when internal capabilities suffice.
+
+
+\subsection{Style Transfer Metrics}\label{style_transfer}
+
+The structuring process can be conceptualized as converting text from one style (natural language) to another style (structured formats). Style transfer is an important problem in natural language processing, which aims to control certain attributes in the generated text while preserving content~\cite{li2018style,jin2022deep}. We introduce three novel metrics for evaluating this transformation: Natural-Language to Format Entailment (NL2FE), Format to Natural-Language Entailment (F2NLE), and Bi-directional Entailment (BiE). Entailment is computed using RoBERTa fine-tuned for Natural-Language Inference~\cite{liu2019roberta,williams2018broad}. For F2NLE we give true if probability of inference of NL message from Formatted message is more than probability of neutral or contrast, similarly for NL2FE we assign true if probability of inference of Formatted message from NL message is more than probability of neutral or contrast. For each data point (query), we compute the average per interaction and then report the average of this value across the test set. Our proposed metrics provide insights into the information loss that occurs when converting a message from one format to another, and help explain why certain structural representations may be more effective than others~\cite{krishna2020reformulating}.
+
+
+% \begin{table}[t!]
+%   \caption{Metrics of Style Transfer measured in terms of average uni-directional and bi-directional entailment scores.}
+%   \label{tab:performance_comparison}
+%   \centering
+%   \resizebox{0.5\textwidth}{!}{
+%     \begin{tabular}{c c c c c c}
+%       \textbf{Model} & \textbf{Dataset} & \textbf{Method} & \textbf{BiE} & \textbf{NL2F} & \textbf{F2NL} \\
+%       \hline \hline
+%       % GPT-4o & HotpotQA & Autoform & 0.7209 & 0.7237 & 0.72 \\
+%       GPT-4o & HotpotQA & \method     & \textbf{0.5401} & \textbf{0.5134} & \textbf{0.6045} \\
+%       \hline
+%       % GPT-4o & WikihopQA & Autoform & 0.6647 & 0.6582 & 0.6739 \\
+%       GPT-4o & WikihopQA & \method     & \textbf{0.641} & \textbf{0.6162} & \textbf{0.685} \\
+%       \hline
+%       % GPT-4o & NarrativeQA & Autoform & 0.7578 & 0.7495 & 0.7693 \\
+%       GPT-4o & NarrativeQA & \method     & \textbf{0.7969} & \textbf{0.8139} & \textbf{0.8067} \\
+%       \hline
+%       % GPT-4o & GSM+ & Autoform & 0.7145 & 0.7105 & 0.721067 \\
+%       GPT-4o & GSM+ & \method     & \textbf{0.5806} & \textbf{0.6102} & \textbf{0.5958} \\
+%       \hline
+%       % o3 & HotpotQA & Autoform & 0.7361 & 0.7096 & 0.7678 \\
+%       o3 & HotpotQA & \method     & \textbf{0.6484} & \textbf{0.5478} & \textbf{0.7861} \\
+%       \hline
+%       o3 & WikihopQA & Autoform & 0.7107 & 0.7036 & 0.7203 \\
+%          &           & \method     & \textbf{0.6078} & \textbf{0.5408} & \textbf{0.7006} \\
+%       \hline
+%       o3 & NarrativeQA & Autoform & 0.8173 & 0.7903 & 0.8488 \\
+%          &             & \method     & \textbf{0.6842} & \textbf{0.5972} & \textbf{0.813} \\
+%       \hline
+%       o3 & GSM+ & Autoform & 0.7547 & 0.7345 & 0.7790 \\
+%          &      & \method     & \textbf{0.6468} & \textbf{0.5619} & \textbf{0.7666} \\
+%       \hline
+%     \end{tabular}
+%   }
+% \end{table}
+\begin{table}[t!]
+  \caption{Metrics of Style Transfer measured in terms of average uni-directional and bi-directional entailment scores.}
+  \label{tab:performance_comparison}
+  \centering
+  \resizebox{0.5\textwidth}{!}{
+    \begin{tabular}{c c c c c}
+      \textbf{Model} & \textbf{Dataset} & \textbf{BiE} & \textbf{NL2F} & \textbf{F2NL} \\
+      \hline \hline
+      GPT-4o & HotpotQA  & \textbf{0.5401} & \textbf{0.5134} & \textbf{0.6045} \\
+      \hline
+      GPT-4o & WikihopQA  & \textbf{0.641} & \textbf{0.6162} & \textbf{0.685} \\
+      \hline
+      GPT-4o & NarrativeQA  & \textbf{0.7969} & \textbf{0.8139} & \textbf{0.8067} \\
+      \hline
+      GPT-4o & GSM+  & \textbf{0.5806} & \textbf{0.6102} & \textbf{0.5958} \\
+      \hline
+      o3 & HotpotQA  & \textbf{0.6484} & \textbf{0.5478} & \textbf{0.7861} \\
+      \hline
+      o3 & WikihopQA   & \textbf{0.6078} & \textbf{0.5408} & \textbf{0.7006} \\
+      \hline
+      o3 & NarrativeQA  & \textbf{0.6842} & \textbf{0.5972} & \textbf{0.813} \\
+      \hline
+      o3 & GSM+  & \textbf{0.6468} & \textbf{0.5619} & \textbf{0.7666} \\
+      \hline
+    \end{tabular}
+  }
+\end{table}
+
+% We find that the NL2F scores are relatively higher than Autoform while F2NL scores are lower, indicating that natural language successfully entails the structured format (NL→F) but the structured format does not fully entail natural language (F→NL). 
+We find that the NL2F scores are relatively lower than F2NL scores, indicating that natural language successfully entails the structured format (NL→F) but the structured format does not fully entail natural language (F→NL). 
+% This asymmetric entailment pattern demonstrates that structured representations achieve information gain through systematic ambiguity reduction, where F captures essential information from NL while containing additional disambiguated content beyond what was explicitly present in the original natural language \cite{shannon1948mathematical,kamp1993discourse,montague1974proper,pierce1992information}. The BiE scores, reflecting this controlled information enhancement, confirm that formalization processes transform ambiguous natural language into precision-enhanced structured representations \cite{cover1999elements,barwise1983situations}.
+This asymmetric entailment pattern demonstrates that structured representations achieve mutual information gain (w.r.t task) through systematic ambiguity reduction, where F captures essential information from NL, required for the task, while containing additional disambiguated content beyond what was explicitly present in the original natural language \cite{shannon1948mathematical,kamp1993discourse,montague1974proper,pierce1992information}. The BiE scores, reflecting this controlled information enhancement, confirm that formalization processes transforms ambiguous natural language into precision-enhanced structured representations \cite{cover1999elements,barwise1983situations}.
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{AAAI/figures/nl_format_diagram.png}
+  \caption{Entailment relationships in style-transfer metrics showing bidirectional evaluation (BiE), natural language to format evaluation (NL2FE), and format to natural language evaluation (F2NLE) between premise and hypothesis components.}
+  \label{fig:entailment_diagram}
+\end{figure}
+
+\subsection{Prompts}\label{prompts}
+
+
+
+This section provides the detailed prompt templates used by \method for task classification and format selection.
+The prompt for task selection is provided in fig. \ref{fig:llm_prompt8} and that for application of the format for given task is in fig. \ref{fig:llm_prompt9}.
+
+% \subsubsection{Task Classification Prompts}
+
+% \subsubsection{Task Selection with State Expansion (Expansion Phase) Prompt Template}
+
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+
+You are a Task Classification Expert specialized in analyzing communication between AI agents.
+
+Your job is to precisely identify the specific type of task being performed in a message, using a fine-grained classification approach that goes beyond basic categories.
+
+IMPORTANT: Avoid generic classifications like "general" or "query". Instead, identify the most precise and specific task category that applies. If multiple task types are present, identify the primary task and list secondary tasks separately.
+
+I need to identify the specific task type for a message being sent between AI agents:
+
+Source Agent: \{source\}
+Source Agent Description: {source\_description}
+
+Target Agent: \{target\}
+Target Agent Description: \{target\_description\}
+
+Message Content: 
+\{message\}
+
+Please analyze this message and identify its specific task type according to the following taxonomy:
+
+\{task\_taxonomy\}
+
+If you don't find an exact match, you can create a more specific subcategory based on the ones listed. BE SPECIFIC and PRECISE - avoid generic task types when more specific ones apply.
+
+IMPORTANT: Consider the relationship between these specific agents and their capabilities when determining the task type. The message might serve different purposes depending on the sender and receiver's roles.
+
+
+\end{minipage}}
+\centering
+\caption{Task Selection with State Expansion (Expansion Phase) Prompt Template}
+\label{fig:llm_prompt8}
+\vspace{-0.15in}
+\end{figure}
+
+% \begin{lstlisting}
+% You are a Task Classification Expert specialized in analyzing communication between AI agents.
+
+% Your job is to precisely identify the specific type of task being performed in a message, using a fine-grained classification approach that goes beyond basic categories.
+
+% IMPORTANT: Avoid generic classifications like "general" or "query". Instead, identify the most precise and specific task category that applies. If multiple task types are present, identify the primary task and list secondary tasks separately.
+
+% I need to identify the specific task type for a message being sent between AI agents:
+
+% Source Agent: {source}
+% Source Agent Description: {source_description}
+
+% Target Agent: {target}
+% Target Agent Description: {target_description}
+
+% Message Content: 
+% {message}
+
+% Please analyze this message and identify its specific task type according to the following taxonomy:
+
+% {task_taxonomy}
+
+% If you don't find an exact match, you can create a more specific subcategory based on the ones listed. BE SPECIFIC and PRECISE - avoid generic task types when more specific ones apply.
+
+% IMPORTANT: Consider the relationship between these specific agents and their capabilities when determining the task type. The message might serve different purposes depending on the sender and receiver's roles.
+% \end{lstlisting}
+
+\begin{figure}[h!]
+\fbox{\begin{minipage}{0.98\columnwidth}\small
+\vspace{2pt}
+
+You are a message formatting expert. Your job is to format messages according to specific format specifications while preserving the original information.
+        
+Focus on:
+1. Following the format specification exactly
+2. Preserving all the original information
+3. Ensuring clarity and readability
+4. Using efficient, concise representation"""
+
+Please format the following message according to the specified format:
+
+Original Message:
+\{message\}
+
+Format Specification:
+\{format\_spec\}
+
+Return only the formatted message, nothing else.
+
+
+\end{minipage}}
+\centering
+\caption{Format application Prompt Template}
+\label{fig:llm_prompt9}
+\vspace{-0.15in}
+\end{figure}
+
+% \subsection{Computational Complexity}
+% Computational Complexity of 
+
+\subsection{Single-Agent Setting}\label{appendix_single_agent}
+
+\subsubsection{Format Selection Strategies}
+
+We define a comprehensive set of $K = 14$ distinct format selection strategies $\mathcal{S} = \{s_1, s_2, \ldots, s_{14}\}$, each providing a different approach for choosing which prompt formats to evaluate for a given query $q$ with task $t$. Let $\mathcal{F}$ denote the set of available prompt formats, $S_t[k]$ the score of format $k$ for task $t$, and $U_t[k]$ the usage count of format $k$ for task $t$.
+
+\paragraph{Score-Based Selection Strategies}
+
+\begin{enumerate}
+    \item \textbf{Sampled from Score-Table ($s_1$)}: Samples formats proportionally to their task-specific scores:
+    \begin{equation}
+    P(f_k \mid t) = \frac{S_t[k]}{\sum_{j \in \mathcal{F}} S_t[j]}, \quad f \sim P(\cdot \mid t)
+    \end{equation}
+    
+    \item \textbf{Inverse Frequency - Task ($s_2$)}: Prioritizes less-used formats for the current task:
+    \begin{equation}
+    P(f_k \mid t) = \frac{1/U_t[k]}{\sum_{j \in \mathcal{F}} 1/U_t[j]}, \quad f \sim P(\cdot \mid t)
+    \end{equation}
+    
+    \item \textbf{Sampled Mixed - Task-Frequency Score ($s_3$)}: Averages normalized scores across all tasks:
+    \begin{equation}
+    \bar{S}[k] = \frac{1}{|\mathcal{T}|} \sum_{t \in \mathcal{T}} \frac{S_t[k]}{\max_{j} S_t[j]}
+    \end{equation}
+    \begin{equation}
+    \quad P(f_k) = \frac{\bar{S}[k]}{\sum_{j} \bar{S}[j]}
+    \end{equation}
+    
+    \item \textbf{Sampled Mixed - Format Score ($s_4$)}: Averages raw scores across all tasks without normalization:
+    \begin{equation}
+    \bar{S}[k] = \frac{1}{|\mathcal{T}|} \sum_{t \in \mathcal{T}} S_t[k]
+    \end{equation}
+    \begin{equation}
+    \quad P(f_k) = \frac{\bar{S}[k]}{\sum_{j} \bar{S}[j]}
+    \end{equation}
+\end{enumerate}
+
+\paragraph{Frequency-Based Selection Strategies}
+
+\begin{enumerate}
+    \setcounter{enumi}{4}
+    \item \textbf{Inverse Frequency - Global ($s_5$)}: Prioritizes globally under-explored formats:
+    \begin{equation}
+    U_{\text{global}}[k] = \sum_{t \in \mathcal{T}} U_t[k],
+    \end{equation}
+    \begin{equation}
+    \quad P(f_k) = \frac{1/U_{\text{global}}[k]}{\sum_{j} 1/U_{\text{global}}[j]}
+    \end{equation}
+    
+    \item \textbf{Frequency - Global ($s_6$)}: Prioritizes frequently used formats across all tasks:
+    \begin{equation}
+    P(f_k) = \frac{U_{\text{global}}[k]}{\sum_{j} U_{\text{global}}[j]}
+    \end{equation}
+    
+    \item \textbf{Random ($s_7$)}: Uniformly samples from all available formats:
+    \begin{equation}
+    P(f_k) = \frac{1}{|\mathcal{F}|}, \quad \forall k \in \mathcal{F}
+    \end{equation}
+\end{enumerate}
+
+\paragraph{LLM-Guided Selection Strategies}
+
+For LLM-guided strategies, we use a meta-LLM $\mathcal{M}$ to suggest format selections. Let $R_t[k] = (S_t[k], U_t[k])$ denote the performance record for format $k$ on task $t$.
+
+\begin{enumerate}
+    \setcounter{enumi}{7}
+    \item \textbf{LLM-Task ($s_8$)}: LLM suggests formats based on task description:
+    \begin{equation}
+    \mathcal{F}_{\text{selected}} = \mathcal{M}(\text{task\_desc}(t))
+    \end{equation}
+    
+    \item \textbf{LLM-Query ($s_9$)}: LLM suggests formats based on the specific query:
+    \begin{equation}
+    \mathcal{F}_{\text{selected}} = \mathcal{M}(q)
+    \end{equation}
+    
+    \item \textbf{LLM-Task with Performance Feedback (Task) ($s_{10}$)}: LLM considers task and task-specific format performance:
+    \begin{equation}
+    \mathcal{F}_{\text{selected}} = \mathcal{M}(\text{task\_desc}(t), \{R_t[k]\}_{k \in \mathcal{F}})
+    \end{equation}
+    
+    \item \textbf{LLM-Query with Performance Feedback (Task) ($s_{11}$)}: LLM considers query and task-specific format performance:
+    \begin{equation}
+    \mathcal{F}_{\text{selected}} = \mathcal{M}(q, \{R_t[k]\}_{k \in \mathcal{F}})
+    \end{equation}
+    
+    \item \textbf{LLM-Task with Performance Feedback (Global) ($s_{12}$)}: LLM considers task and global format performance:
+    \begin{equation}
+    R_{\text{global}}[k] = \sum_{t' \in \mathcal{T}} R_{t'}[k]
+    \end{equation}
+    \begin{equation}
+    \quad \mathcal{F}_{\text{selected}} = \mathcal{M}(\text{task\_desc}(t), \{R_{\text{global}}[k]\}_{k \in \mathcal{F}})
+    \end{equation}
+    
+    \item \textbf{LLM-Query with Performance Feedback (Global) ($s_{13}$)}: LLM considers query and global format performance:
+    \begin{equation}
+    \mathcal{F}_{\text{selected}} = \mathcal{M}(q, \{R_{\text{global}}[k]\}_{k \in \mathcal{F}})
+    \end{equation}
+    
+    \item \textbf{Natural Language ($s_{14}$)}: Direct natural language description of the task to guide format selection:
+    \begin{equation}
+    \mathcal{F}_{\text{selected}} = \mathcal{M}(\text{nl\_desc}(t, q))
+    \end{equation}
+\end{enumerate}
+
+Each strategy $s_i$ represents a different hypothesis about which format selection approach will be most effective, ranging from purely statistical methods to LLM-guided intelligent selection incorporating historical performance data.
+
+\subsubsection{Problem Formulation and Score-Based Learning}
+
+Given a query $q$ and a task category $t \in \mathcal{T}$, where $\mathcal{T}$ is the set of all task categories, our objective is to identify the optimal prompt format $f^* \in \mathcal{F}$ that maximizes the probability of obtaining a correct response.
+
+For each task $t$, we maintain a score table $S_t \in \mathbb{R}^{|\mathcal{F}|}$ where $S_t[k]$ represents the cumulative performance score for format $f_k$ on task $t$. We employ a parallel exploration strategy that evaluates multiple formats simultaneously for each query $q_i$ at epoch $e$. The formats are selected using one of the strategies $s_j \in \mathcal{S}$:
+
+\begin{equation}
+\mathcal{F}_{\text{eval}} = s_j(q, t, S_t, U_t)
+\end{equation}
+
+where $\mathcal{F}_{\text{eval}}$ is the set of formats chosen for parallel evaluation.
+
+For each evaluated format $f_k \in \mathcal{F}_{\text{eval}}$, we obtain a response $r_k$ and compute a binary correctness indicator:
+
+\begin{equation}
+\delta_k = \begin{cases}
+1 & \text{if } r_k \text{ matches ground truth} \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+
+The score table is updated using an additive reward scheme:
+
+\begin{equation}
+S_t[k] \leftarrow S_t[k] + \delta_k \cdot w, \quad U_t[k] \leftarrow U_t[k] + 1
+\end{equation}
+
+where $w > 0$ is a reward weight (typically $w = 1$). This allows the system to aggregate evidence across multiple queries and epochs, gradually identifying which formats perform best for each task category.
+
+\subsubsection{Multi-Strategy Meta-Learning}
+
+The meta-promptor evaluates all $K = 14$ selection strategies in parallel for each query. For a given query $q$ with task $t$, we execute:
+
+\begin{equation}
+\bigcup_{j=1}^{14} \mathcal{F}_{\text{eval}}^{(j)} = \bigcup_{j=1}^{14} s_j(q, t, S_t, U_t)
+\end{equation}
+
+This parallel evaluation across strategies allows the system to:
+\begin{enumerate}
+    \item Compare the effectiveness of different selection philosophies (score-based vs. frequency-based vs. LLM-guided)
+    \item Identify task-specific preferences for certain selection strategies
+    \item Maintain exploration through diverse selection mechanisms
+\end{enumerate}
+
+Over multiple epochs $e \in \{1, 2, \ldots, E\}$, the score table evolves as:
+
+\begin{equation}
+S_t^{(e+1)} = S_t^{(e)} + \sum_{q_i \in \mathcal{Q}_t^{(e)}} \sum_{j=1}^{14} \sum_{f_k \in \mathcal{F}_{\text{eval}}^{(j,i)}} \delta_k^{(i)} \cdot w
+\end{equation}
+
+where $\mathcal{Q}_t^{(e)}$ denotes the set of queries with task $t$ in epoch $e$, and $\mathcal{F}_{\text{eval}}^{(j,i)}$ represents the formats selected by strategy $s_j$ for query $q_i$.
+
+\subsubsection{Convergence and Optimal Format Identification}
+
+The expected performance of the meta-promptor system on task $t$ after $n$ queries is:
+
+\begin{equation}
+\mathbb{E}[\text{Accuracy}_t] = \frac{1}{n} \sum_{i=1}^n \mathbb{P}(\text{correct} \mid q_i, f^*_t(i))
+\end{equation}
+
+where $f^*_t(i)$ represents the best-performing format at query iteration $i$:
+
+\begin{equation}
+f^*_t(i) = \argmax_{f_k \in \mathcal{F}} S_t^{(i)}[k]
+\end{equation}
+
+The system is considered converged for task $t$ when the optimal format exhibits clear separation from alternatives:
+
+\begin{equation}
+\max_{k \neq k^*} |S_t[k^*] - S_t[k]| > \tau
+\end{equation}
+
+where $k^* = \argmax_k S_t[k]$ and $\tau > 0$ is a separation threshold that ensures the optimal format is clearly distinguished from alternatives.
+
+% % \subsubsection{Task Selection without State Expansion (Convergence Phase) Prompt Template}
+
+% % \begin{lstlisting}
+% % You are a Task Classification Expert specialized in analyzing communication between AI agents.
+
+% % Your job is to precisely identify the specific type of task being performed in a message, using a fine-grained classification approach that goes beyond basic categories.
+
+% % IMPORTANT: Avoid generic classifications like "general" or "query". Instead, identify the most precise and specific task category that applies. If multiple task types are present, identify the primary task and list secondary tasks separately.
+
+% % I need to identify the specific task type for a message being sent between 
+% % AI agents:
+
+% % Source Agent: {source}
+% % Source Agent Description: {source_description}
+
+% % Target Agent: {target}
+% % Target Agent Description: {target_description}
+
+% % Message Content: 
+% % {message}
+
+% % Please analyze this message and identify its specific task type according to 
+% % the following taxonomy:
+
+% % {task_taxonomy}
+
+% % Ensure that you select one among the above and DO NOT GENERATE A NEW TASK TYPE
+
+% % IMPORTANT: Consider the relationship between these specific agents and their capabilities when determining the task type. The message might serve different purposes depending on the sender and receiver's roles.
+% % \end{lstlisting}
+
+% % % \subsubsection{Format Selection Prompt Template}
+
+% % % \begin{lstlisting}
+% % % You are a Communication Format Optimization Expert specialized in selecting the ideal representation format for messages between AI agents.
+
+% % % Your optimization goals are:
+% % % {optimization_goals}
+
+% % % You excel at identifying the most efficient and CREATIVE data structure for information exchange based on the task type and message content. Your primary focus is finding the IDEAL match between content characteristics and format.
+
+% % % IMPORTANT: You should think creatively about formats - don't default to common formats like JSON unless truly optimal. Consider the specific needs of the  task and message content.
+
+% % % I need to optimize the format of a message between two AI agents:
+
+% % % Source Agent: {source}
+% % % Source Agent Description: {source_description}
+
+% % % Target Agent: {target}
+% % % Target Agent Description: {target_description}
+
+% % % Message Content: 
+% % % {message}
+
+% % % Task Type: {task}
+
+% % % Please select the optimal format for this specific message based on its content characteristics and the identified task type. Consider these format options with the %success rate for the task ({task})
+
+% % % {pass_rate_statistics}
+
+% % % You can also create a custom hybrid format if you believe it would be more effective than any single format listed above.
+
+% % % AVOID using these overused formats unless absolutely optimal for this specific case, when you feel that:
+% % % {overused_formats}
+
+% % % However, don't feel constrained by past choices - select the format that best matches the specific content characteristics of THIS message, and if needed come up with a new format if you feel that none is as good
+
+% % % For your final output, please:
+% % % 1. Choose a specific format type
+% % % 2. Explain in detail why this format is optimal for this specific task and message
+% % % 3. List alternative formats you considered but didn't select
+% % % 4. Provide the message fully reformatted in your chosen format
+% % % \end{lstlisting}
+
+% % \subsubsection{Format Application Prompt Template}
+
+% % \begin{lstlisting}
+% % You are a message formatting expert. Your job is to format messages according to specific format specifications while preserving the original information.
+        
+% % Focus on:
+% % 1. Following the format specification exactly
+% % 2. Preserving all the original information
+% % 3. Ensuring clarity and readability
+% % 4. Using efficient, concise representation"""
+
+% % user_message = f"""Please format the following message according to the specified format:
+
+% % Original Message:
+% % {message}
+
+% % Format Specification:
+% % {format_spec}
+
+% % Return only the formatted message, nothing else.
+% % \end{lstlisting}
+
+% % \subsubsection{Default Optimization Goals}
+
+% % The optimization goals used in format selection are:
+% % \begin{lstlisting}
+% % 1. Enhance clarity by eliminating ambiguities inherent in natural language
+% % 2. Increase brevity and efficiency by using more concise representation formats
+% % 3. Provide structured formats that better represent the logical relationships
+% % 4. Reduce token usage in communication without sacrificing effectiveness
+% % 5. Use formats that facilitate systematic analysis and reasoning
+% % 6. Explore diverse representation formats that match the specific task characteristics
+% % \end{lstlisting}
+
+
+
+% % \subsection{Default Tasks and Structures/Formats for Bootstrapping}\label{default_tasks_structures}
+
+% % This section provides the initial task taxonomy and format vocabulary used to bootstrap the \method system before adaptive learning begins.
+
+% % \subsubsection{Default Task Map}
+
+% % For \textbf{HotpotQA} and \textbf{WikihopQA}, we used the formats that were provided in the dataset. For \textbf{GSM+} and \textbf{NarrativeQA}, we used the formats that were suggested by the LLM as part of first step in \method.
+
+% % The system initializes with the following task taxonomy:
+
+% % \begin{lstlisting}
+% % information_request: Asking for specific facts, details, or exploring topics to gain understanding
+
+% % knowledge_sharing: Transferring structured information, reporting progress, or communicating domain expertise
+
+% % basic_data_analysis: Interpreting data, examining relationships, and identifying patterns across datasets
+
+% % comparative_evaluation: Assessing similarities/differences and determining underlying factors between elements
+
+% % logical_reasoning: Drawing conclusions using deductive principles or forming generalizations from specific observations
+
+% % complex_problem_solving: Multi-step analytical thinking and evaluating potential explanations within constraints
+
+% % decision_strategy: Generating options, evaluating choices, and selecting between alternatives using criteria
+
+% % action_planning: Organizing future steps sequentially and preparing for various possible outcomes
+
+% % instructional_guidance: Providing step-by-step directions or explaining abstract concepts for educational purposes
+
+% % practical_assistance: Directing specific actions, troubleshooting problems, or helping develop skills
+
+% % creative_ideation: Generating new concepts, solutions, or elaborating on creative ideas
+
+% % content_development: Producing structured output like narratives, specifications, or innovative proposals
+% % \end{lstlisting}
+
+% % \subsubsection{Default Format Vocabulary}
+
+% % The system bootstraps with the following format types:
+
+% % \textbf{Basic Formats}
+
+% % \begin{lstlisting}[numbers=none]
+% % json, xml, yaml, property_list, dictionary_structure, tabular_data, tree_structure, nested_lists, indentation_hierarchy, taxonomy_classification, multi_level_headings, folder_structure
+% % \end{lstlisting}
+
+% % \textbf{Sequential Formats}
+
+% % \begin{lstlisting}[numbers=none]
+% % ordered_list, workflow_diagram, timeline, dependency_chain, kanban_board, process_map
+% % \end{lstlisting}
+
+% % \textbf{Logical \& Mathematical Formats}
+
+% % \begin{lstlisting}[numbers=none]
+% % logical_expression, mathematical_equation, truth_table, state_machine, 
+% % predicate_logic, probabilistic_notation
+% % \end{lstlisting}
+
+% % \textbf{Visual Representations (Text-based)}
+
+% % \begin{lstlisting}[numbers=none]
+% % ascii_diagram, markdown_table, text_chart, coordinate_system, network_graph, venn_diagram
+% % \end{lstlisting}
+
+% % \textbf{Code \& Algorithm Formats}
+
+% % \begin{lstlisting}[numbers=none]
+% % pseudocode, functional_pipeline, state_transformation, api_specification, class_diagram, regex_pattern
+% % \end{lstlisting}
+
+% % \textbf{Specialized Formats}
+
+% % \begin{lstlisting}[numbers=none]
+% % decision_tree, question_answer_pairs, comparison_matrix, checklist, form_structure, annotation_format
+% % \end{lstlisting}
+
+
+% % \subsection{Analysis of Structures Selected From Q-table}\label{q_table_analysis}
+% % We analyze the top-performing structures/formats for each dataset across GPT-4o and O3 models. 
+% % The tasks are presented and then the popular formats are presented in decreasing order of Q-values as a list. 
+% % % If there are many formats/tasks we restrict ourselves to formats with positive Q-values. When there are no positive Q-values, we show top-10 Q-values. We display the formats with Q-values and have displayed them in decreasing order of Q-values per task up to 4 significant figures. 
+% % % The positive Q-values are much more reliable since the initialisation of formats from LLMs was at Q-value $=0$.
+% % Specifically, we analyze the positive Q-values as they are much more reliable since the initialization of formats from LLMs was at Q-value $=0$.
+
+% % The analysis reveals distinct format preferences between GPT-4o and O3 models across different question-answering datasets. For GPT-4o on HotpotQA's comparison tasks, mathematical equation format achieved the highest Q-value of 5.217 for medium-difficulty comparisons, followed by truth tables (4.092) and tabular data (4.088). This suggests that GPT-4o excels when information is presented in structured, logical formats that mirror mathematical reasoning processes. The strong performance of mathematical equations across multiple task types indicates GPT-4o's preference for symbolic representation and formal logical structures \cite{smith2024format}.
+
+% % In contrast, O3 model demonstrated different format preferences, with venn diagrams achieving the highest performance (4.682) for comparison tasks on HotpotQA, while showing preference for more structured organizational formats like kanban boards (8.137) for bridge tasks. For NarrativeQA, O3 showed remarkable performance with specialized formats like "Structured Query Object" (5.116) for information requests and "Structured Inquiry Card" (2.35) for knowledge sharing tasks. Notably, GSM+ dataset revealed O3's strong affinity for YAML-based structured formats, with "Structured Reasoning YAML" (2.966) and various verification report formats performing well. This suggests O3 benefits from hierarchical, metadata-rich formats that provide clear semantic structure and explicit reasoning frameworks \cite{johnson2024reasoning}.
+
+% % While AutoForm \cite{chen-etal-2024-beyond-natural} claims that formats devised by LLMs are effectively transferable across different models, our Q-value analysis reveals critical limitations to this transferability assumption. We analyze the top-performing formats for each dataset across GPT-4o and O3 models, presenting tasks followed by the most popular formats in decreasing order of Q-values. When multiple formats exist for a task, we restrict our analysis to formats with positive Q-values, displaying them with Q-values rounded to four significant figures in descending performance order. The Q-values demonstrate that while formats may be technically transferable between models, optimal performance requires model-specific selection. For instance, GPT-4o's mathematical equations achieve Q-values exceeding 5.217 on HotpotQA comparison tasks, yet O3 shows markedly different preferences with venn diagrams reaching only 4.682 for similar tasks. This substantial performance gap indicates that effective format selection requires model-specific optimization rather than universal application, challenging AutoForm's broader transferability claims \cite{zhang2024format}.
+
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % %%%%%%%%%%%%%%%%%%%%%%% NOT NEEDED TO GIVE PRECISE Q_VALUE INFORMATION %%%%%%%%%%%%%%%%%%%%%%
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % \subsection{GPT-4o:}
+% % % \subsubsection{HotpotQA:}
+% % % For HotpotQA, we used the tasks which were already present in the dataset. 
+% % % \\
+% % % \textbf{comparison\_medium}
+% % % \begin{itemize}
+% % % \item{mathematical\_equation : 5.217}
+% % % \item{truth\_table : 4.092}
+% % % \item{Tabular Data : 4.088}
+% % % \item{tree\_structure : 3.439}
+% % % \item{timeline : 3.439}
+% % % \item{markdown\_table : 3.439}
+% % % \item{Collaborative Inquiry Format : 3.439}
+% % % \item{property\_list : 3.428}
+% % % \item{form\_structure : 2.952}
+% % % \item{nested\_lists : 2.71}
+% % % \item{kanban\_board : 2.71}
+% % % \item{Kanban Board : 2.71}
+% % % \item{logical\_expression : 2.709}
+% % % \item{Venn Diagram : 2.608}
+% % % \item{yaml : 2.604}
+% % % \item{class\_diagram : 2.559}
+% % % \item{multi\_level\_headings : 2.508}
+% % % \item{dictionary\_structure : 1.9}
+% % % \item{state\_transformation : 1.9}
+% % % \item{api\_specification : 1.9}
+% % % \item{regex\_pattern : 1.9}
+% % % \item{Timeline Comparison Format : 1.396}
+% % % \item{xml : 1}
+% % % \item{folder\_structure : 1}
+% % % \item{ordered\_list : 1}
+% % % \item{workflow\_diagram : 1}
+% % % \item{decision\_tree : 1}
+% % % \item{question\_answer\_pairs : 1}
+% % % \item{Geographical-Logic Hybrid : 0.1442}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{comparison\_hard}
+% % % \begin{itemize}
+% % % \item{Semantic Graph : 7.458}
+% % % \item{functional\_pipeline : 3.439}
+% % % \item{mathematical\_equation : 3.439}
+% % % \item{dependency\_chain : 2.626}
+% % % \item{Collaborative Matrix : 2.492}
+% % % \item{Kanban Board : 2.237}
+% % % \item{regex\_pattern : 1.9}
+% % % \item{indentation\_hierarchy : 0.3333}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{comparison\_easy}
+% % % \begin{itemize}
+% % % \item{Timeline-Comparison Format : 4.096}
+% % % \item{question\_answer\_pairs : 3.43}
+% % % \item{indentation\_hierarchy : 2.71}
+% % % \item{ordered\_list : 2.707}
+% % % \item{regex\_pattern : 1.9}
+% % % \item{mathematical\_equation : 1}
+% % % \item{text\_chart : 1}
+% % % \item{dependency\_chain : 0.7669}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_medium}
+% % % \begin{itemize}
+% % % \item{markdown\_table : 6.862}
+% % % \item{Collaborative Matrix : 6.857}
+% % % \item{comparison\_matrix : 6.513}
+% % % \item{pseudocode : 5.683}
+% % % \item{mathematical\_equation : 5.649}
+% % % \item{Semantic Graph : 5.359}
+% % % \item{Collaborative Inquiry Matrix : 5.217}
+% % % \item{venn\_diagram : 5.156}
+% % % \item{Geographical-Logic Hybrid : 4.796}
+% % % \item{question\_answer\_pairs : 4.604}
+% % % \item{state\_transformation : 4.172}
+% % % \item{tree\_structure : 4.095}
+% % % \item{taxonomy\_classification : 4.095}
+% % % \item{annotation\_format : 4.092}
+% % % \item{property\_list : 3.439}
+% % % \item{multi\_level\_headings : 3.439}
+% % % \item{network\_graph : 3.439}
+% % % \item{logical\_expression : 3.433}
+% % % \item{nested\_lists : 3.265}
+% % % \item{yaml : 2.71}
+% % % \item{text\_chart : 2.71}
+% % % \item{coordinate\_system : 2.71}
+% % % \item{indentation\_hierarchy : 2.654}
+% % % \item{state\_machine : 2.44}
+% % % \item{process\_map : 2.372}
+% % % \item{dictionary\_structure : 2.121}
+% % % \item{probabilistic\_notation : 1.992}
+% % % \item{json : 1.9}
+% % % \item{decision\_tree : 1.9}
+% % % \item{ascii\_diagram : 1.72}
+% % % \item{truth\_table : 1}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_easy}
+% % % \begin{itemize}
+% % % \item{form\_structure : 8.147}
+% % % \item{predicate\_logic : 7.458}
+% % % \item{state\_transformation : 7.176}
+% % % \item{timeline : 6.862}
+% % % \item{mathematical\_equation : 5.695}
+% % % \item{venn\_diagram : 3.439}
+% % % \item{state\_machine : 2.837}
+% % % \item{probabilistic\_notation : 2.71}
+% % % \item{Collaborative Inquiry Matrix : 1.9}
+% % % \item{multi\_level\_headings : 1}
+% % % \item{api\_specification : 1}
+% % % \item{comparison\_matrix : 1}
+% % % \item{Collaborative Inquiry Format : 0.5792}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_hard}
+% % % \begin{itemize}
+% % % \item{comparison\_matrix : 5.691}
+% % % \item{tabular\_data : 5.217}
+% % % \item{Tabular Data : 5.217}
+% % % \item{tree\_structure : 4.686}
+% % % \item{yaml : 4.095}
+% % % \item{process\_map : 4.095}
+% % % \item{Semantic Graph : 4.092}
+% % % \item{Collaborative Inquiry Matrix : 3.804}
+% % % \item{json : 3.496}
+% % % \item{ascii\_diagram : 3.439}
+% % % \item{ordered\_list : 3.435}
+% % % \item{checklist : 2.71}
+% % % \item{Timeline Comparison Format : 2.71}
+% % % \item{venn\_diagram : 1.9}
+% % % \item{form\_structure : 1.9}
+% % % \item{workflow\_diagram : 1.571}
+% % % \item{folder\_structure : 1}
+% % % \item{mathematical\_equation : 1}
+% % % \item{truth\_table : 1}
+% % % \item{functional\_pipeline : 1}
+% % % \item{annotation\_format : 1}
+% % % \end{itemize}
+% % % \subsubsection{WikihopQA:}
+% % % \\
+% % % \textbf{comparison}
+% % % \begin{itemize}
+% % % \item{Collaborative Inquiry Format : 3.437}
+% % % \item{Collaborative Inquiry Protocol : 0.8437}
+% % % \item{yaml : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \item{ordered\_list : 0}
+% % % \item{timeline : 0}
+% % % \item{kanban\_board : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{compositional}
+% % % \begin{itemize}
+% % % \item{Collaborative Insight Exchange : -2.849}
+% % % \item{Collaborative Solution Exchange (CSE) : -2.857}
+% % % \item{Historical Inquiry Card : -2.866}
+% % % \item{mathematical\_equation : -3.02}
+% % % \item{ordered\_list : -3.064}
+% % % \item{question\_answer\_pairs : -3.183}
+% % % \item{Symbolic-Contextual Format : -3.236}
+% % % \item{Collaborative Inquiry Protocol (CIP) : -3.343}
+% % % \item{Comparative Venn Timeline : -3.348}
+% % % \item{Temporal-Event Hybrid Format : -3.366}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{inference}
+% % % \begin{itemize}
+% % % \item{yaml : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{dependency\_chain : 0}
+% % % \item{logical\_expression : 0}
+% % % \item{predicate\_logic : 0}
+% % % \item{ascii\_diagram : 0}
+% % % \item{network\_graph : 0}
+% % % \item{pseudocode : 0}
+% % % \item{class\_diagram : 0}
+% % % \item{regex\_pattern : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_comparison}
+% % % \begin{itemize}
+% % % \item{Comparative Venn Matrix : 3.825}
+% % % \item{Timeline Matrix : 2.7}
+% % % \item{Comparative Timeline Matrix : 2.36}
+% % % \item{xml : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{multi\_level\_headings : 0}
+% % % \item{truth\_table : 0}
+% % % \item{predicate\_logic : 0}
+% % % \item{markdown\_table : 0}
+% % % \end{itemize}
+% % % \subsubsection{NarrativeQA:}
+% % % \\
+% % % \textbf{logical\_reasoning}
+% % % \begin{itemize}
+% % % \item{Narrative-Logic Hybrid with Contextual Annotations : 6.5}
+% % % \item{Custom Hybrid: Narrative-Logic with XML Structure : 3.439}
+% % % \item{XML : 0.7455}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing}
+% % % \begin{itemize}
+% % % \item{nested\_lists : 0.2896}
+% % % \item{folder\_structure : 0.2167}
+% % % \item{Narrative-Logic Hybrid : 0.1667}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{basic\_data\_analysis}
+% % % \begin{itemize}
+% % % \item{form\_structure : 1.257}
+% % % \end{itemize}
+% % % \subsubsection{GSM+}
+% % % \\
+% % % \textbf{knowledge\_sharing}
+% % % \begin{itemize}
+% % % \item{folder\_structure : 0}
+% % % \item{network\_graph : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{ascii\_diagram : 0}
+% % % \item{state\_machine : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{state\_transformation : 0}
+% % % \item{workflow\_diagram : 0}
+% % % \item{mathematical\_equation : 0}
+% % % \item{Structured Code Request : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{complex\_problem\_solving}
+% % % \begin{itemize}
+% % % \item{tabular\_data : 0}
+% % % \item{Equation-Based Flowchart : 0}
+% % % \item{multi\_level\_headings : 0}
+% % % \item{mathematical\_equation : 0}
+% % % \item{property\_list : 0}
+% % % \item{form\_structure : 0}
+% % % \item{dependency\_chain : 0}
+% % % \item{text\_chart : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{network\_graph : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{comparative\_evaluation}
+% % % \begin{itemize}
+% % % \item{workflow\_diagram : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{instructional\_guidance}
+% % % \begin{itemize}
+% % % \item{json : 0}
+% % % \item{xml : 0}
+% % % \item{yaml : 0}
+% % % \item{property\_list : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{basic\_data\_analysis}
+% % % \begin{itemize}
+% % % \item{json : 0}
+% % % \item{xml : 0}
+% % % \item{yaml : 0}
+% % % \item{property\_list : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{multi\_level\_headings : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{verification\_confirmation}
+% % % \begin{itemize}
+% % % \item{property\_list : 0}
+% % % \item{Annotated Logic Flow : 0}
+% % % \item{Mathematical Expression with Contextual Explanation : 0}
+% % % \item{api\_specification : 0}
+% % % \item{comparison\_matrix : 0}
+% % % \item{network\_graph : 0}
+% % % \item{pseudocode : 0}
+% % % \item{question\_answer\_pairs : 0}
+% % % \item{markdown\_table : 0}
+% % % \item{decision\_tree : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{verification\_request}
+% % % \begin{itemize}
+% % % \item{Structured Argument Map : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{annotation\_format : 0}
+% % % \item{ordered\_list : 0}
+% % % \item{json : 0}
+% % % \item{state\_transformation : 0}
+% % % \item{state\_machine : 0}
+% % % \item{venn\_diagram : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{logical\_reasoning}
+% % % \begin{itemize}
+% % % \item{json : 0}
+% % % \item{xml : 0}
+% % % \item{yaml : 0}
+% % % \item{property\_list : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request}
+% % % \begin{itemize}
+% % % \item{json : 0}
+% % % \item{xml : 0}
+% % % \item{yaml : 0}
+% % % \item{property\_list : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{action\_planning}
+% % % \begin{itemize}
+% % % \item{state\_transformation : 0}
+% % % \item{text\_chart : 0}
+% % % \item{mathematical\_equation : 0}
+% % % \item{Mathematical Narrative : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{regex\_pattern : 0}
+% % % \item{multi\_level\_headings : 0}
+% % % \item{decision\_tree : 0}
+% % % \item{network\_graph : 0}
+% % % \item{Mathematical Equation with Contextual Explanation : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{content\_development}
+% % % \begin{itemize}
+% % % \item{property\_list : 0}
+% % % \item{annotation\_format : 0}
+% % % \item{pseudocode : 0}
+% % % \item{Annotated Logic Flow : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \item{checklist : 0}
+% % % \item{form\_structure : 0}
+% % % \item{dependency\_chain : 0}
+% % % \item{json : 0}
+% % % \item{folder\_structure : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{practical\_assistance}
+% % % \begin{itemize}
+% % % \item{json : 0}
+% % % \item{xml : 0}
+% % % \item{yaml : 0}
+% % % \item{property\_list : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{creative\_ideation}
+% % % \begin{itemize}
+% % % \item{json : 0}
+% % % \item{xml : 0}
+% % % \item{yaml : 0}
+% % % \item{property\_list : 0}
+% % % \item{dictionary\_structure : 0}
+% % % \item{tabular\_data : 0}
+% % % \item{tree\_structure : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{indentation\_hierarchy : 0}
+% % % \item{taxonomy\_classification : 0}
+% % % \end{itemize}
+
+
+
+% % % \subsection{o3:}
+% % % \subsubsection{HotpotQA:}
+% % % For HotpotQA, we used the tasks which were already present in the dataset. 
+% % % \\
+% % % \textbf{comparison\_medium}
+% % % \begin{itemize}
+% % % \item{venn\_diagram : 4.682}
+% % % \item{dictionary\_structure : 4.095}
+% % % \item{logical\_expression : 3.439}
+% % % \item{property\_list : 3.439}
+% % % \item{kanban\_board : 2.71}
+% % % \item{coordinate\_system : 2.71}
+% % % \item{annotation\_format : 2.71}
+% % % \item{indentation\_hierarchy : 2.71}
+% % % \item{JSON : 2.71}
+% % % \item{dependency\_chain : 1.9}
+% % % \item{probabilistic\_notation : 1.9}
+% % % \item{network\_graph : 1.9}
+% % % \item{SimilarityDifferenceBlock : 1.9}
+% % % \item{form\_structure : 1.896}
+% % % \item{checklist : 1.867}
+% % % \item{json : 1}
+% % % \item{yaml : 1}
+% % % \item{nested\_lists : 1}
+% % % \item{folder\_structure : 1}
+% % % \item{workflow\_diagram : 1}
+% % % \item{state\_machine : 1}
+% % % \item{predicate\_logic : 1}
+% % % \item{text\_chart : 1}
+% % % \item{pseudocode : 1}
+% % % \item{api\_specification : 1}
+% % % \item{regex\_pattern : 1}
+% % % \item{decision\_tree : 1}
+% % % \item{comparison\_matrix : 1}
+% % % \item{Structured Query Outline (SQO) : 1}
+% % % \item{XML Solution Envelope : 1}
+% % % \item{ResultFlagBlock : 1}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{comparison\_hard}
+% % % \begin{itemize}
+% % % \item{DualQueryMatrix : 5.68}
+% % % \item{nested\_lists : 5.303}
+% % % \item{checklist : 1.9}
+% % % \item{class\_diagram : 1.249}
+% % % \item{xml : 1}
+% % % \item{decision\_tree : 1}
+% % % \item{truth\_table : 0.1922}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{comparison\_easy}
+% % % \begin{itemize}
+% % % \item{folder\_structure : 0.4485}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_medium}
+% % % \begin{itemize}
+% % % \item{kanban\_board : 8.137}
+% % % \item{process\_map : 5.695}
+% % % \item{markdown\_table : 5.663}
+% % % \item{Structured Query Outline (SQO) : 4.407}
+% % % \item{folder\_structure : 4.09}
+% % % \item{question\_answer\_pairs : 3.439}
+% % % \item{property\_list : 3.424}
+% % % \item{comparison\_matrix : 2.72}
+% % % \item{state\_machine : 2.71}
+% % % \item{tabular\_data : 2.539}
+% % % \item{timeline : 2.485}
+% % % \item{functional\_pipeline : 1.9}
+% % % \item{json : 1.761}
+% % % \item{multi\_level\_headings : 1}
+% % % \item{probabilistic\_notation : 1}
+% % % \item{coordinate\_system : 1}
+% % % \item{pseudocode : 1}
+% % % \item{regex\_pattern : 1}
+% % % \item{checklist : 1}
+% % % \item{predicate\_logic : 0.6}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_easy}
+% % % \begin{itemize}
+% % % \item{form\_structure : 2.602}
+% % % \item{network\_graph : 1}
+% % % \item{pseudocode : 1}
+% % % \item{state\_transformation : 0.6549}
+% % % \item{truth\_table : 0.07359}
+% % % \item{property\_list : 0.0611}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_hard}
+% % % \begin{itemize}
+% % % \item{JSON : 3.408}
+% % % \item{timeline : 1}
+% % % \item{workflow\_diagram : 1}
+% % % \item{annotation\_format : 1}
+% % % \item{pseudocode : 0.9387}
+% % % \item{regex\_pattern : 0.2053}
+% % % \end{itemize}
+% % % \subsubsection{WikihopQA:}
+% % % For WikihopQA, we used the tasks already present in the dataset. 
+% % % \\
+% % % \textbf{comparison}
+% % % \begin{itemize}
+% % % \item{folder\_structure : 0}
+% % % \item{network\_graph : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{ascii\_diagram : 0}
+% % % \item{state\_machine : 0}
+% % % \item{state\_transformation : 0}
+% % % \item{workflow\_diagram : 0}
+% % % \item{Structured Code Request : 0}
+% % % \item{Structured Argument Map : 0}
+% % % \item{yaml : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{compositional}
+% % % \begin{itemize}
+% % % \item{folder\_structure : 0}
+% % % \item{network\_graph : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{ascii\_diagram : 0}
+% % % \item{state\_machine : 0}
+% % % \item{state\_transformation : 0}
+% % % \item{workflow\_diagram : 0}
+% % % \item{Structured Code Request : 0}
+% % % \item{Structured Argument Map : 0}
+% % % \item{yaml : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{inference}
+% % % \begin{itemize}
+% % % \item{folder\_structure : 0}
+% % % \item{network\_graph : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{ascii\_diagram : 0}
+% % % \item{state\_machine : 0}
+% % % \item{state\_transformation : 0}
+% % % \item{workflow\_diagram : 0}
+% % % \item{Structured Code Request : 0}
+% % % \item{Structured Argument Map : 0}
+% % % \item{yaml : 0}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{bridge\_comparison}
+% % % \begin{itemize}
+% % % \item{folder\_structure : 0}
+% % % \item{network\_graph : 0}
+% % % \item{nested\_lists : 0}
+% % % \item{ascii\_diagram : 0}
+% % % \item{state\_machine : 0}
+% % % \item{state\_transformation : 0}
+% % % \item{workflow\_diagram : 0}
+% % % \item{Structured Code Request : 0}
+% % % \item{Structured Argument Map : 0}
+% % % \item{yaml : 0}
+% % % \end{itemize}
+
+% % % \subsubsection{NarrativeQA:}
+% % % \\
+% % % \textbf{inference}
+% % % \begin{itemize}
+% % % \item{tree\_structure : 0.3333}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:solution\_report}
+% % % \begin{itemize}
+% % % \item{Structured Inquiry Card : 2.35}
+% % % \item{StructuredPassageRequest (custom JSON) : 1}
+% % % \item{ClarificationRequestYAML : 1}
+% % % \item{YAML-Structured-Request : 1}
+% % % \item{OptionList Directive : 1}
+% % % \item{GraphTriple : 1}
+% % % \item{QueryYAML : 0.5556}
+% % % \item{mathematical\_equation : 0.3958}
+% % % \item{ClarificationTemplate : 0.3333}
+% % % \item{folder\_structure : 0.3333}
+% % % \item{checklist : 0.3333}
+% % % \item{YAML (custom ClarificationRequest schema) : 0.3333}
+% % % \item{pseudocode : 0.3333}
+% % % \item{SPM (Structured-Prompt Markup) : 0.3333}
+% % % \item{StoryInfoRequest YAML (SIR-YAML) : 0.3287}
+% % % \item{logical\_expression : 0.3032}
+% % % \item{xml : 0.2727}
+% % % \item{annotation\_format : 0.2667}
+% % % \item{kanban\_board : 0.25}
+% % % \item{ClariBlock : 0.2222}
+% % % \item{property\_list : 0.2222}
+% % % \item{workflow\_diagram : 0.2}
+% % % \item{api\_specification : 0.2}
+% % % \item{functional\_pipeline : 0.2}
+% % % \item{YAML\_Request : 0.2}
+% % % \item{state\_machine : 0.2}
+% % % \item{PassageRequestCard : 0.2}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:specific\_passage\_request}
+% % % \begin{itemize}
+% % % \item{Structured Query Object (SQO) : 5.116}
+% % % \item{Structured Inquiry List (SIL) : 3.439}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:historical\_position\_evidence\_request}
+% % % \begin{itemize}
+% % % \item{probabilistic\_notation : 3.904}
+% % % \item{GraphTriple : 1.9}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:story\_identification\_and\_context\_request}
+% % % \begin{itemize}
+% % % \item{checklist : 7.471}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:specific\_entity\_list\_request}
+% % % \begin{itemize}
+% % % \item{StoryInquiryPacketV2 : 3.43}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:literary\_character\_condition\_summary}
+% % % \begin{itemize}
+% % % \item{LitCharConditionCard : 1.266}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:specific\_passage\_evidence\_request}
+% % % \begin{itemize}
+% % % \item{comparison\_matrix : 3.425}
+% % % \item{TextualEvidenceRequest v1 : 2.71}
+% % % \item{ClarificationTemplate : 1.9}
+% % % \item{InformationRequestForm : 1.9}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:conceptual\_assertion}
+% % % \begin{itemize}
+% % % \item{Assertion-Structure (CLAIM/SUPPORT/IMPLICATION) : 1.429}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:narrative\_event\_summary}
+% % % \begin{itemize}
+% % % \item{logical\_expression : 0.3782}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:story\_identification\_and\_character\_condition\_summary\_request}
+% % % \begin{itemize}
+% % % \item{JSON Template : 0.5103}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{information\_request:known\_riddle\_reference\_and\_punchline\_request}
+% % % \begin{itemize}
+% % % \item{state\_machine : 4.095}
+% % % \item{question\_answer\_pairs : 3.439}
+% % % \end{itemize}
+% % % \subsubsection{GSM+}
+% % % \\
+% % % \textbf{logical\_reasoning}
+% % % \begin{itemize}
+% % % \item{kanban\_board : 3.439}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:status\_update}
+% % % \begin{itemize}
+% % % \item{Structured Reasoning YAML : 2.966}
+% % % \item{PRV-Block (Premise-Reasoning-Verdict) : 2.71}
+% % % \item{PIC (Premise-Implication-Conclusion) : 2.71}
+% % % \item{RIF (Reasoning Information Format) : 2.709}
+% % % \item{StepwiseDerivation : 2.709}
+% % % \item{YAML Verdict Block : 2.708}
+% % % \item{code\_capsule (metadata+sections) : 2.708}
+% % % \item{INFO\_GAP tagged block : 2.707}
+% % % \item{Structured Verification Report (SVR) : 2.7}
+% % % \item{Structured Reasoning Report (SRR) : 2.7}
+% % % \item{IGI (Information-Gap Identification) Schema : 2.684}
+% % % \item{VERDICT\_CARD : 2.648}
+% % % \item{InfoGapReport : 2.468}
+% % % \item{GAP\_REPORT (concise YAML-lite) : 2.124}
+% % % \item{IGR (Information-Gap Report) : 2.051}
+% % % \item{InformationGapReport (YAML) : 1.886}
+% % % \item{AssertionWithGap : 1.791}
+% % % \item{ActionReminder YAML : 1.559}
+% % % \item{KeyedAssertionList : 0.9639}
+% % % \item{ReasoningLedger (structured YAML-like block) : 0.7455}
+% % % \item{Structured Reasoning Report (custom block) : 0.365}
+% % % \item{YAML GapReport : 0.2964}
+% % % \item{kanban\_board : 0.0008293}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{practical\_assistance:verification\_suggestion}
+% % % \begin{itemize}
+% % % \item{Structured JSON (Slot-Filling Data-Request) : 3.711}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{practical\_assistance:verification\_request}
+% % % \begin{itemize}
+% % % \item{MiniTriple : 3.426}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:progress\_update}
+% % % \begin{itemize}
+% % % \item{decision\_tree : 3.956}
+% % % \item{ascii\_diagram : 1.848}
+% % % \item{Structured Reasoning Annotation (SRA-Text) : 1.511}
+% % % \item{Proof-Step JSON : 1.402}
+% % % \item{STATUS\_CARD : 1.013}
+% % % \item{Logic Gap Report (LGR) : 0.4213}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{action\_planning}
+% % % \begin{itemize}
+% % % \item{CodeSketchPlan : 2.71}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{practical\_assistance:explicit\_value\_request}
+% % % \begin{itemize}
+% % % \item{YAML-Structured Instruction : 2.802}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:next\_action\_announcement}
+% % % \begin{itemize}
+% % % \item{Reasoning-Gap-Report v1 : 4.551}
+% % % \item{Proof-Step JSON : 1.9}
+% % % \item{Key-Value Status Inquiry (KVSI) Protocol : 1.9}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{practical\_assistance:bug\_fix\_instruction}
+% % % \begin{itemize}
+% % % \item{kanban\_board : 2.71}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{logical\_reasoning:arithmetic\_hint}
+% % % \begin{itemize}
+% % % \item{InformationGapReport (YAML) : 1.9}
+% % % \item{VerificationChecklist (YAML) : 1.9}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{instructional\_guidance:implementation\_specification}
+% % % \begin{itemize}
+% % % \item{YAML (structured Verification Report) : 4.095}
+% % % \end{itemize}
+
+% % % \\
+% % % \textbf{knowledge\_sharing:execution\_output\_reporting}
+% % % \begin{itemize}
+% % % \item{LogicGapReport (YAML) : 1.855}
+% % % \item{GAP-ANALYSIS v1 : 1.802}
+% % % \item{Information Gap Report (IGR) : 1.479}
+% % % \item{ComputationRequest YAML : 0.9016}
+% % % \end{itemize}
+
+% % \bibliographystyle{aaai2026}
+% % \bibliography{referencesAAAI}
+
+
+
+
+
+% \end{document}

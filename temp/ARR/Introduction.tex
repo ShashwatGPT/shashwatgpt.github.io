@@ -1,0 +1,70 @@
+\section{Introduction}\label{intro}
+
+% Give context of communication and different forms and motivate the question that is NL the best form
+Communication is essential among humans and forms the very fabric of society. Along with natural language, we convey information using gestures, mathematical expressions, multimedia etc. 
+% \md{Is the above sentence appropriate - with this argument reviewers would think we are approaching the multi-modal space}. 
+Depending on the task, different forms of communication are important to accomplish the end goal in an effective and efficient manner. For example, in a driving scenario, the vehicles and the traffic system efficiently coordinate primarily by visual means using colored lights, signs, markers etc. rather than relying solely on natural language (NL).  In the realm of human-computer interaction, traditional forms of communication primarily consisted of user commands (using text, touch, gestures) that perform desired action through APIs encoded in high or low level machine instructions. Lately, with the advent of Large Language Models (LLMs) natural language has become the dominant mode of communication, between LLM and human agents and between LLM agents. This prevalence extends to multi-agent systems, where specialized agents collaborate through natural language exchanges to solve complex tasks \cite{li2023camel,wu2023autogen,park2023generative}. But one question naturally arises, even among text based agents, whether natural language in general is the best representation of communication to solve a given task of varying complexity and nature (cf. fig. \ref{fig:motivation})? 
+% \md{Modality is a whole new argument - to highlight the pitfalls of NL we do not essentially need to spend a paragraph on other modalities - instead we need to highlight the fuzzyness and ambiguities of NL - the lack formalisms, lack of consistency and the fact that language used by humans is subject to a lot unsaid, implicitly understood subtext and context}. 
+% Natural language has long served as the primary medium for human-computer interaction and remains the dominant communication format in contemporary Large Language Model (LLM) applications. This prevalence extends to multi-agent systems, where specialized agents collaborate through natural language exchanges to solve complex tasks \cite{li2023camel,wu2023autogen,park2023generative}. However, the inherent ambiguities and inefficiencies of natural language may not align optimally with the precision requirements and computational constraints of multi-agent coordination.
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.99\linewidth]{AAAI/figures/sac_motivation.png}
+    \caption{In agentic systems, optimal message representations (JSON, proposition, code etc.) enable agents to collaborate more effectively, reduce \emph{ambiguity, bias}, prevent error propagation and improve task performance.}
+    \label{fig:motivation}
+\end{figure}
+
+% Talk about recent works that show there are other forms of communication than NL
+Recent advances in LLM reasoning have challenged the assumption that natural language represents the optimal intermediate representation for cognitive processes. 
+Many works such as Program-of-Thought \cite{chen2022program}, X-of-Thought \cite{ding2024thoughtsdefyinglawpenrose}, PLaG \cite{plag_icml} have demonstrated that alternative structured representations can enhance reasoning and decision making capabilities. This ineffectiveness of using NL is compounded in multi-agent settings where multiple LLM agents are involved and pass messages using natural language as the de facto mode. In this vein, recent research \cite{chen-etal-2024-beyond-natural} suggests that employing non-natural language as intermediate formats can help achieve improvements in reasoning performance during agentic communication.
+% efficiency and up to 72.7\% reductions in token usage during multi-agent communication.
+
+% Talk about limitations in current works
+Despite the promising developments in literature, current single and multi-agent frameworks lack a principled and data driven approach to adaptively select the optimal format of the intermediate representation based on task requirements. Existing approaches rely on static format selection or on hand crafted prompts that let the LLM choose the appropriate format for the task based on its inductive biases. 
+% The former is based on the premise that the specified communication representation is the best for the given task whereas the latter suffers from the inductive biases of the LLM. 
+Both the static formats and the ones suggested by the LLM may not be optimal. 
+Moreover, the prior works rely on a fixed set of structures, whereas new optimal representations could dynamically emerge  as the agent interacts with the environment. The fundamental challenge lies in developing systems that can \emph{learn} optimal message formatting strategies \emph{dynamically} from historical \emph{data} or from the \emph{environment} while maintaining \emph{seamless integration} with existing systems.
+% multi-agent architectures. 
+% Moreover in multi-agent settings, natural language is the de facto choice of communication between the LLM agents. 
+
+% Despite these promising developments, current multi-agent frameworks lack principled mechanisms for adaptively optimizing communication formats based on task requirements and agent capabilities. Existing approaches either rely on static format selection or require manual specification of communication structures, limiting their applicability across diverse problem domains. The fundamental challenge lies in developing systems that can learn optimal message formatting strategies dynamically while maintaining seamless integration with existing multi-agent architectures.
+
+% Our paper and how it differs
+In this paper, we address the challenge of learning the optimal representation to solve a given sub task of a problem. We propose to learn the optimal representations in a \emph{data-driven} manner and from the observations/rewards as the agents interact with the environment. Since novel optimal representations could emerge as the agent learns, we further propose to dynamically adapt to the set of tasks and communication representations rather than optimizing for a fixed set of representations. 
+
+% Motivation and Some details
+% We propose to \emph{learn} optimal structures (action) \emph{dynamically} for a given task (state), as the agents interact with the environment. So we naturally model the problem as a Markov Decision Process (MDP).
+% In order to \emph{learn} optimal representations (action) \emph{dynamically} for a given task (state) as the agents interact with the environment, we naturally model the problem as a Markov Decision Process (MDP).
+We aim to \emph{learn} optimal representations (action) \emph{dynamically} for a given task (state) as the agents interact with the environment, \textcolor{blue}{e.g. what is the best format for an equation solving task. This naturally reduces to a sequential decision-making problem which can be modeled as a Markov Decision Process (MDP).
+As the representations could evolve dynamically, we work in a setting where the states and actions are evolving/expanding. Thus, we pose the optimal representation selection problem as an Expanding
+% /Expanding 
+Markov Decision Process (EMDP) and introduce our method called \method - \emph{\underline{O}ptimal \underline{P}rompt \underline{T}ransformation \underline{i}n \underline{M}ulti-\underline{A}gent \underline{C}ommunication \underline{S}ystem}.} Considering the agents' communication trajectory of length $L_T$ and our desire to learn the optimal message representation at each step/turn, a naive approach to learn the optimal representation for a task from the historical data would incur a complexity of $\mathcal{O}((\lvert\mathcal{T}\lvert\lvert\mathcal{F}\lvert)^{L_T})$, where $\mathcal{T}, \mathcal{F}$ (cf. $\S$ \ref{computational_complexity}) are the set of tasks and representations/formats respectively. We thus employ methods from RL to efficiently learn the state action space in linear complexity. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.70\linewidth]{AAAI/figures/sac_single_agentV2.png}
+    \caption{Task performance improves when prompt is formatted as per discovered optimal representation.}
+    \label{fig:single_agent}
+\end{figure}
+
+Motivating the need to learn the optimal representations in a data driven manner, consider the following problem assigned to the system (cf. fig. \ref{fig:system_overview}): ``Gerald works at a daycare that pays him \$30 every day. He worked for an \emph{entire week},...he spent \$100 on... How much money does he have left? ''. The problem states the person works for 7 days and saves \$110. Plain text (NL) based solution arrives at the answer of \$50, which stems from the NL bias that a working week consists of 5 days. 
+% Our method selects code as the message representation and correctly sets the variable of number of working days to be a week (=7 days) and arrives at the expected answer. 
+Prompting the LLM to think in code (suggested by our method) enables the model to explicitly define the number of days as 7, thereby eliminating \emph{common biases associated with NL reasoning}, arriving at the expected answer. 
+Further examples are in the \textcolor{blue}{Appendix $\S$ \ref{case_study}}. To make the motivation concrete, we perform a study on single agent (LLM) tasks where we compare results of plain text, optimal representation decided by LLM and optimal representation derived by exploring the data (our method). We present the findings in fig. \ref{fig:single_agent} where we see that our method consistently outperforms the baselines (p-value<0.05 using Student's t-test, std. dev. < 2\%, LLM: GPT-4). The errors induced by natural language ambiguity get amplified in a multi-agent scenario with many turns, necessitating the discovery of task specific optimal message representations to input to the LLM agent.
+
+
+
+% Contributions
+\noindent \textbf{Contributions: } To summarize, we make the following contributions: (1) We formalize the problem of selecting the optimal communication representation in a multi-agent system as an evolving MDP (2) We propose our method \method, to learn the optimal policy for task and message representation in a \emph{data driven} and \emph{dynamic manner}. (3) Extensive experiments are conducted on 7 benchmark datasets to show the efficacy of our method. 
+For reproducibility we provide pseudo-code and prompts in Appendix (and code post acceptance).
+% The code will be made public post acceptance (cf. blind review).
+
+% We address this challenge by introducing MetaPromptor, a reinforcement learning-based framework that treats message format selection as a sequential decision-making problem. Our key insight is that different LLMs exhibit varying sensitivities to structural representations, making adaptive format selection crucial for optimal performance, particularly in resource-constrained environments with smaller language models. Furthermore, structured formats enable formal reasoning about artifacts and knowledge while reducing representational ambiguity \cite{li2023structured}.
+
+% MetaPromptor models multi-agent communication as a Partially Observable Markov Decision Process (POMDP), where agents must select optimal message formats based on partially observable conversation states and task contexts. We approximate this POMDP as a standard MDP when the state-action space evolves slowly relative to the learning timescale, enabling tractable Q-learning while handling residual partial observability through cyclic expansion-convergence strategies.
+
+% Our system operates through three core components: (1) task classification for state identification, (2) hybrid format selection combining learned Q-values with LLM-generated formats, and (3) off-policy Monte Carlo learning with dynamic action space expansion. The format selection mechanism integrates multiple strategies: exploitation of learned Q-values through softmax sampling, LLM-guided generation considering historical performance, and exploration through inverse frequency sampling. This multi-faceted approach ensures both exploitation of proven formats and discovery of novel structures.
+
+% We evaluate MetaPromptor across three distinct domains: collaborative problem-solving using GSMPlus mathematical reasoning benchmarks, information exchange through MultiHopQA datasets (NarrativeQA, WikiHopQA, HotpotQA), and the FLASH multi-agent triage framework for incident prioritization. Our results demonstrate consistent improvements in task completion accuracy while maintaining communication efficiency.
+
+% The contributions of this work are threefold: (1) We formalize multi-agent communication format optimization as a reinforcement learning problem, providing a principled framework for adaptive message structuring; (2) We introduce MetaPromptor, a practical system that seamlessly integrates with existing multi-agent frameworks while learning optimal communication formats; (3) We demonstrate empirical improvements across diverse domains, revealing that learned formats naturally converge toward established agent communication paradigms.

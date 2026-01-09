@@ -1,0 +1,143 @@
+% \section{Prelimnaries}
+% \section{Preliminaries and Problem Formulation}
+\section{Problem Formulation}
+
+% In this section, we elucidate certain concepts key to understanding our method and layout the problem.
+In this section, we formulate the problem setup. For readers unaware of Markov Decision Process (MDP) and related techniques we kindly refer to the \textcolor{blue}{Appendix (\ref{prelims})} or \cite{sutton2018reinforcement}.
+
+% \subsection{Preliminaries}
+
+% \noindent \textbf{Markov Decision Process (MDP)} provides a mathematical framework for modeling decision-making assuming \textit{Markov property}, meaning the future state depends only on the current state and action. Formally, an MDP is defined as a tuple $(\mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma)$, where $\mathcal{S}, \mathcal{A}$ are the set of states \& actions, $\mathcal{P}(s'|s,a)$ is the transition probability, $\mathcal{R}(s,a)$ is the reward function and $\gamma \in [0,1]$ is the discount factor.
+% The objective in an MDP is to find a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maximizes the expected cumulative discounted reward, defined as: $V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s \right]$
+
+% \noindent \textbf{Partially Observable Markov Decision Processes (POMDPs)} provide a principled framework for sequential decision-making under uncertainty, where the true state of the environment is not directly observable. In a POMDP, the agent maintains a belief (a probability distribution) over possible states, updating this belief as it receives observations and takes actions. Formally, a POMDP is defined by the tuple $(\mathcal{S}, \mathcal{A}, \mathcal{O}, \mathcal{P}, \mathcal{R}, \mathcal{\ohm}, \gamma)$, where $\mathcal{O}$ is the set of observations and $\gamma$ is the discount factor. POMDPs are known to be intractable in practice, especially in multi-agent or high-dimensional settings. The core challenge lies in the need to reason over the entire belief space, which grows exponentially with the number of states and agents. Exact solutions require maintaining and updating a belief over all possible states at every timestep, leading to computational complexity that is prohibitive for real-world problems, particularly when the state and action spaces are large or evolving.
+
+% % \noindent \textbf{Q-Learning} is a model-free RL algorithm that aims to learn the optimal action-selection policy by estimating the action-value function, denoted as $Q(s,a)$. The core idea of Q-learning is to iteratively update the Q-values using the Bellman equation: $Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \left[ r_t + \gamma \max_{a'} Q(s_{t+1}, a') - Q(s_t, a_t) \right]$.
+
+% \noindent \textbf{Monte Carlo Learning} method for learning Q-values, is a model-free approach that estimates the action-value function $Q(s,a)$ using complete episodes of experience. For each state-action pair $(s,a)$ encountered in an episode, the Q-value is updated as: $Q(s,a) \leftarrow Q(s,a) + \alpha \left[ G_t - Q(s,a) \right]$
+% where $\alpha$ is the learning rate and $G_t = \sum_{k=t}^{T} \gamma^{k-t} r_k$ is the return from time step $t$ until the end of the episode $T$. 
+% For further details on RL we refer the reader to ~\cite{sutton2018reinforcement}.
+
+
+% % \subsubsection{Markov Decision Process (MDP)}
+
+% % A Markov Decision Process (MDP) provides a mathematical framework for modeling decision-making in environments where outcomes are partly random and partly under the control of an agent. Formally, an MDP is defined as a tuple $(\mathcal{S}, \mathcal{A}, P, R, \gamma)$, where:
+% % \begin{itemize}
+% %     \item $\mathcal{S}$ is the set of states,
+% %     \item $\mathcal{A}$ is the set of actions,
+% %     \item $P(s'|s,a)$ is the transition probability function, representing the probability of moving to state $s'$ from state $s$ after taking action $a$,
+% %     \item $R(s,a)$ is the reward function, giving the expected immediate reward received after taking action $a$ in state $s$,
+% %     \item $\gamma \in [0,1]$ is the discount factor, which balances the importance of immediate and future rewards.
+% % \end{itemize}
+
+% % The objective in an MDP is to find a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maximizes the expected cumulative discounted reward, defined as:
+% % \[
+% % V^\pi(s) = \mathbb{E}_\pi \left[ \sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s \right],
+% % \]
+% % where $V^\pi(s)$ is the value function under policy $\pi$. MDPs assume the \textit{Markov property}, meaning the future state depends only on the current state and action, not on the sequence of events that preceded it. This framework underpins many reinforcement learning algorithms and is foundational to understanding agent-environment interactions~\cite{puterman1994markov}.
+
+% % \subsubsection{Policy Learning (Q-learning)}
+% % \textbf{Q-learning} is a model-free reinforcement learning algorithm that aims to learn the optimal action-selection policy by estimating the action-value function, denoted as $Q(s,a)$. The action-value function represents the expected cumulative discounted reward of taking action $a$ in state $s$ and following the optimal policy thereafter. The core idea of Q-learning is to iteratively update the Q-values using the Bellman equation:
+% % \[
+% % Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \left[ r_t + \gamma \max_{a'} Q(s_{t+1}, a') - Q(s_t, a_t) \right],
+% % \]
+% % where $\alpha \in (0,1]$ is the learning rate, $\gamma \in [0,1]$ is the discount factor, $r_t$ is the reward received after taking action $a_t$ in state $s_t$, and $s_{t+1}$ is the resulting next state. Over time, and under certain conditions such as sufficient exploration and decaying learning rate, Q-learning converges to the optimal action-value function $Q^*(s,a)$, enabling the derivation of the optimal policy $\pi^*(s) = \arg\max_a Q^*(s,a)$~\cite{watkins1992qlearning}.
+
+% % \subsubsection{Monte Carlo Learning}
+% % The Monte Carlo (MC) method for Q-learning, is a model-free approach that estimates the action-value function $Q(s,a)$ using complete episodes of experience. Unlike temporal-difference methods, Monte Carlo methods update Q-values only at the end of an episode, using the actual returns observed. For each state-action pair $(s,a)$ encountered in an episode, the Q-value is updated as:
+% % \[
+% % Q(s,a) \leftarrow Q(s,a) + \alpha \left[ G_t - Q(s,a) \right],
+% % \]
+% % where $\alpha$ is the learning rate and $G_t = \sum_{k=t}^{T} \gamma^{k-t} r_k$ is the return from time step $t$ until the end of the episode $T$. Monte Carlo methods require episodes to terminate and assume that the environment is episodic. They are particularly useful when the model dynamics are unknown and when bootstrapping is not desired. While slower to converge than TD methods, MC-based Q-learning can provide unbiased estimates of the expected return under sufficient exploration~\cite{sutton2018reinforcement}.
+
+
+% \subsection{Problem Formulation}
+
+We operate in a multi-agentic setting where multiple specialized LLM agents collaborate \emph{sequentially} to solve a complex task. 
+% As such effective communication among such agents over multiple turns is a key driver of a performant solution. 
+Let there be $N$ LLM agents $\{\mathfrak{A}_i\}_{i=1}^N$, passing messages to each other over $T$ turns. In any turn $t, 1 \leq t \leq T$, agent $\mathfrak{A}_i$ sends a message $m_{(i,j)}^t$ to next agent $\mathfrak{A}_j$ in the pipeline to share information and context. We aim to develop a 
+% functional transformation 
+module $F(m_{(i,j)}^t) \rightarrow m'$ that transforms message from $\mathfrak{A}_i$ to $\mathfrak{A}_j$. We optimize $m'=F(m_{(i,j)}^t)$ such that $m'$ is in a (near) optimal structure/representation (defined by goal success) given the complex task and the nature of $\mathfrak{A}_i$ and $\mathfrak{A}_j$. 
+% In particular, we aim to learn a dynamic extensible policy $\pi^*(F(m)|\text{Task}_i,m,t,\mathfrak{A}_i, \mathfrak{A}_j)$
+Considering we desire to learn the optimal structures (action) for a given task (state), we naturally pose the problem as a Markov decision process (MDP) \cite{puterman1994markov} and aim to learn the optimal policy $\pi^*(F|\text{Task}_i,m,t,\mathfrak{A}_i, \mathfrak{A}_j)$ which maps a given task to the optimal representation.
+\textcolor{blue}{Simpler alternatives like contextual bandits \footnote{\textcolor{blue}{In the single agent (1-step) setup the MDP simplifies to a Contextual Bandit. Refer Appendix \ref{sec:mdp_justification} for details.}} would not solve for the sequential nature of the problem and A/B testing to find the best format is not practical (cf. $\S$ \ref{sec:mdp_justification}).}
+Formally, we aim to learn the policy $\pi^*$ such that the end goal of the multi-agent communication is achieved. This can be represented as:
+% \begin{equation}
+%     \pi^*(F(m)|\text{Task}_i,m,t,\mathfrak{A}_i, \mathfrak{A}_j) = \underset{\pi \in \Pi}{\text{argmax}} \quad f_s(\text{Task}_j)
+% \end{equation}
+% \small{
+% \begin{equation}
+%     \pi^* = \underset{\pi \in \Pi}{\text{argmax}} \quad f_s(\text{Task}_j, F(m) | f = \arg\max_{f\in\mathcal{F}}\pi(F|\text{Task}_i,m,t,\mathfrak{A}_i, \mathfrak{A}_j))
+% \end{equation}
+% }
+% % \small{
+% \begin{equation}
+%     \begin{aligned}
+%         \pi^* = \underset{\pi \in \Pi}{\text{argmax}} \sum_{\text{task}} & f_s(\text{task}, F(m) | \\
+%         &F = \arg\max_{f\in\mathcal{F}}\pi(f|\text{context})) 
+%     \end{aligned}
+% \end{equation}
+% % }
+\textcolor{blue}{
+% \scriptsize
+\begin{equation*}
+        % \pi^* = \underset{\pi \in \Pi}{\text{argmax}} \sum_{\text{task}} f_s \left(\text{task}, F(m) | F = \arg\max_{f\in\mathcal{F}}\pi(f|\text{context}) \right) 
+        \underset{\pi \in \Pi}{\text{argmax}} \sum_{\text{task}} f_s \left(\text{task}, F(m) | F = \underset{f\in\mathcal{F} }{\text{argmax}} \ \pi(f|\text{context}) \right) 
+\end{equation*}
+% \normalsize
+}
+% where $\Pi$ is the space of all possible policies, $f_s \in \mathcal{R}$ is a functional indicating the degree to which the future task (function) to be performed by the agent $\mathfrak{A}_j$ is successful.
+\noindent where $\Pi$ is the space of all possible policies, $f_s(.) \in \mathcal{R}$ is a functional indicating the degree of task (function) success.
+% \noindent where $\Pi$ is the space of all possible policies, $f_s(.) \in \mathcal{R}$ is a functional indicating the degree to which the task (function) to be performed is successful.
+%multi-agent systems where specialized agents collaborate on complex tasks. Consider a system with agents such as a problem solver (mathematical reasoning), code executor (computational verification), and verifier (solution validation). When any agent generates a response, it invokes \method to transform the raw message into an optimal structured format before transmission to the target agent.
+
+We define the MDP by the tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \rangle$, where $\mathcal{S}$ is the true state space, $\mathcal{A}$ is the action space, $\mathcal{P}$ represents transition probabilities, $\mathcal{R}$ is the reward function.We thus formulate the MDP as:
+(i) \textbf{State Space} $\mathcal{S}$: Task types $t \in \mathcal{T}$ representing generalizable abstraction of messages (e.g., \texttt{information\_request}, \texttt{logical\_reasoning}, \texttt{decision\_strategy})
+(ii) \textbf{Action Space} $\mathcal{A}$: Message structures/representations/formats $f \in \mathcal{F}$ including structures like JSON, XML, tabular data, decision trees, etc. Note here we use the term structures to mean representations (formats) and do not limit the search space to only include ``structured'' objects (eg: JSON).
+(iii) \textbf{Reward Function} $R(t,f)$: Success metric that measures goal attainment (eg: +1 for success else -1)
+% \item \textbf{Reward Function} $R(t,f)$: Binary success indicator based on task completion accuracy
+(iv) \textbf{Policy} $\pi(f|t)$: Probability distribution over formats/representations given task type.
+% \begin{itemize}
+% \item \textbf{State Space} $\mathcal{S}$: Task types $t \in \mathcal{T}$ representing communication intent (e.g., \texttt{information\_request}, \texttt{logical\_reasoning}, \texttt{decision\_strategy})
+% \item \textbf{Action Space} $\mathcal{A}$: Message structures/representations/formats $f \in \mathcal{F}$ including structures like JSON, XML, tabular data, decision trees, etc. Note here we use the term structures to mean representations (formats) and do not limit the search space to only include ``structured'' objects (eg: JSON).
+% \item \textbf{Reward Function} $R(t,f)$: Success metric that measures goal attainment (eg: +1 for success else -1)
+% % \item \textbf{Reward Function} $R(t,f)$: Binary success indicator based on task completion accuracy
+% \item \textbf{Policy} $\pi(f|t)$: Probability distribution over formats/representations given task type
+% \end{itemize}
+
+In our problem setup, we allow the tasks and the representations to evolve as the learning progresses. This is needed as in real world problems where the agents encounter new information, we may not always know the task and structures beforehand. \textcolor{blue}{In later sections (cf. fig. \ref{fig:ablation}), we show empirically that the evolving/dynamic state/action formulation benefits the performance over fixed state/action space i.e. standard MDP}. Thus we propose to evolve the MDP as the agent encounters new states (tasks) and actions (structure formats) while learning. Formally, we expand our state space $\mathcal{T}_{old}$ to $\mathcal{T}_{new} =\mathcal{T}_{old} \cup \{t_{new}\}$ on encountering new task $t_{new}$. Similarly the action space $\mathcal{F}_{old}$ is updated as $\mathcal{F}_{new} =\mathcal{F}_{old} \cup \{f_{new}\}$ on encountering new structure format $f_{new}$. As the states and actions evolve during learning, we work in the setting of an Evolving
+%/Expanding 
+Markov Decision Process (EMDP). One point to note is that the tasks themselves are not observed directly and our method estimates the task based on the observations. As such the assumed MDP, in theory is a partially observable one, where one might maintain some belief states from the actual environment observations, which can be intractable in real multi-agentic problem spaces. However, we observe in our experiments that the probability distribution of the states given an observation has a large mass around a state, with high accuracy (cf. $\S$ \ref{task_classification_results}). Thus we can approximately know the state and the problem, at a given time, can be approximated as an MDP to enable tractable policy learning. In the below proposition, we show the convergence of learning the proposed EMDP (proof in \textcolor{blue}{Appendix} $\S$ \ref{appendix_sec_proof}):
+
+% \begin{proposition}[Convergence of the proposed EMDP based algorithm]\label{prop_emdp_convergence}
+%     The proposed $EMDP = (S_e, A_e, P_e, R, \gamma)$, where $S_e, A_e$ are the evolving states and actions respectively, converges for the states and actions explored.
+% \end{proposition}
+\begin{proposition}[Convergence of the proposed EMDP based algorithm]\label{prop_emdp_convergence}
+    Consider the $EMDP = (S_e, A_e, P_e, R, \gamma)$, with value function $V$. 
+    % $S_e, A_e$ are the evolving states and actions respectively. 
+    Let $T$ denote the update operator (including expanding $S_e, A_e$) s.t. $V_{k+1}=T(V_{k})$, then $\underset{k \rightarrow \infty}{\lim} \lVert V_k - V^* \rVert = 0$, where $V^*$ is the optimal value function for the states and actions explored till $k$ iterations.
+\end{proposition}
+
+% \md{The below 2 paragraphs need to change -- We do not need to formally define POMDP at all.}
+% The underlying problem is naturally a Partially Observable Markov Decision Process (POMDP) because we maintain some estimate about the states sampled through trajectories (belief states) which might be different from the actual information about the states. We define POMDP by the tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{R}, \Omega, \mathcal{O} \rangle$, where $\mathcal{S}$ is the true state space, $\mathcal{A}$ is the action space, $\mathcal{T}$ represents transition probabilities, $\mathcal{R}$ is the reward function, $\Omega$ is the observation space, and $\mathcal{O}$ defines observation probabilities. In our context, the true conversation state, agent internal reasoning, and complete format vocabulary remain partially observable.
+
+% However, we approximate this POMDP as an MDP $\langle \mathcal{S}', \mathcal{A}', \mathcal{T}', \mathcal{R}' \rangle$ when the state-action space evolves slowly relative to the learning timescale. This approximation is valid when: (1) the task taxonomy stabilizes after initial exploration, (2) format discovery occurs infrequently compared to format selection decisions, and (3) the communication context can be sufficiently captured by task classification. Under these conditions, the belief state estimation complexity of POMDPs reduces to manageable state estimation in the MDP framework.
+
+% We formulate this MDP approximation as:
+% \begin{itemize}
+% \item \textbf{State Space} $\mathcal{S}$: Task types $t \in \mathcal{T}$ representing communication intent (e.g., \texttt{information\_request}, \texttt{logical\_reasoning}, \texttt{decision\_strategy})
+% \item \textbf{Action Space} $\mathcal{A}$: Format specifications $f \in \mathcal{F}$ including structure/representations like JSON, XML, tabular data, decision trees, etc.
+% % \item \textbf{Reward Function} $R(s,a)$: Binary success indicator based on task completion accuracy
+% \item \textbf{Reward Function} $R(s,a)$: Measure of success based on task completion accuracy
+% \item \textbf{Policy} $\pi(a|s)$: Probability distribution over formats given task type
+% \end{itemize}
+
+% This MDP approximation enables tractable Q-learning while our cyclic expansion-convergence approach handles the residual partial observability by alternating between state-action space discovery and value function convergence.
+
+% \subsection{Multi-Agent Integration and Learning Objective}
+
+% Each agent invokes MetaPromptor through a \texttt{modify\_message(source, target, message)} call, creating a seamless integration where format optimization occurs transparently during normal agent communication. The system learns from complete multi-agent conversation trajectories of length $H$ ending with outcome $O \in \{0,1\}$:
+% \begin{align}
+% \mathbb{E}\left[\sum_{h=0}^{H} \gamma^h R_h\right] \text{ where } R_h = \alpha \cdot O - \beta
+% \end{align}
+% where $\alpha$ rewards correct outcomes, $\beta$ encourages efficiency, and $\gamma$ is the discount factor. Unlike traditional RL settings, our action space dynamically expands as new formats are discovered through LLM generation, requiring adaptive exploration strategies.
