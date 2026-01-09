@@ -76,18 +76,24 @@
                 <div class="project-details research-paper">
                     <h3>Introduction</h3>
 
-                    <p><b>OPTiMACS (Optimal Parsing Techniques in Message-Aware Computational Structures)</b> is a framework designed to learn optimal format for passing queries to an LLM suited to
+                    <p><b>OPTiMACS (Optimal Parsing Techniques in Message-Aware Computational Structures)</b> is a
+                        framework designed to learn optimal format for passing queries to an LLM suited to
                         different tasks. This blog serves to introduce the framework, the key design choices and the
-                        reasons for those, some preliminary results. Broadly, OPTiMACs has a task-predictor, and a format-selector whcich is passed to LLM, all the while maintaining some interal states. We use some samples from the data to train and update the internal states, and use these states for inference/evaluation. </p>
+                        reasons for those, some preliminary results. Broadly, OPTiMACs has a task-predictor, and a
+                        format-selector whcich is passed to LLM, all the while maintaining some interal states. We use
+                        some samples from the data to train and update the internal states, and use these states for
+                        inference/evaluation. </p>
 
                     <div class="image-container" style="text-align: center; margin: 20px 0;">
                         <img src="images/optimacs_framework.svg" alt="OPTiMACS Framework Diagram"
                             style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
                         <p style="font-size: 0.9em; color: #666;">Figure 1: The OPTiMACS Framework Architecture</p>
                     </div>
-                        
+
                     <p>We are writing a research paper on this which will
-                        soon be available here [COMING SOON]. This work was done as part of my intern at Microsoft Research India (M365 Research Team). Full authors and contributors include Shashwat Gupta (me) , Anson Bastos, Mayukh Das, Supriyo Ghosh,
+                        soon be available here [COMING SOON]. This work was done as part of my intern at Microsoft
+                        Research India (M365 Research Team). Full authors and contributors include Shashwat Gupta (me) ,
+                        Anson Bastos, Mayukh Das, Supriyo Ghosh,
                         Nagarajan Natarajan, Chetan Bansal, Saravan Rajmohan
                     </p>
 
@@ -104,7 +110,9 @@
                             Studies have shown up to a <b>72.7% reduction in token usage</b> [1] in multi-agent systems
                             without sacrificing task success.
                             Formats like <b>TOON (Token-Oriented Object Notation)</b> [17] and <b>POML
-                                (Prompt-Optimisation-Markup-Language)</b> [18] are designed for this purpose. (though we limit the results to show a boost in accuracy but rewards on OPTiMACs could be set up to show boost in accuracy and efficiency both.)
+                                (Prompt-Optimisation-Markup-Language)</b> [18] are designed for this purpose. (though we
+                            limit the results to show a boost in accuracy but rewards on OPTiMACs could be set up to
+                            show boost in accuracy and efficiency both.)
                         </li>
                         <li>
                             <b>Reduced Ambiguity:</b> Natural Language is inherently ambiguous (e.g. complex temporal
@@ -131,12 +139,46 @@
                         </li>
                     </ol>
 
-                    Ok, so alternative formats are there for some tasks and there are some (very very few studies), but why not use those. What's the need for an entirely new framework dedicated to finding optimal formats?
+                    <h4>Why Use an Adaptive Framework?</h4>
+                    <p> Even if we use alternative formats for some tasks, why do we need an entirely new format-finding
+                        framework that is theoretically sound and backed by insights? </p>
+                    <ol>
+                        <li>
+                            <b>Limited Studies:</b> Current studies are limited to A/B testing using a fixed "bag of
+                            formats." They do not discover optimal clusters (tasks) for specialized datasets. Existing
+                            research often tests a limited set of 20-30 common formats without providing deeper insights
+                            (e.g., if code works better, is it Python or JavaScript? Monolithic or modular?).
+                        </li>
+                        <li>
+                            <b>Out-Of-Domain Generalization:</b> OOD generalization is challenging for these studies. If
+                            new data types arrive (e.g., data drift or mode drift), existing static findings may not
+                            generalize. Furthermore, existing studies often rely on open-source datasets, making it a
+                            hassle to find optimal formats for domain-specific private data.
+                        </li>
+                        <li>
+                            <b>Multi-Agent Complexity:</b> The multi-agent setting is hard to optimize because using
+                            Format 1 might lead to a different state compared to Format 2. We need a way to model this
+                            interaction and derive optimal strategies for resolving multi-agent communication issues.
+                        </li>
+                    </ol>
 
-                    <h4>Why OPTiMACs?</h4>
-                    <p>
-                        TODO
+                    <h4>Why OPTiMACS?</h4>
+                    <p> Since LLMs are capable of evolution and learning, couldn't we simply ask them to find optimal
+                        formats for us? Why do we need a theoretically grounded framework?
                     </p>
+                    <ol>
+                        <li>
+                            LLMs might have an internal preference for certain formats, but those preferences may not be
+                            optimal for the specific tasks in reality.
+                        </li>
+                        <li>
+                            When performing empirical evaluation, we need a theoretically backed framework to validate
+                            results, especially in complex multi-agent settings.
+                        </li>
+                    </ol>
+
+                    <hr>
+                    <!-- WORK_HERE -->
 
                     Current LLM frameworks predominantly rely on natural language for communication, an approach
                     that is often ambiguous and unoptimized for specific task requirements. While alternative
@@ -272,7 +314,7 @@
                         drives learning.
                     </p>
 
-                    
+
 
                     <h4>OPTiMACS for Prompting (Single-Agent)</h4>
                     <p>
