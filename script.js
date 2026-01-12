@@ -1,5 +1,63 @@
+// Load blog content from external file
+function loadBlogContent() {
+    const container = document.getElementById('blog-content-container');
+    if (container) {
+        fetch('blog-content.html')
+            .then(response => response.text())
+            .then(html => {
+                container.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading blog content:', error);
+            });
+    }
+}
+
+// Load publications content from external file
+function loadPublications() {
+    // Load for index.html
+    const indexContainer = document.getElementById('publications-container');
+    if (indexContainer) {
+        fetch('publications-content.html')
+            .then(response => response.text())
+            .then(html => {
+                // For index, show only first 2 publications (2026 section)
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const firstYearSection = doc.querySelector('.year-header');
+                const firstList = doc.querySelector('.publication-list');
+                
+                let indexHtml = '';
+                if (firstYearSection) indexHtml += firstYearSection.outerHTML;
+                if (firstList) indexHtml += firstList.outerHTML;
+                
+                indexContainer.innerHTML = indexHtml;
+            })
+            .catch(error => {
+                console.error('Error loading publications for index:', error);
+            });
+    }
+    
+    // Load for publications.html
+    const fullContainer = document.getElementById('publications-full-container');
+    if (fullContainer) {
+        fetch('publications-content.html')
+            .then(response => response.text())
+            .then(html => {
+                fullContainer.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading publications:', error);
+            });
+    }
+}
+
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function () {
+    // Load content first
+    loadBlogContent();
+    loadPublications();
+
     const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(link => {
