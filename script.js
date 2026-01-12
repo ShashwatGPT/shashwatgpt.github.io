@@ -19,22 +19,27 @@ function loadPublications() {
     const indexContainer = document.getElementById('publications-container');
     if (indexContainer) {
         fetch('publications-content.html')
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch publications-content.html');
+                return response.text();
+            })
             .then(html => {
-                // For index, show only first 2 publications (2026 section)
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const firstYearSection = doc.querySelector('.year-header');
-                const firstList = doc.querySelector('.publication-list');
+                // For index, show all publication lists (ol) without year headers (h3)
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                
+                const allOl = tempDiv.querySelectorAll('ol');
                 
                 let indexHtml = '';
-                if (firstYearSection) indexHtml += firstYearSection.outerHTML;
-                if (firstList) indexHtml += firstList.outerHTML;
+                allOl.forEach(ol => {
+                    indexHtml += ol.outerHTML;
+                });
                 
                 indexContainer.innerHTML = indexHtml;
             })
             .catch(error => {
                 console.error('Error loading publications for index:', error);
+                indexContainer.innerHTML = '<p>Error loading publications. Please refresh the page.</p>';
             });
     }
     
@@ -42,12 +47,16 @@ function loadPublications() {
     const fullContainer = document.getElementById('publications-full-container');
     if (fullContainer) {
         fetch('publications-content.html')
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch publications-content.html');
+                return response.text();
+            })
             .then(html => {
                 fullContainer.innerHTML = html;
             })
             .catch(error => {
                 console.error('Error loading publications:', error);
+                fullContainer.innerHTML = '<p>Error loading publications. Please refresh the page.</p>';
             });
     }
 }
