@@ -1,0 +1,111 @@
+<svg width="900" height="1300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
+
+  <!-- Styles -->
+  <style>
+    .node { fill: #E3F2FD; stroke: #1565C0; stroke-width: 2; rx: 8; ry: 8; }
+    .start-node { fill: #E8F5E9; stroke: #2E7D32; stroke-width: 2; rx: 20; ry: 20; }
+    .end-node { fill: #FFF3E0; stroke: #EF6C00; stroke-width: 2; rx: 5; ry: 5; }
+    .decision { fill: #FFF9C4; stroke: #FBC02D; stroke-width: 2; }
+    .cluster { fill: none; stroke-width: 2; stroke-dasharray: 5,5; rx: 10; ry: 10; }
+    .text-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #333; }
+    .text-body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; fill: #333; text-anchor: middle; }
+    .text-detail { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #666; font-style: italic; text-anchor: middle; }
+    path { stroke: #555; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+    .phase-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: bold; }
+  </style>
+
+  <!-- Title -->
+  <text x="450" y="30" class="text-title" font-size="22" text-anchor="middle">Tool Stub Generation Workflow</text>
+
+  <!-- PHASE 1: READ TSG -->
+  <rect x="250" y="50" width="400" height="150" class="cluster" stroke="#7B1FA2" />
+  <text x="270" y="75" class="phase-label" fill="#7B1FA2">Phase 1: Read TSG</text>
+
+  <rect x="350" y="90" width="200" height="40" class="start-node" />
+  <text x="450" y="115" class="text-body" style="font-weight: bold;">Ingest Markdown</text>
+
+  <path d="M450 130 L450 150" />
+
+  <rect x="350" y="150" width="200" height="40" class="node" />
+  <text x="450" y="175" class="text-body">Map Steps &amp; Transitions</text>
+
+  <path d="M450 190 L450 230" />
+
+  <!-- PHASE 2: ANALYSIS -->
+  <rect x="250" y="230" width="400" height="120" class="cluster" stroke="#1565C0" />
+  <text x="270" y="255" class="phase-label" fill="#1565C0">Phase 2: Analysis</text>
+
+  <rect x="300" y="270" width="300" height="60" class="node" />
+  <text x="450" y="295" class="text-body">Identify Logic &amp; Constraints</text>
+  <text x="450" y="315" class="text-detail">LLM finds implicit "If/Else" branches</text>
+
+  <path d="M450 330 L450 380" />
+
+  <!-- PHASE 3: PATH GENERATION -->
+  <rect x="100" y="380" width="700" height="580" class="cluster" stroke="#2E7D32" />
+  <text x="120" y="405" class="phase-label" fill="#2E7D32">Phase 3: Path Generation (BFS Loop)</text>
+
+  <rect x="350" y="420" width="200" height="40" class="node" style="fill: #ffffff;" />
+  <text x="450" y="445" class="text-body">Pick Path from Queue</text>
+
+  <path d="M450 460 L450 490" />
+
+  <!-- Decision -->
+  <polygon points="450,490 540,540 450,590 360,540" class="decision" />
+  <text x="450" y="545" class="text-body">Has Variations?</text>
+
+  <!-- Labels -->
+  <text x="340" y="530" class="text-body" style="font-weight:bold;">No</text>
+  <text x="560" y="530" class="text-body" style="font-weight:bold;">Yes</text>
+
+  <!-- LEFT: No Split -->
+  <path d="M360 540 L250 540 L250 720" />
+  
+  <!-- RIGHT: Split -->
+  <path d="M540 540 L650 540 L650 580" />
+  
+  <rect x="550" y="580" width="200" height="50" class="node" style="fill: #FFEBEE; stroke: #D32F2F;" />
+  <text x="650" y="610" class="text-body">Copy History</text>
+
+  <path d="M650 630 L650 660" />
+
+  <rect x="550" y="660" width="200" height="50" class="node" style="fill: #FFEBEE; stroke: #D32F2F;" />
+  <text x="650" y="690" class="text-body">Apply Constraints</text>
+
+  <path d="M650 710 L650 750 L450 750 L450 770" /> <!-- Join Back -->
+  <path d="M250 720 L250 750 L450 750 L450 770" /> <!-- Join Back -->
+  
+  <rect x="350" y="770" width="200" height="60" class="node" />
+  <text x="450" y="795" class="text-body">Generate Tool Stub</text>
+  <text x="450" y="815" class="text-detail">Save Link Context</text>
+
+  <path d="M450 830 L450 870" />
+  
+  <rect x="350" y="870" width="200" height="30" class="node" style="stroke-dasharray: 4,4;" />
+  <text x="450" y="890" class="text-body">Enqueue Next Steps</text>
+
+  <!-- Loop back line -->
+  <path d="M350 885 L150 885 L150 440 L350 440" style="stroke-dasharray: 4,4;" />
+  <text x="180" y="600" class="text-detail" transform="rotate(-90 180,600)">Process Queue Until Empty</text>
+
+  <path d="M450 900 L450 920 L750 920 L750 1000 L450 1000 L450 1030" /> <!-- Exit Loop to Phase 4 -->
+
+  <!-- PHASE 4: FINAL EDITS -->
+  <rect x="250" y="1030" width="400" height="220" class="cluster" stroke="#EF6C00" />
+  <text x="270" y="1055" class="phase-label" fill="#EF6C00">Phase 4: Final Edits</text>
+
+  <rect x="325" y="1070" width="250" height="50" class="node" />
+  <text x="450" y="1100" class="text-body">KB Refinement</text>
+
+  <path d="M450 1120 L450 1160" />
+
+  <rect x="300" y="1160" width="300" height="60" class="end-node" />
+  <text x="450" y="1185" class="text-body" style="font-weight:bold;">Applications</text>
+  <text x="450" y="1205" class="text-detail">Incidents | Matching | Eval</text>
+
+</svg>

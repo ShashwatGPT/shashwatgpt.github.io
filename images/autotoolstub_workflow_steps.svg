@@ -1,0 +1,143 @@
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555" />
+    </marker>
+    <style>
+      /* Base Styles */
+      .phase-title { font-family: sans-serif; font-weight: bold; font-size: 16px; fill: #343a40; text-anchor: middle; }
+      .step-rect { fill: #ffffff; stroke-width: 2; }
+      .step-text { font-family: sans-serif; font-size: 13px; fill: #212529; text-anchor: middle; font-weight: bold; }
+      .step-desc { font-family: sans-serif; font-size: 11px; fill: #495057; text-anchor: middle; }
+      .step-number { font-weight: bold; }
+      .arrow { stroke: #555; stroke-width: 1.5; marker-end: url(#arrowhead); fill: none; }
+
+      /* --- Phase 1: Purple --- */
+      .p1-bg { fill: #f3e5f5; stroke: #d1c4e9; }
+      .p1-stroke { stroke: #8e44ad; }
+      .p1-text { fill: #8e44ad; }
+
+      /* --- Phase 2: Blue --- */
+      .p2-bg { fill: #e7f1ff; stroke: #b6d4fe; }
+      .p2-stroke { stroke: #0d6efd; }
+      .p2-text { fill: #0d6efd; }
+
+      /* --- Phase 3: Green --- */
+      .p3-bg { fill: #d1e7dd; stroke: #a3cfbb; }
+      .p3-stroke { stroke: #198754; }
+      .p3-text { fill: #198754; }
+
+      /* --- Phase 4: Orange --- */
+      .p4-bg { fill: #fff3cd; stroke: #ffe69c; }
+      .p4-stroke { stroke: #fd7e14; }
+      .p4-text { fill: #fd7e14; }
+    </style>
+  </defs>
+
+  <rect class="phase-rect p1-bg" x="20" y="20" width="260" height="560" rx="10" />
+  <text class="phase-title" x="150" y="50">Phase 1: Preparation</text>
+
+  <rect class="phase-rect p2-bg" x="310" y="20" width="260" height="560" rx="10" />
+  <text class="phase-title" x="440" y="50">Phase 2: Graph Analysis</text>
+
+  <rect class="phase-rect p3-bg" x="600" y="20" width="260" height="560" rx="10" />
+  <text class="phase-title" x="730" y="50">Phase 3: Generation</text>
+
+  <rect class="phase-rect p4-bg" x="890" y="20" width="260" height="560" rx="10" />
+  <text class="phase-title" x="1020" y="50">Phase 4: Output</text>
+
+  <g transform="translate(50, 75)">
+    <rect class="step-rect p1-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p1-text">1.</tspan> Setup &amp; Config</text>
+    <text class="step-desc" x="100" y="45">Reload Modules &amp; Config</text>
+    <text class="step-desc" x="100" y="60">prepare output dirs</text>
+  </g>
+  <g transform="translate(50, 175)">
+    <rect class="step-rect p1-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p1-text">2.</tspan> KB Generation</text>
+    <text class="step-desc" x="100" y="45">Load Knowledge Bases</text>
+    <text class="step-desc" x="100" y="60">resolve TSG context</text>
+  </g>
+  <g transform="translate(50, 275)">
+    <rect class="step-rect p1-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p1-text">3.</tspan> Parse Workflow</text>
+    <text class="step-desc" x="100" y="45">Parse TSG Markdown</text>
+    <text class="step-desc" x="100" y="60">build flowchart obj</text>
+  </g>
+  <g transform="translate(50, 375)">
+    <rect class="step-rect p1-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p1-text">4.</tspan> Correct Annotations</text>
+    <text class="step-desc" x="100" y="45">Generate Summaries</text>
+    <text class="step-desc" x="100" y="60">correct annotations</text>
+  </g>
+
+  <g transform="translate(340, 200)">
+    <rect class="step-rect p2-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p2-text">5.</tspan> Branch Detection</text>
+    <text class="step-desc" x="100" y="45">Detect Logic Branches</text>
+    <text class="step-desc" x="100" y="60">validate with debate</text>
+  </g>
+  <g transform="translate(340, 300)">
+    <rect class="step-rect p2-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p2-text">6.</tspan> Build Node Map</text>
+    <text class="step-desc" x="100" y="45">Map Flowchart Nodes</text>
+    <text class="step-desc" x="100" y="60">init execution queue</text>
+  </g>
+
+  <g transform="translate(630, 75)">
+    <rect class="step-rect p3-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p3-text">7.</tspan> Tool Stub Gen</text>
+    <text class="step-desc" x="100" y="45">Parallel BFS Traversal</text>
+    <text class="step-desc" x="100" y="60">generate stub paths</text>
+  </g>
+  <g transform="translate(630, 175)">
+    <rect class="step-rect p3-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p3-text">8.</tspan> KB Refinement</text>
+    <text class="step-desc" x="100" y="45">Apply KB Refinement</text>
+    <text class="step-desc" x="100" y="60">enforce guidelines</text>
+  </g>
+  <g transform="translate(630, 275)">
+    <rect class="step-rect p3-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p3-text">9.</tspan> Label Generation</text>
+    <text class="step-desc" x="100" y="45">Generate Path Labels</text>
+    <text class="step-desc" x="100" y="60">create sub-labels</text>
+  </g>
+  <g transform="translate(630, 375)">
+    <rect class="step-rect p3-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p3-text">10.</tspan> Self-Refinement</text>
+    <text class="step-desc" x="100" y="45">Refine Query Logic</text>
+    <text class="step-desc" x="100" y="60">optimize matching</text>
+  </g>
+
+  <g transform="translate(920, 150)">
+    <rect class="step-rect p4-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p4-text">11.</tspan> Eval Incidents</text>
+    <text class="step-desc" x="100" y="45">Gen Eval Incidents</text>
+    <text class="step-desc" x="100" y="60">generate test scenarios</text>
+  </g>
+  <g transform="translate(920, 250)">
+    <rect class="step-rect p4-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p4-text">12.</tspan> Build Outputs</text>
+    <text class="step-desc" x="100" y="45">Format Final JSON</text>
+    <text class="step-desc" x="100" y="60">serialize per path</text>
+  </g>
+  <g transform="translate(920, 350)">
+    <rect class="step-rect p4-stroke" x="0" y="0" width="200" height="80" rx="5" />
+    <text class="step-text" x="100" y="25"><tspan class="step-number p4-text">13.</tspan> Save Artifacts</text>
+    <text class="step-desc" x="100" y="45">Persist Artifacts</text>
+    <text class="step-desc" x="100" y="60">save logs &amp; reports</text>
+  </g>
+
+  <path class="arrow" d="M150 155 L150 175" />
+  <path class="arrow" d="M150 255 L150 275" />
+  <path class="arrow" d="M150 355 L150 375" />
+  <path class="arrow" d="M250 415 L295 415 L295 240 L340 240" />
+  <path class="arrow" d="M440 280 L440 300" />
+  <path class="arrow" d="M540 340 L585 340 L585 115 L630 115" />
+  <path class="arrow" d="M730 155 L730 175" />
+  <path class="arrow" d="M730 255 L730 275" />
+  <path class="arrow" d="M730 355 L730 375" />
+  <path class="arrow" d="M830 415 L875 415 L875 190 L920 190" />
+  <path class="arrow" d="M1020 230 L1020 250" />
+  <path class="arrow" d="M1020 330 L1020 350" />
+</svg>

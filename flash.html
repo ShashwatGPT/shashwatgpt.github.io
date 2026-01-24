@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Shashwat Gupta - FLASH</title>
+    <meta name="author" content="Shashwat Gupta">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+    <script defer>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar (Profile & Nav) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="profile-header">
+                    <a href="index.html" class="profile-pic-link">
+                        <img src="images/prof_pic.png" alt="Shashwat Gupta" class="profile-pic">
+                    </a>
+                    <h1 class="name">Shashwat Gupta</h1>
+                    <p class="subtitle">Microsoft Research | ex-IIT Kanpur CSE'24 | ex-EPFL | ex-ACM SIGCHI</p>
+                </div>
+
+                <nav class="navbar">
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="publications.html" class="nav-link">Research</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="blogs.html" class="nav-link">Blog</a>
+                    <a href="community.html" class="nav-link">Community</a>
+                    <a href="index.html#cv" class="nav-link">CV</a>
+                </nav>
+
+                <div class="social-links">
+                    <a href="mailto:guptashashwatme+website@gmail.com" class="social-icon" title="Email"
+                        aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/shashwat-gupta-iitk/" target="_blank" rel="noopener"
+                        class="social-icon" title="LinkedIn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="social-icon"
+                        title="GitHub" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+                        target="_blank" rel="noopener" class="social-icon" title="Medium" aria-label="Medium">
+                        <i class="fab fa-medium"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@shashwatgupta4613" target="_blank" rel="noopener"
+                        class="social-icon" title="YouTube" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=XhDzpMMAAAAJ" target="_blank" rel="noopener"
+                        class="social-icon" title="Google Scholar" aria-label="Google Scholar">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h2>AutoEval project with Applications to FLASH</h2>
+                </div>
+
+                <div class="project-details research-paper">
+
+                    <h2 class="section-sub-header">1. FLASH</h2>
+
+                    <ul>
+                        <li>Accepted at ACM FSE PROMISE Conference (Under Review), 2026.</li>
+                        <li>Authors: Prathamesh Deshpande, Shashwat Gupta, Tanish Mittal, Xuchao Zhang, Chetan Bansal, Rujia Wang, Minghua Ma, Zhixin Ren, Hao Huang, Saravan Rajmohan.</li>
+                        <li>Blog Link (Internal): <a href="https://aka.ms/flash">Microsoft Blog</a></li>
+                        <li>Paper: <a href="https://docs.google.com/document/d/1UXO8erT1nwBRI1pMi2WfN_qR6UtEgcHhn8EL31u2lz0/edit?usp=sharing">Google Docs</a></li>
+                    </ul>
+
+                    <h3>Introduction</h3>
+                    <p>
+                        FLASH is a multi-agent solution that can complete complex workflows with high reliability and efficiency for routine tasks. Routine tasks are recurring activities carried out regularly following established procedures, often demanding significant human effort in daily life. For instance, diagnosing incidents triggered by monitoring alerts using predefined Troubleshooting Documents (TSG).
+                    </p>
+                    <p>
+                        The FLASH agent framework introduces several components designed to improve the reliability, efficiency, and affordability of workflow automation.
+                    </p>
+
+                    <h3>Main Features</h3>
+                    <ul>
+                        <li>
+                            <b>Status Supervision</b> continuously monitors the execution status of each step within a workflow. It explicitly reasons about the current step’s outcome—whether it's complete, stalled, or requires further action—and determines the appropriate next agent and subsequent step based on this evaluation. This dynamic decision-making ensures robust and adaptive workflow execution, even in complex or non-linear scenarios.
+                        </li>
+                        <br>
+                        <li>
+                            <b>Flowchart Compilation</b> transforms text-based workflows into structured, executable flowcharts, significantly reducing runtime parsing overhead and minimizing execution errors. FLASH also supports a specialized grammar within the workflow definition, allowing users to define custom steps and transitions. This grammar-based approach enables consistent parsing aligned with user knowledge, ensuring more reliable and interpretable workflow execution.
+                        </li>
+                        <br>
+                        <li>
+                            <b>Domain Knowledge Integration</b> allows users to enhance agent performance by incorporating relevant expertise at both the team and workflow levels. With a customizable prompt configuration feature, users can inject team-specific knowledge into built-in agents to reflect their unique operational context. Additionally, users can define workflow-specific knowledge to guide agent behavior for particular tasks. This flexible design ensures the agents operate with relevant expertise, improving the accuracy and efficiency of automated workflows.
+                        </li>
+                        <br>
+                        <li>
+                            <b>Hindsight Integration</b> processes insights from past failures by collecting and analyzing previously failed cases within a comprehensive offline repository of similar incidents. FLASH reflects on these failures to identify root causes and effective resolutions, and incorporates this knowledge during runtime to guide decision-making. This reflection mechanism helps improve accuracy, prevent repeated errors, and enhance overall system performance in future executions.
+                        </li>
+                        <br>
+                        <li>
+                            <b>User-controllable Execution (Coming Soon)</b> enables user to manage workflow execution by interacting with the agent, facilitating actions such as skipping a step or rerunning a previous step.
+                        </li>
+                        <br>
+                        <li>
+                            <b>Context Compression (Coming Soon)</b> harnesses insights from extensive past executions to automatically determine the optimal prompt compression for routing tasks, enhancing execution efficiency and reducing costs.
+                        </li>
+                    </ul>
+
+                    <hr style="margin: 3rem 0; border-top: 1px solid #ddd;">
+
+                    <h2 class="section-sub-header">2. AutoEval For Flash (Automated Tool Stub Generator)</h2>
+
+                    <p>
+                        The <b>Automated Tool Stub Generator</b> (AutoEval) is a sophisticated Python framework designed to convert Troubleshooting Guides (TSGs) into executable tool stubs. By leveraging Large Language Models (LLMs) and evolutionary-debate frameworks, it transforms unstructured markdown workflows into structured, machine-readable automation components, complete with knowledge base integration and logical verification.
+                    </p>
+
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/autotoolstub_overall_process.jpg" alt="Automated Tool Stub Generator Overall Process" loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: #666;">Figure: Overall Process of AutoEval</p>
+                    </div>
+
+                    <h3>Architecture</h3>
+                    <p>
+                        The generation process follows a comprehensive 13-step pipeline, ensuring robustness and accuracy.
+                    </p>
+
+                    <h4>High-Level Phases</h4>
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/autotoolstub_workflow_phase.svg" alt="Workflow Phases" loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <h4>Detailed Pipeline Steps</h4>
+                    <div class="image-container" style="text-align: center; margin: 20px 0;">
+                        <img src="images/autotoolstub_workflow_steps.svg" alt="Detailed Pipeline Steps" loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <h4>Phase 1: Preparation & Parsing</h4>
+                    <ul>
+                        <li><b>Setup:</b> Initializes environment, logging, and configuration.</li>
+                        <li><b>Context Resolution:</b> Standardizes knowledge bases and resolves global TSG context using semantic search.</li>
+                        <li><b>Parsing:</b> Converts the Markdown TSG into a structured Graph Object Model (GOM).</li>
+                        <li><b>Annotation Request/Correction:</b> Uses LLMs to review and correct graph edges, fixing regex parsing errors.</li>
+                    </ul>
+
+                    <h4>Phase 2: Graph Analysis</h4>
+                    <ul>
+                        <li><b>Branch Detection:</b> Analyzes decision points to extract "Condition Axes". Uses a <b>Checker-Moderator-Executor</b> debate loop to validate logic exclusivity.</li>
+                        <li><b>Node Mapping:</b> Converts the flowchart into a traversable node graph for the execution engine.</li>
+                    </ul>
+
+                    <h4>Phase 3: Generation & Refinement</h4>
+                    <ul>
+                        <li><b>Tool Stub Generation:</b> Performs a parallel Breadth-First Search (BFS) to generate Python/Kusto code for each workflow path.</li>
+                        <li><b>KB Refinement:</b> Validates generated code against defined Knowledge Base rules (e.g., syntax checks).</li>
+                        <li><b>Labeling:</b> Generates human-readable labels and sub-labels for each path.</li>
+                        <li><b>Self-Refinement:</b> (Optional) Engages an LLM Critic to iteratively improve complex logic stubs.</li>
+                    </ul>
+
+                    <h4>Phase 4: Validation & Output</h4>
+                    <ul>
+                        <li><b>Incident Generation:</b> Creates synthetic test incidents to validate the generated paths (TDD approach).</li>
+                        <li><b>Build Outputs:</b> Serializes internal objects into the final JSON schema.</li>
+                        <li><b>Reporting:</b> Saves all artifacts and generation reports to disk.</li>
+                    </ul>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
