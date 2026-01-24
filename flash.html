@@ -152,6 +152,57 @@
                         <p style="font-size: 0.9em; color: var(--text-secondary);">Figure: Overall Process of AutoEval</p>
                     </div>
 
+                    <h3>Motivation: A Typical Scenario</h3>
+                    <p>Product teams need a framework to benchmark FLASH on their TSGs. Currently, teams manually review runs post-deployment, which is risky and time-consuming.</p>
+
+                    <div class="table-container" style="overflow-x: auto; margin: 20px 0;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; border: 1px solid var(--border-color);">
+                            <thead>
+                                <tr style="background-color: var(--bg-subtle); border-bottom: 2px solid var(--border-color);">
+                                    <th style="padding: 12px; text-align: left;">Option</th>
+                                    <th style="padding: 12px; text-align: left;">Description</th>
+                                    <th style="padding: 12px; text-align: left;">Pros</th>
+                                    <th style="padding: 12px; text-align: left;">Challenges</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 12px;"><b>Manual Verification</b></td>
+                                    <td style="padding: 12px;">Manual verification post deployment</td>
+                                    <td style="padding: 12px;">No time incurred to generate ground truth</td>
+                                    <td style="padding: 12px;">Risky due to production vulnerabilities</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 12px;"><b>Manual Ground Truth</b></td>
+                                    <td style="padding: 12px;">SRE mines incidents data and prepares ground truth (toolstub)</td>
+                                    <td style="padding: 12px;">Teams can benchmark and verify FLASH accuracy</td>
+                                    <td style="padding: 12px;">Time consuming</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px;"><b>Simulate (AutoEval)</b></td>
+                                    <td style="padding: 12px;">Agent mines historic incident data, generates GT, and simulates runs</td>
+                                    <td style="padding: 12px;">No manual effort; SRE can verify GT and benchmark FLASH</td>
+                                    <td style="padding: 12px;">Simulated GT must be consistent with real world data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Challenges</h3>
+                    <ul>
+                        <li><b>Data Drift:</b> Incident data drifts with time, so we cannot rely on the current state of the DB to evaluate FLASH. AutoEval stores data at the time of incident occurrence.</li>
+                        <li><b>Coverage:</b> Existing incidents do not cover all cases of the workflow (TSG). AutoEval performs workflow decomposition to ensure each path has a test case.</li>
+                        <li><b>Simulation Consistency:</b> Simulating data could lead to inconsistencies. AutoEval validates generated queries against domain KBs to ensure consistency.</li>
+                    </ul>
+
+                    <h3>Why Toolstubs?</h3>
+                    <ul>
+                        <li><b>Static Nature:</b> TSGs are unstructured text files that cannot be executed or tested programmatically.</li>
+                        <li><b>Manual Bottleneck:</b> Creating test vectors manually requires hours per incident.</li>
+                        <li><b>Logic Gaps:</b> Human readers often miss edge cases or implicit branches in complex TSGs.</li>
+                        <li><b>The Urgency:</b> Training AI agents requires massive structured datasets, not just text blobs.</li>
+                    </ul>
+
                     <h3>Architecture</h3>
                     <p>
                         The generation process follows a comprehensive 13-step pipeline, ensuring robustness and accuracy.
@@ -194,6 +245,22 @@
                         <li><b>Incident Generation:</b> Creates synthetic test incidents to validate the generated paths (TDD approach).</li>
                         <li><b>Build Outputs:</b> Serializes internal objects into the final JSON schema.</li>
                         <li><b>Reporting:</b> Saves all artifacts and generation reports to disk.</li>
+                    </ul>
+
+                    <h3>Business Impact</h3>
+                    <ul>
+                        <li><b>Scale:</b> Automated generation of thousands of labeled training samples from existing documentation sets.</li>
+                        <li><b>Quality:</b> "Refined" stubs are syntactically validated, reducing hallucinations in downstream AI models.</li>
+                        <li><b>Agility:</b> When TSGs are updated, simply re-run the pipeline to regenerate all training data instantly.</li>
+                        <li><b>Outcome:</b> Enables the training of robust, domain-aware AI Agents (Solvers and Evaluators) without manual data labeling expenses.</li>
+                    </ul>
+
+                    <h3>Next Steps</h3>
+                    <ul>
+                        <li>Scale toolstub generation across multiple TSGs.</li>
+                        <li>Onboard product teams to benchmark FLASH using AutoEval framework.</li>
+                        <li>Use feedback from AutoEval to improve TSG quality.</li>
+                        <li>Use feedback from AutoEval to add application specific code and resolve FLASH code vulnerabilities.</li>
                     </ul>
 
                 </div>
