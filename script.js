@@ -1,65 +1,10 @@
-// Load blog content from external file
-function loadBlogContent() {
-    const container = document.getElementById('blog-content-container');
-    if (container) {
-        fetch('blog-content.html')
-            .then(response => response.text())
-            .then(html => {
-                container.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading blog content:', error);
-            });
-    }
-}
-
-// Load publications content from external file
-function loadPublications() {
-    // Load for index.html
-    const indexContainer = document.getElementById('publications-container');
-    if (indexContainer) {
-        fetch('publications-content.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Failed to fetch publications-content.html');
-                return response.text();
-            })
-            .then(html => {
-                // For index, show all publication lists (ol) without year headers (h3)
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = html;
-                
-                const allOl = tempDiv.querySelectorAll('ol');
-                
-                let indexHtml = '';
-                allOl.forEach(ol => {
-                    indexHtml += ol.outerHTML;
-                });
-                
-                indexContainer.innerHTML = indexHtml;
-            })
-            .catch(error => {
-                console.error('Error loading publications for index:', error);
-                indexContainer.innerHTML = '<p>Error loading publications. Please refresh the page.</p>';
-            });
-    }
-    
-    // Load for publications.html
-    const fullContainer = document.getElementById('publications-full-container');
-    if (fullContainer) {
-        fetch('publications-content.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Failed to fetch publications-content.html');
-                return response.text();
-            })
-            .then(html => {
-                fullContainer.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading publications:', error);
-                fullContainer.innerHTML = '<p>Error loading publications. Please refresh the page.</p>';
-            });
-    }
-}
+// Dynamic fetching of blog and publication content has been removed because 
+// modern browsers block file:// protocol XHR/fetch requests, preventing the site
+// from working locally without a web server.
+//
+// The content has been statically embedded into the respective HTML files instead:
+// - index.html (Latest Thoughts, Publications)
+// - publications.html (Publications List)
 
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function () {
