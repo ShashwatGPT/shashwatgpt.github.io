@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <title>Shashwat Gupta - OPTIMACS</title>
     <meta name="author" content="Shashwat Gupta">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,12 +85,19 @@
                 <p><b>About:</b></p>
                 <ul>
                     <li>Accepted at Microsoft's MLADS</li>
-                    <li>Under Review ARR for ACL 2026 (January Cycle) utilizing public datasets to ACL Rolling Reviews (ARR January 2026 Cycle - Submission Number 5158) | Link <a href="https://openreview.net/forum?id=FWejgJEQKn&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3Daclweb.org%2FACL%2FARR%2F2026%2FJanuary%2FAuthors%23your-submissions)">OpenReview</a> (might not open untill reviews are out)</li>
+                    <li>Under Review ARR for ACL 2026 (January Cycle) utilizing public datasets to ACL Rolling Reviews
+                        (ARR January 2026 Cycle - Submission Number 5158) | Link <a
+                            href="https://openreview.net/forum?id=FWejgJEQKn&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3Daclweb.org%2FACL%2FARR%2F2026%2FJanuary%2FAuthors%23your-submissions)">OpenReview</a>
+                        (might not open untill reviews are out)</li>
                     <li>Filed for US-Patent (Microsoft Number: 506248-US01 | LawFirm Number: 13768.4890).</li>
                     <li>Arxiv: [Coming Soon] (after patent-filing is completed)</li>
-                    <li>Blog to capture the journey and key-design choices, explaining how we thought about it and the key design choices related to the framework | Link : <a href="https://shashwatgpt.github.io/optimacs.html">Blog</a></li>
+                    <li>Blog to capture the journey and key-design choices, explaining how we thought about it and the
+                        key design choices related to the framework | Link : <a
+                            href="https://shashwatgpt.github.io/optimacs.html">Blog</a></li>
                     <li>Github Code : [Coming Soon] (with arxiv link after patent filing is completed)</li>
-                    <li>OPTiMACS was a research effort by AIOps group in M365 Research (India) and included : Shashwat Gupta (me), Anson Bastos, Mayukh Das, Supriyo Ghosh, Nagarajan Natarajan, Chetan Bansal, and Saravan Rajmohan.</li>
+                    <li>OPTiMACS was a research effort by AIOps group in M365 Research (India) and included : Shashwat
+                        Gupta (me), Anson Bastos, Mayukh Das, Supriyo Ghosh, Nagarajan Natarajan, Chetan Bansal, and
+                        Saravan Rajmohan.</li>
                 </ul>
 
 
@@ -115,7 +122,7 @@
                     <p>
                         There are a couple of issues with using Natural Language as the format to encode information to
                         Natural Language.
-
+                    </p>
                     <ol>
                         <li>
                             <b>Efficient Token Usage:</b> Natural Language is often verbose. Structured formats strip
@@ -268,7 +275,6 @@
                                 <li><b>Ensemble Exploration:</b> exploring multiple strategies for each data point to
                                     accelerate learning.</li>
                             </ol>
-                            </p>
                             <p>
                                 <i>Formulation:</i> We learn a policy $\pi(f|t)$ where $t$ is the task cluster. The
                                 optimal format $f_t^*$ for cluster $t$ is:
@@ -325,7 +331,6 @@
                                 <li><b>Combinatorial Explosion:</b> The space of possible trajectories grows
                                     exponentially if we consider all strategies in parallel.</li>
                             </ol>
-                            </p>
                             <p>
                                 <i>Formulation:</i> We model the multi-agent interaction as an MDP tuple $(\mathcal{S},
                                 \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma)$:
@@ -445,11 +450,6 @@
                             </div>
                         </li>
                     </ol>
-
-
-                    </p>
-
-                    <h3>Implementation Details (From Theory to Code)</h3>
                     <p>
                         OPTiMACS operates like a smart translator between agents. Instead of letting afgents chat in
                         unstructured plain text, it intervenes to structure their messages into the most effective

@@ -8,10 +8,6 @@
 
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function () {
-    // Load content first
-    loadBlogContent();
-    loadPublications();
-
     const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(link => {

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <title>Shashwat Gupta - FLASH</title>
     <meta name="author" content="Shashwat Gupta">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,124 +88,195 @@
 
                     <ul>
                         <li>Accepted at ACM FSE PROMISE Conference (Under Review), 2026.</li>
-                        <li>Authors: Prathamesh Deshpande, Shashwat Gupta, Tanish Mittal, Xuchao Zhang, Chetan Bansal, Rujia Wang, Minghua Ma, Zhixin Ren, Hao Huang, Saravan Rajmohan.</li>
+                        <li>Authors: Prathamesh Deshpande, Shashwat Gupta, Tanish Mittal, Xuchao Zhang, Chetan Bansal,
+                            Rujia Wang, Minghua Ma, Zhixin Ren, Hao Huang, Saravan Rajmohan.</li>
                         <li>Blog Link (Internal): <a href="https://aka.ms/flash">Microsoft Blog</a></li>
-                        <li>Paper: <a href="https://docs.google.com/document/d/1UXO8erT1nwBRI1pMi2WfN_qR6UtEgcHhn8EL31u2lz0/edit?usp=sharing">Google Docs</a></li>
+                        <li>Paper: <a
+                                href="https://docs.google.com/document/d/1UXO8erT1nwBRI1pMi2WfN_qR6UtEgcHhn8EL31u2lz0/edit?usp=sharing">Google
+                                Docs</a></li>
                     </ul>
 
                     <h3>Introduction</h3>
                     <p>
-                        FLASH is a multi-agent solution that can complete complex workflows with high reliability and efficiency for routine tasks. Routine tasks are recurring activities carried out regularly following established procedures, often demanding significant human effort in daily life. For instance, diagnosing incidents triggered by monitoring alerts using predefined Troubleshooting Documents (TSG).
+                        FLASH is a multi-agent solution that can complete complex workflows with high reliability and
+                        efficiency for routine tasks. Routine tasks are recurring activities carried out regularly
+                        following established procedures, often demanding significant human effort in daily life. For
+                        instance, diagnosing incidents triggered by monitoring alerts using predefined Troubleshooting
+                        Documents (TSG).
                     </p>
 
                     <div class="image-container" style="text-align: center; margin: 20px 0;">
-                        <img src="images/flash_overview.png" alt="FLASH Overview" loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <img src="images/flash_overview.png" alt="FLASH Overview" loading="lazy"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
                         <p style="font-size: 0.9em; color: var(--text-secondary);">Figure: FLASH System Overview</p>
                     </div>
 
                     <p>
-                        The FLASH agent framework introduces several components designed to improve the reliability, efficiency, and affordability of workflow automation.
+                        The FLASH agent framework introduces several components designed to improve the reliability,
+                        efficiency, and affordability of workflow automation.
                     </p>
 
                     <div class="image-container" style="text-align: center; margin: 20px 0;">
-                        <img src="images/flash_architecture.png" alt="FLASH Architecture" loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <img src="images/flash_architecture.png" alt="FLASH Architecture" loading="lazy"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
                         <p style="font-size: 0.9em; color: var(--text-secondary);">Figure: FLASH Architecture</p>
                     </div>
 
                     <h3>Main Features</h3>
                     <ul>
                         <li>
-                            <b>Status Supervision</b> continuously monitors the execution status of each step within a workflow. It explicitly reasons about the current step’s outcome—whether it's complete, stalled, or requires further action—and determines the appropriate next agent and subsequent step based on this evaluation. This dynamic decision-making ensures robust and adaptive workflow execution, even in complex or non-linear scenarios.
+                            <b>Status Supervision</b> continuously monitors the execution status of each step within a
+                            workflow. It explicitly reasons about the current step’s outcome—whether it's complete,
+                            stalled, or requires further action—and determines the appropriate next agent and subsequent
+                            step based on this evaluation. This dynamic decision-making ensures robust and adaptive
+                            workflow execution, even in complex or non-linear scenarios.
                         </li>
                         <br>
                         <li>
-                            <b>Flowchart Compilation</b> transforms text-based workflows into structured, executable flowcharts, significantly reducing runtime parsing overhead and minimizing execution errors. FLASH also supports a specialized grammar within the workflow definition, allowing users to define custom steps and transitions. This grammar-based approach enables consistent parsing aligned with user knowledge, ensuring more reliable and interpretable workflow execution.
+                            <b>Flowchart Compilation</b> transforms text-based workflows into structured, executable
+                            flowcharts, significantly reducing runtime parsing overhead and minimizing execution errors.
+                            FLASH also supports a specialized grammar within the workflow definition, allowing users to
+                            define custom steps and transitions. This grammar-based approach enables consistent parsing
+                            aligned with user knowledge, ensuring more reliable and interpretable workflow execution.
                         </li>
                         <br>
                         <li>
-                            <b>Domain Knowledge Integration</b> allows users to enhance agent performance by incorporating relevant expertise at both the team and workflow levels. With a customizable prompt configuration feature, users can inject team-specific knowledge into built-in agents to reflect their unique operational context. Additionally, users can define workflow-specific knowledge to guide agent behavior for particular tasks. This flexible design ensures the agents operate with relevant expertise, improving the accuracy and efficiency of automated workflows.
+                            <b>Domain Knowledge Integration</b> allows users to enhance agent performance by
+                            incorporating relevant expertise at both the team and workflow levels. With a customizable
+                            prompt configuration feature, users can inject team-specific knowledge into built-in agents
+                            to reflect their unique operational context. Additionally, users can define
+                            workflow-specific knowledge to guide agent behavior for particular tasks. This flexible
+                            design ensures the agents operate with relevant expertise, improving the accuracy and
+                            efficiency of automated workflows.
                         </li>
                         <br>
                         <li>
-                            <b>Hindsight Integration</b> processes insights from past failures by collecting and analyzing previously failed cases within a comprehensive offline repository of similar incidents. FLASH reflects on these failures to identify root causes and effective resolutions, and incorporates this knowledge during runtime to guide decision-making. This reflection mechanism helps improve accuracy, prevent repeated errors, and enhance overall system performance in future executions.
+                            <b>Hindsight Integration</b> processes insights from past failures by collecting and
+                            analyzing previously failed cases within a comprehensive offline repository of similar
+                            incidents. FLASH reflects on these failures to identify root causes and effective
+                            resolutions, and incorporates this knowledge during runtime to guide decision-making. This
+                            reflection mechanism helps improve accuracy, prevent repeated errors, and enhance overall
+                            system performance in future executions.
                         </li>
-                        <br>
                         <li>
-                            <b>User-controllable Execution (Coming Soon)</b> enables user to manage workflow execution by interacting with the agent, facilitating actions such as skipping a step or rerunning a previous step.
+                            <b>User-controllable Execution (Coming Soon)</b> enables user to manage workflow execution
+                            by interacting with the agent, facilitating actions such as skipping a step or rerunning a
+                            previous step.
                         </li>
-                        <br>
                         <li>
-                            <b>Context Compression (Coming Soon)</b> harnesses insights from extensive past executions to automatically determine the optimal prompt compression for routing tasks, enhancing execution efficiency and reducing costs.
+                            <b>Context Compression (Coming Soon)</b> harnesses insights from extensive past executions
+                            to automatically determine the optimal prompt compression for routing tasks, enhancing
+                            execution efficiency and reducing costs.
                         </li>
                     </ul>
 
                     <hr style="margin: 3rem 0; border-top: 1px solid #ddd;">
 
-                    <h2 class="section-sub-header">2. AutoEval: Neuro-Symbolic Environment Synthesis for Resilient Agent Evaluation (Theory)</h2>
+                    <h2 class="section-sub-header">2. AutoEval: Neuro-Symbolic Environment Synthesis for Resilient Agent
+                        Evaluation (Theory)</h2>
 
                     <p>
-                        Evaluating Large Language Model (LLM) agents in industrial settings presents a fundamental dichotomy: static datasets fail to capture non-stationary environments (data drift) and implicit logic, while production testing carries unacceptable operational risk. We present <b>AutoEval</b>, a framework for <b>Counterfactual World Generation</b> that synthesizes executable evaluation environments directly from natural language policy documents.
+                        Evaluating Large Language Model (LLM) agents in industrial settings presents a fundamental
+                        dichotomy: static datasets fail to capture non-stationary environments (data drift) and implicit
+                        logic, while production testing carries unacceptable operational risk. We present
+                        <b>AutoEval</b>, a framework for <b>Counterfactual World Generation</b> that synthesizes
+                        executable evaluation environments directly from natural language policy documents.
                     </p>
                     <p>
-                        Unlike stochastic simulators that hallucinate states or collapse modes, AutoEval utilizes a neuro-symbolic architecture—combining LLM-based multi-agent debate for logic extraction with Breadth-First Search (BFS) constraint propagation—to guarantee 100% path coverage of the policy logic.
+                        Unlike stochastic simulators that hallucinate states or collapse modes, AutoEval utilizes a
+                        neuro-symbolic architecture—combining LLM-based multi-agent debate for logic extraction with
+                        Breadth-First Search (BFS) constraint propagation—to guarantee 100% path coverage of the policy
+                        logic.
                     </p>
 
                     <h3>1. Introduction</h3>
                     <p>
-                        The transition of LLMs from passive chatbots to active agents requires robust evaluation frameworks. Current methodologies face three critical failures:
+                        The transition of LLMs from passive chatbots to active agents requires robust evaluation
+                        frameworks. Current methodologies face three critical failures:
                     </p>
                     <ol>
-                        <li><b>Data Drift:</b> Static benchmarks (e.g., AgentBench) rapidly depreciate as production environments evolve.</li>
-                        <li><b>Implicit Logic:</b> Real-world workflows (TSGs) contain hidden branching logic missed by standard sets.</li>
-                        <li><b>Combinatorial Explosion:</b> Naive "One-Shot" LLM generation fails on complex TSGs. A workflow with sequential branching factors (e.g., [5, 6, 3, 2, 5, 2, 3, 6]) generates >21,000 unique paths. Dumping the entire context into an LLM results in context overflow and mode collapse, failing to enumerate the long tail of edge cases.</li>
+                        <li><b>Data Drift:</b> Static benchmarks (e.g., AgentBench) rapidly depreciate as production
+                            environments evolve.</li>
+                        <li><b>Implicit Logic:</b> Real-world workflows (TSGs) contain hidden branching logic missed by
+                            standard sets.</li>
+                        <li><b>Combinatorial Explosion:</b> Naive "One-Shot" LLM generation fails on complex TSGs. A
+                            workflow with sequential branching factors (e.g., [5, 6, 3, 2, 5, 2, 3, 6]) generates
+                            &gt;21,000 unique paths. Dumping the entire context into an LLM results in context overflow
+                            and
+                            mode collapse, failing to enumerate the long tail of edge cases.</li>
                     </ol>
 
                     <p>
-                        We introduce <b>AutoEval</b>, a framework that bridges the gap between data coverage and case coverage. AutoEval treats documentation not as unstructured text, but as latent code, compiling natural language policies into executable "Toolstubs" that simulate API responses and ground truth trajectories.
+                        We introduce <b>AutoEval</b>, a framework that bridges the gap between data coverage and case
+                        coverage. AutoEval treats documentation not as unstructured text, but as latent code, compiling
+                        natural language policies into executable "Toolstubs" that simulate API responses and ground
+                        truth trajectories.
                     </p>
 
                     <h4>Key Contributions:</h4>
                     <ul>
-                        <li><b>Neuro-Symbolic Extraction:</b> A novel pipeline using Multi-Agent "Critics" for implicit logic detection and symbolic BFS for exhaustive path exploration.</li>
-                        <li><b>Environment Synthesis:</b> A mechanism to generate "Toolstubs" (mock environments) that are mathematically consistent with real-world Knowledge Bases (KBs).</li>
-                        <li><b>Scalable Systematic Workflow:</b> A step-by-step decomposition approach that handles large-context combinatorial explosion, enabling the generation of tens of thousands of coherent test cases where naive methods fail.</li>
-                        <li><b>Drift Resilience:</b> Empirical evidence demonstrating AutoEval's ability to maintain benchmarking accuracy in shifting environments where static datasets fail.</li>
+                        <li><b>Neuro-Symbolic Extraction:</b> A novel pipeline using Multi-Agent "Critics" for implicit
+                            logic detection and symbolic BFS for exhaustive path exploration.</li>
+                        <li><b>Environment Synthesis:</b> A mechanism to generate "Toolstubs" (mock environments) that
+                            are mathematically consistent with real-world Knowledge Bases (KBs).</li>
+                        <li><b>Scalable Systematic Workflow:</b> A step-by-step decomposition approach that handles
+                            large-context combinatorial explosion, enabling the generation of tens of thousands of
+                            coherent test cases where naive methods fail.</li>
+                        <li><b>Drift Resilience:</b> Empirical evidence demonstrating AutoEval's ability to maintain
+                            benchmarking accuracy in shifting environments where static datasets fail.</li>
                     </ul>
 
                     <h3>2. Problem Formulation: The Latent POMDP</h3>
                     <p>
-                        We define a Troubleshooting Guide (TSG) as a partial specification of a Partially Observable Markov Decision Process (POMDP), $\mathcal{M} = \langle S, A, T, R, \Omega, O \rangle$.
+                        We define a Troubleshooting Guide (TSG) as a partial specification of a Partially Observable
+                        Markov Decision Process (POMDP), $\mathcal{M} = \langle S, A, T, R, \Omega, O \rangle$.
                     </p>
                     <ul>
-                        <li><b>The Challenge:</b> The transition function $T(s'|s,a)$ is latent, encoded in unstructured text (the TSG).</li>
-                        <li><b>The Goal:</b> Construct a synthetic evaluation environment $\mathcal{E}_{syn}$ such that an agent $\pi$ evaluated on $\mathcal{E}_{syn}$ accurately predicts performance in the real production environment $\mathcal{E}_{real}$.</li>
-                        <li><b>The Constraint:</b> $\mathcal{E}_{syn}$ must cover all logical branches $B$ in the TSG, including implicit edge cases (e.g., "If CPU is high..."), which are rarely represented in historical logs.</li>
+                        <li><b>The Challenge:</b> The transition function $T(s'|s,a)$ is latent, encoded in unstructured
+                            text (the TSG).</li>
+                        <li><b>The Goal:</b> Construct a synthetic evaluation environment $\mathcal{E}_{syn}$ such that
+                            an agent $\pi$ evaluated on $\mathcal{E}_{syn}$ accurately predicts performance in the real
+                            production environment $\mathcal{E}_{real}$.</li>
+                        <li><b>The Constraint:</b> $\mathcal{E}_{syn}$ must cover all logical branches $B$ in the TSG,
+                            including implicit edge cases (e.g., "If CPU is high..."), which are rarely represented in
+                            historical logs.</li>
                     </ul>
 
                     <h3>3. Methodology: Neuro-Symbolic Compilation</h3>
                     <p>
-                        AutoEval operates as a <b>compiler</b>, adopting a <b>systematic, step-by-step workflow</b> to manage context window limits and combinatorial complexity. Instead of attempting "one-shot" generation from the full document, it decomposes the problem via a four-phase architecture.
+                        AutoEval operates as a <b>compiler</b>, adopting a <b>systematic, step-by-step workflow</b> to
+                        manage context window limits and combinatorial complexity. Instead of attempting "one-shot"
+                        generation from the full document, it decomposes the problem via a four-phase architecture.
                     </p>
-                    
+
                     <div class="image-container" style="text-align: center; margin: 20px 0;">
-                        <img src="images/autotoolstub_overall_process.jpg" alt="Automated Tool Stub Generator Overall Process" loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
-                        <p style="font-size: 0.9em; color: var(--text-secondary);">Figure: Overall Process of AutoEval</p>
+                        <img src="images/autotoolstub_overall_process.jpg"
+                            alt="Automated Tool Stub Generator Overall Process" loading="lazy"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: var(--text-secondary);">Figure: Overall Process of AutoEval
+                        </p>
                     </div>
 
                     <h4>3.1 Phase 1: Ingestion & DAG Construction</h4>
                     <p>
-                        The system parses the raw markdown of the policy documents. It maps nodes (steps) and transitions to construct a preliminary Directed Acyclic Graph (DAG) representing the explicit workflow.
+                        The system parses the raw markdown of the policy documents. It maps nodes (steps) and
+                        transitions to construct a preliminary Directed Acyclic Graph (DAG) representing the explicit
+                        workflow.
                     </p>
 
                     <h4>3.2 Phase 2: Multi-Agent Logic Discovery (The "Critic")</h4>
                     <p>
-                        Standard parsing misses implicit logic. We employ an <b>LLM-based Multi-Agent Debate</b> mechanism (Proposer <-> Critic) to analyze nodes for conditional dependencies not explicitly linked in the text (e.g., implicit "Else" conditions).
+                        Standard parsing misses implicit logic. We employ an <b>LLM-based Multi-Agent Debate</b>
+                        mechanism (Proposer &lt;-&gt; Critic) to analyze nodes for conditional dependencies not
+                        explicitly
+                        linked in the text (e.g., implicit "Else" conditions).
                     </p>
                     <p>
                         $$ \text{LogicTree} = \text{Consensus}(\text{Debate}(\text{Node}_i, \text{Context})) $$
                     </p>
                     <p>
-                        This step converts linear text instructions into branching logic trees, uncovering hidden constraints often missed by single-pass extraction.
+                        This step converts linear text instructions into branching logic trees, uncovering hidden
+                        constraints often missed by single-pass extraction.
                     </p>
 
                     <h4>3.3 Phase 3: BFS Symbolic Execution Engine</h4>
@@ -213,14 +284,25 @@
                         To ensure comprehensive evaluation, we reject Monte Carlo sampling in favor of symbolic search.
                     </p>
                     <ul>
-                        <li><b>Constraint Propagation:</b> The engine simulates a user traversing the DAG step-by-step. By limiting the LLM's context to the current node's logic, we avoid context-window overload.</li>
-                        <li><b>Path Splitting:</b> At every Condition Axis (decision point detected by the Critic), the engine bifurcates the timeline (e.g., Path A: <code>Disk Full</code>, Path B: <code>Disk OK</code>).</li>
-                        <li><b>Coverage Guarantee:</b> This BFS approach mathematically guarantees coverage of all detected logic paths. Even with combinatorial explosion (e.g., $N=21,600$ paths), the systematic traversal ensures every valid permutation is instantiated as a unique "Toolstub."</li>
+                        <li><b>Constraint Propagation:</b> The engine simulates a user traversing the DAG step-by-step.
+                            By limiting the LLM's context to the current node's logic, we avoid context-window overload.
+                        </li>
+                        <li><b>Path Splitting:</b> At every Condition Axis (decision point detected by the Critic), the
+                            engine bifurcates the timeline (e.g., Path A: <code>Disk Full</code>, Path B:
+                            <code>Disk OK</code>).
+                        </li>
+                        <li><b>Coverage Guarantee:</b> This BFS approach mathematically guarantees coverage of all
+                            detected logic paths. Even with combinatorial explosion (e.g., $N=21,600$ paths), the
+                            systematic traversal ensures every valid permutation is instantiated as a unique "Toolstub."
+                        </li>
                     </ul>
 
                     <h4>3.4 Phase 4: Data Refinement & Knowledge Base Grounding</h4>
                     <p>
-                        To prevent hallucinations common in synthetic data, generated queries and states are validated against <b>Reference Knowledge Bases</b> (e.g., Kusto log schemas, API definitions). This ensures the "Toolstubs" return realistic schemas and values, maintaining consistency with real-world data structures (The "Sim-to-Real" Link).
+                        To prevent hallucinations common in synthetic data, generated queries and states are validated
+                        against <b>Reference Knowledge Bases</b> (e.g., Kusto log schemas, API definitions). This
+                        ensures the "Toolstubs" return realistic schemas and values, maintaining consistency with
+                        real-world data structures (The "Sim-to-Real" Link).
                     </p>
 
                 </div>
