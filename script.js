@@ -37,29 +37,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update active nav link on scroll
     const sections = document.querySelectorAll('.section');
-    const observerOptions = {
-        root: null,
-        rootMargin: '-70px 0px -50% 0px',
-        threshold: 0
-    };
 
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                navLinks.forEach(nav => {
-                    nav.classList.remove('active');
-                    if (nav.getAttribute('href') === '#' + id) {
-                        nav.classList.add('active');
-                    }
-                });
+    window.addEventListener('scroll', () => {
+        let current = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            // 70px is the navbar offset
+            if (window.scrollY >= sectionTop - 100) {
+                current = section.getAttribute('id');
             }
         });
-    }, observerOptions);
 
-    sections.forEach(section => {
-        observer.observe(section);
+        if (current) {
+            const activeLink = document.querySelector(`.nav-link[href="#${current}"]`);
+            if (activeLink) {
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                activeLink.classList.add('active');
+            }
+        }
     });
+
+    // Trigger once on load
+    window.dispatchEvent(new Event('scroll'));
 });
 
 const MEDIUM_USERNAME = 'shashwat.gpt';
