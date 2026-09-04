@@ -1137,3 +1137,122 @@ a[href*="scholar.google.com"] .social-icon {
   text-align: left;
   line-height: 1.5;
 }
+/* Paper tables (used in research write-ups: BOFlow, etc.) */
+.research-paper .paper-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  text-align: right;
+}
+
+.research-paper .paper-table caption {
+  caption-side: top;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.research-paper .paper-table th,
+.research-paper .paper-table td {
+  padding: 0.5rem 0.7rem;
+  border: none;
+  white-space: nowrap;
+}
+
+.research-paper .paper-table thead th {
+  border-top: 2px solid var(--text-primary);
+  border-bottom: 1px solid var(--text-primary);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.research-paper .paper-table tbody tr:last-child td {
+  border-bottom: 2px solid var(--text-primary);
+}
+
+.research-paper .paper-table th:first-child,
+.research-paper .paper-table td:first-child {
+  text-align: left;
+}
+
+.research-paper .paper-table tbody tr:hover {
+  background-color: var(--bg-subtle);
+}
+
+.research-paper .paper-table tr.row-ours {
+  background-color: #fff7ed;
+}
+
+.research-paper .paper-table tr.row-ours:hover {
+  background-color: #ffedd5;
+}
+
+.research-paper code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.92em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+/* News / Talks list */
+.news-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.news-list li {
+  display: flex;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.news-list li:last-child {
+  border-bottom: none;
+}
+
+.news-date {
+  flex: 0 0 6.5rem;
+  font-weight: 600;
+  color: #c2410c;
+  font-size: 0.85rem;
+  padding-top: 0.15rem;
+}
+
+@media (max-width: 640px) {
+  .news-list li {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .news-date {
+    flex: none;
+  }
+}
+
+/* Experience / education extras */
+.exp-logo-container .exp-icon {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.exp-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 0.4rem;
+}
+
+.exp-details {
+  min-width: 0;
+}

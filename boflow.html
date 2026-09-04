@@ -1,0 +1,715 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Shashwat Gupta - BOFlow</title>
+    <meta name="author" content="Shashwat Gupta">
+    <meta name="description"
+        content="BOFlow: exploration-aware Bayesian optimisation in workflow space for agent evolution - the story behind the paper.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script defer>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar (Profile & Nav) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="profile-header">
+                    <a href="index.html" class="profile-pic-link">
+                        <img src="images/prof_pic.png" alt="Shashwat Gupta" class="profile-pic">
+                    </a>
+                    <h1 class="name">Shashwat Gupta</h1>
+                    <p class="subtitle">MS in CS @ UIUC (SSAIL) | ex-Microsoft Research | IIT Kanpur CSE'24 | ex-EPFL</p>
+                </div>
+
+                <nav class="navbar">
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="publications.html" class="nav-link">Research</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="blogs.html" class="nav-link">Blog</a>
+                    <a href="community.html" class="nav-link">Community</a>
+                    <a href="index.html#cv" class="nav-link">CV</a>
+                </nav>
+
+                <div class="social-links">
+                    <a href="mailto:guptashashwatme+website@gmail.com" class="social-icon" title="Email"
+                        aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/shashwat-gupta-uiuc/" target="_blank" rel="noopener"
+                        class="social-icon" title="LinkedIn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="social-icon"
+                        title="GitHub" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+                        target="_blank" rel="noopener" class="social-icon" title="Medium" aria-label="Medium">
+                        <i class="fab fa-medium"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@shashwatgupta4613" target="_blank" rel="noopener"
+                        class="social-icon" title="YouTube" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=XhDzpMMAAAAJ" target="_blank" rel="noopener"
+                        class="social-icon" title="Google Scholar" aria-label="Google Scholar">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h2>BOFlow: Exploration-Aware Bayesian Optimisation in Workflow Space</h2>
+                </div>
+
+                <p><b>About:</b></p>
+                <ul>
+                    <li>Full title: <i>BOFlow: Exploration-Aware Bayesian Optimisation in Workflow Space for Agent
+                            Evolution</i>.</li>
+                    <li><b>Accepted at ACL Rolling Review (ARR)</b> &mdash; the commitment venue is not finalised yet.
+                    </li>
+                    <li>Authors: <b>Shashwat Gupta</b> (me), Anson Bastos, Xuchao Zhang, Ritabrata Maiti, Chetan Bansal.
+                    </li>
+                    <li>Presented at the <b>AICE Conference, UIUC</b>.</li>
+                    <li>arXiv / camera-ready PDF: [Coming Soon]</li>
+                    <li>Code: [Coming Soon]</li>
+                    <li>This blog is my own write-up of the motivation, the design choices we made, and what the
+                        numbers actually say. It is written to be readable without the paper in front of you.</li>
+                </ul>
+
+                <div class="project-details research-paper">
+
+                    <h3>The one-paragraph version</h3>
+
+                    <p>
+                        Agentic workflows &mdash; the structured composition of LLM calls, tool invocations and control
+                        logic that sits behind any serious agent &mdash; are still mostly hand-built. The obvious fix is
+                        to search for them automatically, and prior work does exactly that: <b>ADAS</b> generates and
+                        evaluates candidate pipelines, <b>AFlow</b> represents workflows as code graphs and runs Monte
+                        Carlo Tree Search over them. These methods work, but they lean on the LLM itself as the
+                        explorer, and LLMs are not built for structured discrete optimisation. The search keeps
+                        rediscovering variations of whatever worked first. We call this what it is: <b>structural mode
+                            collapse</b>.
+                    </p>
+
+                    <p>
+                        <b>BOFlow</b> takes the other road. We treat workflow discovery as a black-box optimisation
+                        problem, embed each code-represented workflow into a continuous feature space, fit a
+                        <b>Gaussian Process</b> surrogate over performance in that space, and select the next candidate
+                        using both <b>Expected Improvement</b> and an explicit <b>KNN-based novelty term</b>. The LLM
+                        stays in the loop &mdash; but as a domain-aware <i>generator</i> and <i>selector</i>, not as
+                        the optimiser. Across eight reasoning, QA and code-generation benchmarks this lifts the average
+                        from 77.7 (AFlow) to <b>89.2</b>, while exploring 3&ndash;4&times; more of the workflow space
+                        and sitting on the cost&ndash;performance Pareto frontier.
+                    </p>
+
+                    <div class="image-container" style="text-align: center; margin: 2rem 0;">
+                        <img src="images/boflow_framework.png" alt="BOFlow framework overview" loading="lazy"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: var(--text-secondary); text-align:center;">Figure 1: The
+                            BOFlow loop. Workflows are sampled and embedded (1&ndash;2); a GP estimates Expected
+                            Improvement while a KNN graph scores novelty (3.1&ndash;3.2); an LLM policy picks the next
+                            candidate (4); it is executed (5), written into evaluation memory (6), and that memory
+                            conditions the next round of LLM-guided mutation (7).</p>
+                    </div>
+
+                    <h3>Motivation: why does workflow search collapse?</h3>
+
+                    <h4>The search space is genuinely nasty</h4>
+                    <p>
+                        A workflow is a directed acyclic graph of operators &mdash; a reasoning step, an ensemble, a
+                        verifier, a programmer step, a retry loop. That gives you a space that is
+                        <b>combinatorial</b>, <b>non-smooth</b>, and <b>expensive to evaluate</b>: every single
+                        candidate costs you multiple LLM executions, and what comes back is a sparse, noisy scalar. You
+                        cannot brute-force it, you cannot differentiate through it, and you get very few samples.
+                    </p>
+
+                    <h4>Using an LLM as the optimiser makes it worse</h4>
+                    <p>
+                        When the proposal distribution <i>is</i> the LLM's prior, the optimiser inherits the LLM's
+                        biases. Ask a model to "improve this workflow" thirty times and it will keep reaching for the
+                        same handful of patterns it has seen most often in training. Combine that with a greedy
+                        selection rule and you get premature convergence: the search parks itself in one region and
+                        stops asking whether a structurally different workflow would do better. This matters most
+                        exactly where you would want the search &mdash; complex tasks, where several genuinely distinct
+                        workflow structures can reach comparable scores and only sustained exploration finds the good
+                        ones.
+                    </p>
+
+                    <p>
+                        So the thing we actually needed was a <b>global model of the search landscape</b> &mdash;
+                        something that knows where it has already been, and can quantify how uncertain it is about
+                        where it has not. That is a textbook description of Bayesian optimisation. The reason nobody
+                        had done it here is representational: BO wants continuous inputs, and workflows are discrete
+                        programs.
+                    </p>
+
+                    <h3>Formulating it</h3>
+
+                    <p>
+                        Let $\mathcal{G}$ be the space of valid agent workflows, where each $g \in \mathcal{G}$ is a DAG
+                        of LLM operators and control logic that compiles to an executable program. Each workflow has a
+                        score
+                    </p>
+                    <p style="text-align:center;">$f(g) \in [0,1]$</p>
+                    <p>
+                        obtained by running it on a held-out evaluation set. Evaluating $f$ is expensive and
+                        stochastic. Under a fixed budget of $T$ evaluations we want
+                    </p>
+                    <p style="text-align:center;">$g^{*} = \arg\max_{g \in \mathcal{G}} f(g)$.</p>
+
+                    <p>
+                        The move that unlocks everything else is a mapping
+                    </p>
+                    <p style="text-align:center;">$\phi : \mathcal{G} \rightarrow \mathbb{R}^{d}$</p>
+                    <p>
+                        which embeds a workflow into a $d$-dimensional space capturing its structural and semantic
+                        properties. This does two jobs at once: it lets us put a continuous surrogate model on top, and
+                        it gives us a <b>notion of similarity between workflows</b> &mdash; which is what we later use
+                        to measure whether the search is actually exploring.
+                    </p>
+
+                    <h3>The method, piece by piece</h3>
+
+                    <h4>Bootstrapping the surrogate</h4>
+                    <p>
+                        A GP with no observations is useless, so we start with a warm-up phase of $T_0$ evaluations of
+                        a template workflow $g_0$ and minor variants of it (generated by prompting the LLM), producing
+                        an initial dataset $\mathcal{D}_t = \{(g_i, x_i, f(g_i))\}_{i=1}^{t}$ with $x_i = \phi(g_i)$.
+                        This is the cheapest possible way to give the surrogate enough signal to estimate <i>both</i> a
+                        mean and an uncertainty &mdash; and without the uncertainty, the acquisition step is
+                        meaningless.
+                    </p>
+
+                    <h4>A candidate pool with memory</h4>
+                    <p>
+                        Each round we generate a pool $\mathcal{P} = \{g_1, \dots, g_K\}$ by LLM-guided mutation of the
+                        current best workflow $g^{*}_{\text{curr}}$. The difference from prior work is the
+                        <b>memory buffer</b> $\mathcal{M}$: it stores what happened in previous rounds &mdash;
+                        structural patterns that worked, mutations that failed &mdash; and gets injected into the
+                        mutation prompt. The LLM is therefore conditioned on the <i>trajectory</i> of the search, not
+                        just on its current best point.
+                    </p>
+
+                    <h4>The embedding $\phi$</h4>
+                    <p>
+                        $\phi$ is deliberately lightweight: a composition of static program analyses over the workflow
+                        code. It captures structural signals (number of operators, workflow depth), execution-level
+                        properties (number of LLM calls, whether verification or testing steps are present) and
+                        control-flow patterns.
+                    </p>
+                    <p>
+                        Crucially we do <b>not</b> treat these dimensions as a fixed, hand-weighted schema. The GP is
+                        retrained on the accumulated $\mathcal{D}_t$ each round, so the kernel implicitly learns which
+                        dimensions predict performance; useful directions get reinforced through the acquisition step
+                        and redundant ones get down-weighted. The representation adapts to the task rather than being
+                        specified for it.
+                    </p>
+
+                    <h4>Gaussian Process surrogate and Expected Improvement</h4>
+                    <p>
+                        We place a GP prior over $f$ in the embedding space, $f(x) \sim
+                        \mathcal{GP}(m(x), k(x,x'))$, giving the usual posterior
+                    </p>
+                    <p style="text-align:center;">
+                        $\mu_t(x) = k(x,X)^{\top}(K + \sigma_n^2 I)^{-1} y$,&nbsp;&nbsp;&nbsp;
+                        $\sigma_t^2(x) = k(x,x) - k(x,X)^{\top}(K + \sigma_n^2 I)^{-1} k(x,X)$
+                    </p>
+                    <p>
+                        and then compute Expected Improvement over the current best $f^{+} = \max_{i \le t} f(g_i)$:
+                    </p>
+                    <p style="text-align:center;">
+                        $\mathrm{EI}(x) = \left(\mu(x) - f^{+}\right)\Phi(Z) + \sigma(x)\,\varphi(Z)$,&nbsp;&nbsp;&nbsp;
+                        $Z = \dfrac{\mu(x) - f^{+}}{\sigma(x)}$
+                    </p>
+                    <p>
+                        EI already trades off exploitation (high predicted score) against exploration (high
+                        uncertainty). But in a high-dimensional structured space, EI on its own still drifts towards
+                        regions the surrogate already knows well &mdash; because that is where its estimates are
+                        confident enough to look attractive. That drift is the mechanism of structural collapse.
+                    </p>
+
+                    <h4>KNN exploration regularisation &mdash; the part that actually fixes collapse</h4>
+                    <p>
+                        So we add an explicit novelty term. For a candidate embedding $x$, let $N_k(x)$ be its $k$
+                        nearest neighbours among the already-evaluated workflows:
+                    </p>
+                    <p style="text-align:center;">
+                        $\mathrm{Div}(x) = \dfrac{1}{k}\displaystyle\sum_{i \in N_k(x)} \lVert x - x_i \rVert_2$
+                    </p>
+                    <p>
+                        normalised to $[0,1]$ across the candidate set. The intuition is simple and, I think, the
+                        conceptual core of the paper: <b>distance in the workflow embedding space is a proxy for
+                            "structurally different hypothesis"</b>. A candidate far from everything we have tried is
+                        not just a perturbation of the incumbent &mdash; it is a different idea about how to solve the
+                        task. Rewarding that distance is how the search climbs out of a local optimum.
+                    </p>
+
+                    <h4>Acquisition: an LLM policy rather than a fixed formula</h4>
+                    <p>
+                        Classical BO combines acquisition signals with a fixed functional form. We found that the right
+                        balance between improvement and novelty varies both across tasks and across stages of a single
+                        run &mdash; early on you want coverage, later you want refinement. So the primary policy
+                        $\psi$ hands the decision to the LLM:
+                    </p>
+                    <p style="text-align:center;">$g_t = \psi(\mathcal{T}, \mathcal{M})$</p>
+                    <p>
+                        where $\mathcal{T} = \{(g_j, x_j, \mathrm{EI}(x_j), \mathrm{Div}(x_j))\}_{j=1}^{K}$ is the
+                        scored candidate set and $\mathcal{M}$ is the evaluation memory. The LLM sees the numbers
+                        <i>and</i> the history, and picks. This is the one place where "LLM as optimiser" is actually
+                        the right tool &mdash; it is a small, well-posed, context-rich choice, not an open-ended search.
+                    </p>
+                    <p>
+                        To make the contribution of each signal measurable, we also implement a deterministic fallback
+                        policy:
+                    </p>
+                    <p style="text-align:center;">$g_t = \arg\max_{g \in \mathcal{P}} \; \lambda_1
+                        \mathrm{EI}(x_j) + \lambda_2 \mathrm{Div}(x_j)$</p>
+                    <p>
+                        which is what the $\lambda$ ablations below run on.
+                    </p>
+
+                    <h4>Reflect&ndash;repair</h4>
+                    <p>
+                        A selected workflow is first executed on a small set of validation examples. If it errors, the
+                        execution feedback goes back to the LLM, which reflects on the failure and revises the
+                        workflow; this can repeat for a few iterations and yields extra candidates for the next round.
+                        It is a cheap trick with an outsized effect &mdash; it converts execution failures, which are
+                        otherwise just a zero in the dataset, into a usable learning signal.
+                    </p>
+
+                    <h4>Putting it together</h4>
+                    <div class="algorithm-block" style="padding: 1.25rem 1.5rem;">
+                        <strong>Algorithm: BOFlow</strong><br><br>
+                        <span style="font-size:0.95rem; line-height:1.6;">
+                            1. <b>Warm-up:</b> evaluate $T_0$ variants of the template workflow $g_0$; build
+                            $\mathcal{D}_0$.<br>
+                            2. <b>for</b> $t = 1 \dots T$ <b>do</b><br>
+                            3. &nbsp;&nbsp;&nbsp;&nbsp;Fit the GP surrogate on $\mathcal{D}_t$.<br>
+                            4. &nbsp;&nbsp;&nbsp;&nbsp;Generate pool $\mathcal{P}$ by LLM-guided mutation of
+                            $g^{*}_{\text{curr}}$, conditioned on memory $\mathcal{M}$.<br>
+                            5. &nbsp;&nbsp;&nbsp;&nbsp;<b>for</b> each candidate $g_j \in \mathcal{P}$: embed $x_j =
+                            \phi(g_j)$; compute $\mathrm{EI}(x_j)$ and $\mathrm{Div}(x_j)$; add to $\mathcal{T}$.<br>
+                            6. &nbsp;&nbsp;&nbsp;&nbsp;Select $g_t = \psi(\mathcal{T}, \mathcal{M})$.<br>
+                            7. &nbsp;&nbsp;&nbsp;&nbsp;Reflect&ndash;repair, then evaluate $f(g_t)$.<br>
+                            8. &nbsp;&nbsp;&nbsp;&nbsp;Update $\mathcal{D}_{t+1}$, $\mathcal{M}$, and the running
+                            best.<br>
+                            9. <b>return</b> the best workflow observed.
+                        </span>
+                    </div>
+                    <p>
+                        Read as a loop over rounds, this <i>is</i> agent evolution: the workflow the agent runs is
+                        progressively rewritten by the optimiser, and the improvement is driven by measured performance
+                        rather than by a human's guess about what should help.
+                    </p>
+
+                    <h3>Experiments</h3>
+
+                    <p>
+                        We asked three questions. <b>RQ1:</b> how does BOFlow compare to automated workflow-design
+                        baselines? <b>RQ2:</b> how much does each component matter? <b>RQ3:</b> how token-efficient is
+                        it?
+                    </p>
+
+                    <p>
+                        <b>Datasets.</b> Eight benchmarks spanning reasoning, QA and code generation: GSM8K, MATH,
+                        HumanEval, MBPP, HotpotQA, DROP, BBH and MMLU-Pro. Following prior work on automated workflow
+                        optimisation we split each dataset into validation and test at a 1:4 ratio. Full test sets are
+                        used for GSM8K, HumanEval and MBPP; HotpotQA and DROP are subsampled to 1,000 instances each;
+                        MATH uses the standard 617-problem protocol over representative categories; BBH and MMLU-Pro
+                        use a 500-sample held-out test set with a 50&ndash;200 sample optimisation set.
+                    </p>
+
+                    <p>
+                        <b>Baselines.</b> Manually designed prompting strategies (direct IO, Chain-of-Thought,
+                        self-consistent CoT, MedPrompt, Multi-Persona Debate, Self-Refine) and automated workflow
+                        optimisers (ADAS, AFlow, ShinkaEvolve, GEPA).
+                    </p>
+
+                    <p>
+                        <b>Setup.</b> To keep the comparison honest we adopt the same experimental setup as AFlow: all
+                        workflows are executed with <b>GPT-4o-mini</b> as the underlying model, under a fixed
+                        optimisation budget. Every workflow is evaluated three times (seeds 40, 41, 42); we report mean
+                        and standard deviation. Metrics are the standard ones per task &mdash; solve rate for GSM8K and
+                        MATH, pass@1 for HumanEval and MBPP, F1 for HotpotQA and DROP, exact match for BBH and MMLU-Pro.
+                    </p>
+
+                    <h3>Results</h3>
+
+                    <div style="overflow-x:auto;">
+                        <table class="paper-table">
+                            <caption>Table 1: Manual, search-based and evolutionary methods, all executed with
+                                GPT-4o-mini on the same test set. Higher is better.</caption>
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>HotpotQA</th>
+                                    <th>DROP</th>
+                                    <th>HumanEval</th>
+                                    <th>MBPP</th>
+                                    <th>GSM8K</th>
+                                    <th>MATH</th>
+                                    <th>BBH</th>
+                                    <th>MMLU-Pro</th>
+                                    <th>Avg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IO (GPT-4o-mini)</td>
+                                    <td>71.9</td><td>73.0</td><td>87.8</td><td>73.3</td><td>88.5</td><td>41.0</td>
+                                    <td>45.6</td><td>39.6</td><td>65.1</td>
+                                </tr>
+                                <tr>
+                                    <td>CoT</td>
+                                    <td>71.5</td><td>79.3</td><td>87.7</td><td>74.8</td><td>89.2</td><td>39.9</td>
+                                    <td>47.2</td><td>40.0</td><td>66.2</td>
+                                </tr>
+                                <tr>
+                                    <td>CoT SC (5-shot)</td>
+                                    <td>71.6</td><td>80.5</td><td>88.6</td><td>72.1</td><td>93.6</td><td>42.6</td>
+                                    <td>46.0</td><td>43.0</td><td>67.2</td>
+                                </tr>
+                                <tr>
+                                    <td>MedPrompt</td>
+                                    <td>70.9</td><td>73.1</td><td>88.6</td><td>71.6</td><td>91.2</td><td>44.7</td>
+                                    <td>46.4</td><td>32.8</td><td>64.9</td>
+                                </tr>
+                                <tr>
+                                    <td>MultiPersona</td>
+                                    <td>67.2</td><td>81.0</td><td>90.1</td><td>72.1</td><td>93.2</td><td>43.8</td>
+                                    <td>68.4</td><td>36.6</td><td>69.0</td>
+                                </tr>
+                                <tr>
+                                    <td>Self-Refine</td>
+                                    <td>66.3</td><td>70.1</td><td>93.9</td><td>69.5</td><td>69.4</td><td>46.8</td>
+                                    <td>70.4</td><td>61.6</td><td>68.5</td>
+                                </tr>
+                                <tr>
+                                    <td>ADAS</td>
+                                    <td>78.1</td><td>81.5</td><td>87.9</td><td>75.6</td><td>92.2</td><td>33.6</td>
+                                    <td>38.4</td><td>36.6</td><td>65.5</td>
+                                </tr>
+                                <tr>
+                                    <td>AFlow</td>
+                                    <td>77.8</td><td>87.2</td><td><u>94.3</u></td><td><u>89.5</u></td><td><u>95.8</u>
+                                    </td><td><u>54.6</u></td><td>54.0</td><td><u>68.6</u></td><td>77.7</td>
+                                </tr>
+                                <tr>
+                                    <td>ShinkaEvolve</td>
+                                    <td>73.2</td><td>83.3</td><td>87.0</td><td>86.5</td><td>94.9</td><td>52.7</td>
+                                    <td>57.2</td><td>65.2</td><td><u>79.6</u></td>
+                                </tr>
+                                <tr>
+                                    <td>GEPA</td>
+                                    <td>73.7</td><td>80.5</td><td>88.1</td><td>84.8</td><td>93.3</td><td>52.7</td>
+                                    <td><u>71.6</u></td><td>39.2</td><td>73.0</td>
+                                </tr>
+                                <tr class="row-ours">
+                                    <td><b>BOFlow (ours)</b></td>
+                                    <td><b>82.9</b></td><td><b>91.9</b></td><td><b>95.9</b></td><td><b>96.5</b></td>
+                                    <td><b>96.7</b></td><td><b>75.1</b></td><td><b>86.8</b></td><td><b>88.0</b></td>
+                                    <td><b>89.2</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>
+                        BOFlow is best on all eight benchmarks. The improvements are statistically significant
+                        ($t$-test, $p &lt; 0.05$) everywhere except HumanEval and GSM8K, which are close to saturated
+                        for this model class &mdash; and I would rather say that plainly than claim a win where the
+                        headroom does not exist.
+                    </p>
+                    <p>
+                        The interesting pattern is <i>where</i> the gains concentrate. On MATH (54.6 &rarr; 75.1), BBH
+                        (54.0 &rarr; 86.8) and MMLU-Pro (68.6 &rarr; 88.0) &mdash; the tasks that need multi-stage
+                        reasoning and where several distinct workflow structures are plausible &mdash; the margin is
+                        20&ndash;30 points. On tasks with one obvious workflow shape, everything converges to roughly
+                        the same place. That is exactly the signature you would predict if the bottleneck in prior
+                        methods were exploration rather than proposal quality.
+                    </p>
+                    <p>
+                        We also compare against <b>MaAS (AgentSupernet)</b>, a cost-aware state-of-the-art method, on
+                        the four shared benchmarks: BOFlow leads on all of them (GSM8K 96.5 vs 92.3, MATH 70.2 vs
+                        51.82, HumanEval 95.1 vs 92.85, MBPP 95.7 vs 82.17). Worth being precise about the claim
+                        though: MaAS optimises execution cost explicitly and BOFlow does not, so the two address
+                        complementary objectives and could be composed rather than treated as rivals.
+                    </p>
+
+                    <h3>Ablations: which parts carry the weight?</h3>
+
+                    <div style="overflow-x:auto;">
+                        <table class="paper-table">
+                            <caption>Table 2: BOFlow component ablations.</caption>
+                            <thead>
+                                <tr>
+                                    <th>Configuration</th>
+                                    <th>MATH</th>
+                                    <th>GSM8K</th>
+                                    <th>HotpotQA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row-ours">
+                                    <td><b>BOFlow (LLM acquisition)</b></td>
+                                    <td><b>75.1</b></td><td><b>96.7</b></td><td><b>82.9</b></td>
+                                </tr>
+                                <tr>
+                                    <td>argmax acquisition, $\lambda_1 = \lambda_2 = 1$</td>
+                                    <td>68.5</td><td>93.5</td><td>80.7</td>
+                                </tr>
+                                <tr>
+                                    <td>No diversity ($\lambda_2 = 0$)</td>
+                                    <td>68.1</td><td>92.6</td><td>76.7</td>
+                                </tr>
+                                <tr>
+                                    <td>High diversity ($\lambda_2 = 2$)</td>
+                                    <td>68.7</td><td>93.5</td><td>80.4</td>
+                                </tr>
+                                <tr>
+                                    <td>No Bayesian optimisation</td>
+                                    <td>67.5</td><td>93.5</td><td>70.1</td>
+                                </tr>
+                                <tr>
+                                    <td>No reflect&ndash;repair</td>
+                                    <td>68.7</td><td>93.3</td><td>75.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>Four things fall out of this table:</p>
+                    <ol>
+                        <li><b>The GP is the load-bearing component.</b> Removing Bayesian optimisation causes the
+                            largest drop across the board &mdash; HotpotQA falls from 82.9 to 70.1. Without a surrogate
+                            there is no global model of the landscape, and the search is back to heuristics.</li>
+                        <li><b>LLM acquisition beats argmax.</b> Delegating selection to the LLM over the scored
+                            candidate set is worth roughly 6.6 points on MATH over the best fixed-$\lambda$ rule. The
+                            fixed rule cannot re-balance exploration against exploitation as the run progresses; the
+                            policy can.</li>
+                        <li><b>Diversity matters, but it is not a dial you crank.</b> Setting $\lambda_2 = 0$ hurts
+                            most on HotpotQA (76.7), the most open-ended, multi-hop task &mdash; which is precisely
+                            where alternative structures exist to be found. But doubling it to $\lambda_2 = 2$ buys
+                            nothing: 68.7 on MATH, and HotpotQA actually slips to 80.4. Novelty is a corrective term,
+                            not an objective.</li>
+                        <li><b>Reflect&ndash;repair earns its place.</b> Removing it costs ~6.4 points on MATH and ~7.9
+                            on HotpotQA, confirming that recovering signal from failed executions is not a
+                            nice-to-have.</li>
+                    </ol>
+
+                    <h4>How many dimensions does $\phi$ need?</h4>
+                    <div class="image-container" style="text-align: center; margin: 2rem 0;">
+                        <img src="images/boflow_dimensionality.png" alt="Dimensionality study across datasets"
+                            loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: var(--text-secondary); text-align:center;">Figure 2:
+                            Best validation score vs. optimisation round for 7D, 12D and 64D active feature
+                            dimensionality.</p>
+                    </div>
+                    <p>
+                        The honest answer is: less than you would expect, and the optimum is dataset-dependent.
+                        HotpotQA converges fastest at 7 dimensions (around round 12); HumanEval converges fastest at 64
+                        dimensions (around round 7). But the final performance differences are marginal &mdash; BOFlow
+                        is robust to this choice, which was a relief, because a method that needs its embedding
+                        dimension tuned per task would be much less useful in practice.
+                    </p>
+
+                    <h3>Does it actually explore more? (the mode-collapse analysis)</h3>
+
+                    <p>
+                        This is the experiment I care about most, because it tests the paper's central claim directly
+                        rather than through the proxy of accuracy. We embed workflows from <i>both</i> AFlow and BOFlow
+                        using the same $\phi$ &mdash; AFlow's are embedded post hoc, so its own optimisation procedure
+                        is untouched &mdash; reduce each to a 7-dimensional structural descriptor, and project to 2D
+                        with t-SNE for a shared visualisation space.
+                    </p>
+
+                    <div class="image-container" style="text-align: center; margin: 2rem 0;">
+                        <img src="images/boflow_mode_collapse.png" alt="Workflow-space trajectories for AFlow vs BOFlow"
+                            loading="lazy" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;">
+                        <p style="font-size: 0.9em; color: var(--text-secondary); text-align:center;">Figure 3: Each
+                            point is a workflow, coloured by iteration order. AFlow (left) concentrates in a narrow
+                            region &mdash; structural collapse. BOFlow (right) spreads across multiple distinct modes.
+                        </p>
+                    </div>
+
+                    <p>
+                        AFlow's workflows pile into one dominant cluster: the search keeps sampling minor variations of
+                        a small number of templates. BOFlow's are distributed across several regions. Measured as the
+                        volume of the convex hull of the sampled points, <b>BOFlow covers 3&ndash;4&times; more of the
+                            space</b> &mdash; while evaluating <i>fewer</i> workflows (131 vs 263).
+                    </p>
+
+                    <div style="overflow-x:auto;">
+                        <table class="paper-table">
+                            <caption>Table 3: Mean pairwise graph-edit distance (GED) between workflow ASTs.</caption>
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>n</th>
+                                    <th>Mean pairwise GED</th>
+                                    <th>Std</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AFlow</td><td>263</td><td>6.15</td><td>4.44</td>
+                                </tr>
+                                <tr class="row-ours">
+                                    <td><b>BOFlow</b></td><td>131</td><td><b>37.79</b></td><td>59.08</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>
+                        The t-SNE picture could be an artefact of the projection, so we also measure structural
+                        diversity directly: mean pairwise graph-edit distance between the workflows' abstract syntax
+                        trees. BOFlow's is <b>37.79 vs AFlow's 6.15</b> &mdash; more than a six-fold increase, on half
+                        the evaluation budget. The much larger standard deviation (59.08 vs 4.44) is itself
+                        informative: it says BOFlow produces both incremental refinements <i>and</i> structurally
+                        distinct solution families, which is the behaviour you want from a search that is meant to
+                        generate hypotheses rather than polish one.
+                    </p>
+
+                    <h3>Cost</h3>
+
+                    <div class="image-container" style="text-align: center; margin: 2rem 0;">
+                        <img src="images/boflow_cost_performance.png" alt="Cost-performance trade-off on GSM8K"
+                            loading="lazy"
+                            style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; max-height: 620px;">
+                        <p style="font-size: 0.9em; color: var(--text-secondary); text-align:center;">Figure 4:
+                            Cost&ndash;performance trade-off on GSM8K. BOFlow lies on the Pareto frontier.</p>
+                    </div>
+
+                    <p>
+                        A method that gets better answers by burning ten times the tokens is not obviously progress, so
+                        we plotted test accuracy against total tokens on GSM8K. BOFlow sits on the Pareto frontier,
+                        attaining higher pass@1 at both low- and medium-cost regimes and avoiding the dominated
+                        configurations that several baselines occupy.
+                    </p>
+                    <p>
+                        There is a nice reason for this, and it is not an accident: diversity-aware search does not
+                        only find <i>better</i> workflows, it finds <i>cheaper</i> ones. If you only ever mutate the
+                        incumbent, complexity ratchets upwards &mdash; every improvement adds a step. If you are
+                        rewarded for jumping to structurally distinct regions, simple-but-effective configurations stay
+                        reachable.
+                    </p>
+
+                    <h3>Case study: what evolution actually looks like</h3>
+
+                    <p>
+                        We traced a single 30-round run on GSM8K. Workflows there are built from operators such as
+                        <code>Custom</code> (a basic reasoning step), <code>ScEnsemble</code> (an ensemble over
+                        multiple LLM outputs) and <code>Programmer</code> (a computation-oriented step).
+                    </p>
+                    <p>
+                        The winning trajectory runs from a simple seed at R1 (0.875) to the best workflow at R19
+                        (0.972). Along the way the workflow acquires ensembling, then parallel reasoning branches, and
+                        finally &mdash; between R8 and R19 &mdash; the initial ensemble is <i>replaced</i> by a
+                        computation-driven step, which is what produces the best configuration in the run. Note that
+                        the last move is a substitution, not an addition: the search removed a component it had earlier
+                        added. Greedy incremental mutation does not do that.
+                    </p>
+                    <p>
+                        The dashed alternatives in the same run are a useful corrective against over-reading the result
+                        &mdash; R3 and R16 collapsed to 0.0, R26 landed at 0.769. Only a small fraction of explored
+                        workflows lie on the improvement path. The search space is high-variance and unforgiving; the
+                        value of the surrogate is that it makes the failures cheap and informative rather than merely
+                        wasted.
+                    </p>
+
+                    <h3>What I would take away from this</h3>
+                    <ol>
+                        <li><b>Give the LLM the job it is good at.</b> LLMs are excellent domain-aware
+                            <i>generators</i> and good at small, context-rich <i>choices</i>. They are not structured
+                            discrete optimisers. Splitting those roles &mdash; LLM proposes and selects, GP models the
+                            landscape &mdash; is most of the win.</li>
+                        <li><b>You cannot fix collapse you cannot measure.</b> The embedding $\phi$ is the enabling
+                            trick, but its second job &mdash; giving us a distance between workflows &mdash; is what
+                            let us define $\mathrm{Div}$, diagnose AFlow's collapse quantitatively, and report GED. A
+                            representation you can measure in is worth more than a representation that is merely
+                            expressive.</li>
+                        <li><b>Exploration is a regulariser, not an objective.</b> $\lambda_2 = 0$ hurts and
+                            $\lambda_2 = 2$ does not help. The useful framing is that novelty exists to stop EI from
+                            over-trusting the region it already understands.</li>
+                        <li><b>Failures are data.</b> Reflect&ndash;repair was the cheapest component to build and one
+                            of the most valuable, because in a sparse-feedback setting a crashed workflow otherwise
+                            teaches you almost nothing.</li>
+                    </ol>
+
+                    <h3>Limitations and where this goes next</h3>
+                    <ul>
+                        <li>All main-table results use GPT-4o-mini as the execution model, matching AFlow's protocol
+                            for comparability. Generalisation across orchestrator models is something we probe but do
+                            not exhaustively characterise.</li>
+                        <li>The embedding $\phi$ is a set of static program analyses. It is deliberately cheap, and the
+                            GP learns which dimensions matter &mdash; but a learned or semantic embedding of workflow
+                            code is an obvious next step.</li>
+                        <li>BOFlow optimises for task performance, not execution cost. The Pareto result is a
+                            by-product of diversity, not the result of a cost-aware objective; combining BOFlow's
+                            search with an explicitly cost-aware method such as MaAS is the natural composition.</li>
+                        <li>GP surrogates scale awkwardly with the number of observations. Under the evaluation budgets
+                            that workflow search actually has (order 10&ndash;100 evaluations) this is a non-issue, but
+                            it bounds how far the approach stretches.</li>
+                    </ul>
+
+                    <h3>References</h3>
+                    <div class="references" style="font-size: 0.9em; color: #444;">
+                        <p><b>[1] Hu et al. (2024)</b>. <i>Automated Design of Agentic Systems (ADAS)</i>.</p>
+                        <p><b>[2] Zhang et al. (2025)</b>. <i>AFlow: Automating Agentic Workflow Generation</i>.
+                            ICLR 2025.</p>
+                        <p><b>[3] Zhuge et al. (2024)</b>. <i>GPTSwarm: Language Agents as Optimizable Graphs</i>.
+                            ICML 2024.</p>
+                        <p><b>[4] Liu et al. (2023)</b>. <i>DyLAN: Dynamic LLM-Agent Network</i>.</p>
+                        <p><b>[5] Lange et al. (2025)</b>. <i>ShinkaEvolve</i>.</p>
+                        <p><b>[6] Agrawal et al. (2025)</b>. <i>GEPA: Reflective Prompt Evolution</i>.</p>
+                        <p><b>[7] Zhang et al. (2025)</b>. <i>MaAS / AgentSupernet: Multi-agent Architecture
+                                Search</i>.</p>
+                        <p><b>[8] Snoek et al. (2012)</b>. <i>Practical Bayesian Optimization of Machine Learning
+                                Algorithms</i>. NeurIPS 2012.</p>
+                        <p><b>[9] Jones et al. (1998)</b>. <i>Efficient Global Optimization of Expensive Black-Box
+                                Functions</i>. Journal of Global Optimization.</p>
+                        <p><b>[10] Srinivas et al. (2012)</b>. <i>Information-Theoretic Regret Bounds for Gaussian
+                                Process Optimization</i>.</p>
+                        <p><b>[11] Wei et al. (2022)</b>. <i>Chain-of-Thought Prompting Elicits Reasoning in Large
+                                Language Models</i>. NeurIPS 2022.</p>
+                        <p><b>[12] Wang et al. (2023)</b>. <i>Self-Consistency Improves Chain of Thought Reasoning</i>.
+                            ICLR 2023.</p>
+                        <p><b>[13] Madaan et al. (2023)</b>. <i>Self-Refine: Iterative Refinement with Self-Feedback</i>.
+                            NeurIPS 2023.</p>
+                        <p><b>[14] Shinn et al. (2023)</b>. <i>Reflexion: Language Agents with Verbal Reinforcement
+                                Learning</i>. NeurIPS 2023.</p>
+                        <p><b>[15] van der Maaten &amp; Hinton (2008)</b>. <i>Visualizing Data using t-SNE</i>. JMLR.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
