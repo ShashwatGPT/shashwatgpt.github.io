@@ -3,9 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Shashwat Gupta - FLASH</title>
+    <title>Shashwat Gupta - AutoToolStub &amp; AutoEval (FLASH)</title>
     <meta name="author" content="Shashwat Gupta">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,7 +81,7 @@
         <main class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h2>AutoEval project with Applications to FLASH</h2>
+                    <h2>AutoToolStub &amp; AutoEval: making FLASH's incident agent testable</h2>
                 </div>
 
                 <div class="project-details research-paper">
@@ -87,18 +89,21 @@
                     <h2 class="section-sub-header">1. FLASH</h2>
 
                     <ul>
-                        <li><b>Status: under review</b> at ACM FSE (International Conference on the Foundations of
-                            Software Engineering), 2026. This work is <b>not published</b> &mdash; please treat any
-                            numbers below as a work-in-progress write-up rather than a peer-reviewed result.</li>
-                        <li>Authors: Prathamesh Deshpande, Shashwat Gupta, Tanish Mittal, Xuchao Zhang, Chetan Bansal,
-                            Rujia Wang, Minghua Ma, Zhixin Ren, Hao Huang, Saravan Rajmohan.</li>
-                        <li>Project page: <a
+                        <li>This is a write-up of <b>engineering work I did at Microsoft Research India</b> on FLASH,
+                            the M365 Research workflow-automation agent for diagnosing recurring incidents. It is
+                            <b>not a paper</b> &mdash; there is no publication associated with it, and nothing here
+                            should be read as a peer-reviewed result.</li>
+                        <li>My contribution: <b>AutoToolStub</b> &mdash; a parallelised test-case generator using
+                            100-way concurrent BFS with provenance tracking, which auto-generates pre-verified tool
+                            stubs from troubleshooting guides (TSGs) with UI-editable placeholders &mdash; and the
+                            <b>AutoEval</b> pipeline that benchmarked FLASH's incident-triaging agent across
+                            <b>60,000+ tickets</b>.</li>
+                        <li>FLASH itself is a Microsoft Research project; see the public <a
                                 href="https://www.microsoft.com/en-us/research/project/flash-a-reliable-workflow-automation-agent/"
-                                target="_blank" rel="noopener">FLASH at Microsoft Research</a></li>
-                        <li>Blog Link (Internal): <a href="https://aka.ms/flash">Microsoft Blog</a></li>
-                        <li>My contribution: the <b>AutoEval</b> evaluation pipeline and <b>AutoToolStub</b>
-                            (pre-verified tool stubs generated from troubleshooting guides, with provenance tracking
-                            and UI-editable placeholders).</li>
+                                target="_blank" rel="noopener">FLASH project page</a> and the internal <a
+                                href="https://aka.ms/flash">Microsoft blog</a>.</li>
+                        <li>The sections below describe FLASH's design for context, then the evaluation and tool-stub
+                            work I built on top of it.</li>
                     </ul>
 
                     <h3>Introduction</h3>

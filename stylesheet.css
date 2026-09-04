@@ -1256,3 +1256,14 @@ a[href*="scholar.google.com"] .social-icon {
 .exp-details {
   min-width: 0;
 }
+
+/* Publication links that are not yet live (paper/code not public) */
+.pub-link-pending {
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.pub-link-pending:hover {
+  background-color: transparent;
+  color: var(--text-secondary);
+}
