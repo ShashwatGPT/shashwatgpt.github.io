@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // the sidebar which nav item they belong under.
     const PAGE_SECTION = {
         'publications.html': 'research',
+        'quant-systems.html': 'projects',
         'boflow.html': 'research',
         'optimacs.html': 'research',
         'flash.html': 'research',
