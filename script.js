@@ -6,60 +6,100 @@
 // - index.html (Latest Thoughts, Publications)
 // - publications.html (Publications List)
 
-// Smooth scrolling for navigation links
+// The sidebar is identical on every page, so nav links are written as
+// "index.html#section". On index.html itself we resolve them back to in-page
+// anchors (smooth scroll + scroll-spy); elsewhere they navigate normally.
 document.addEventListener('DOMContentLoaded', function () {
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+    const currentPage = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
 
+    // Standalone pages are reached from inside a section of index.html, so tell
+    // the sidebar which nav item they belong under.
+    const PAGE_SECTION = {
+        'publications.html': 'research',
+        'boflow.html': 'research',
+        'optimacs.html': 'research',
+        'flash.html': 'research',
+        'exactct.html': 'research',
+        'blogs.html': 'blog-preview-section',
+        'the-practicing-mind.html': 'blog-preview-section',
+        'community.html': 'community',
+        'acm_sigchi.html': 'community',
+        'bcs.html': 'community',
+        'health_predict.html': 'community',
+        'taship.html': 'community'
+    };
+
+    const setActive = link => {
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        if (link) link.classList.add('active');
+    };
+
+    // Resolve each nav link against the page we are on.
+    const inPageLinks = new Map(); // section id -> link
     navLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
+        const href = link.getAttribute('href') || '';
+        const [path, hash] = href.split('#');
+        const target = (path.split('/').pop() || 'index.html').toLowerCase();
+        const samePage = !path || target === currentPage;
 
-                if (targetElement) {
-                    const offset = 70; // Account for fixed navbar
-                    const targetPosition = targetElement.offsetTop - offset;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Update active nav link
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            }
-        });
-    });
-
-    // Update active nav link on scroll
-    const sections = document.querySelectorAll('.section');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            // 70px is the navbar offset
-            if (window.scrollY >= sectionTop - 100) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        if (current) {
-            const activeLink = document.querySelector(`.nav-link[href="#${current}"]`);
-            if (activeLink) {
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                activeLink.classList.add('active');
-            }
+        if (samePage && hash) {
+            inPageLinks.set(hash, link);
+        } else if (samePage && !hash) {
+            setActive(link);
         }
     });
 
-    // Trigger once on load
-    window.dispatchEvent(new Event('scroll'));
+    // On a standalone page, highlight the section it lives under.
+    const owningSection = PAGE_SECTION[currentPage];
+    if (owningSection) {
+        const owner = navLinks.find(l => (l.getAttribute('href') || '').endsWith('#' + owningSection));
+        setActive(owner);
+    }
+
+    // Smooth scroll for links that point at a section of the current page.
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            const href = this.getAttribute('href') || '';
+            const [path, hash] = href.split('#');
+            const target = (path.split('/').pop() || 'index.html').toLowerCase();
+            if (!hash || (path && target !== currentPage)) return;
+
+            const el = document.getElementById(hash);
+            if (!el) return;
+
+            e.preventDefault();
+            window.scrollTo({ top: Math.max(el.offsetTop - 40, 0), behavior: 'smooth' });
+            history.replaceState(null, '', '#' + hash);
+            setActive(this);
+        });
+    });
+
+    // Scroll-spy, only meaningful where the nav points at sections of this page.
+    if (inPageLinks.size) {
+        const sections = Array.from(document.querySelectorAll('.section[id]'))
+            .filter(sec => inPageLinks.has(sec.id));
+
+        let ticking = false;
+        const sync = () => {
+            ticking = false;
+            let current = null;
+            sections.forEach(sec => {
+                if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+            });
+            // Near the bottom, always highlight the last section.
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 4 && sections.length) {
+                current = sections[sections.length - 1].id;
+            }
+            if (current) setActive(inPageLinks.get(current));
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) { ticking = true; window.requestAnimationFrame(sync); }
+        }, { passive: true });
+
+        sync();
+    }
 });
 
 const MEDIUM_USERNAME = 'shashwat.gpt';
