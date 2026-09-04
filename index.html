@@ -459,6 +459,73 @@
 
           <div class="project-card">
             <div class="project-info">
+              <a href="https://github.com/ShashwatGPT/quant-itch-feed-handler" target="_blank" rel="noopener"
+                class="project-title">Zero-Allocation ITCH Feed Handler</a>
+              <p class="project-description">A NASDAQ TotalView-ITCH 5.0 parser and limit order book in C++20,
+                reconstructing the book at 25.8M messages/second on one core &mdash; with zero heap allocations on
+                the hot path, enforced by a test that replaces the global <code>operator new</code> and aborts on any
+                allocation, not by a comment claiming it.</p>
+              <div class="project-links">
+                <a href="https://github.com/ShashwatGPT/quant-itch-feed-handler" target="_blank"
+                  rel="noopener">GitHub</a>
+                <a href="quant-systems.html">Write-up</a>
+              </div>
+              <div class="project-tech">
+                <span class="tech-tag blue">C++20</span>
+                <span class="tech-tag purple">Market Data</span>
+                <span class="tech-tag green">Order Books</span>
+                <span class="tech-tag amber">Low Latency</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-info">
+              <a href="https://github.com/ShashwatGPT/quant-spsc-ring-buffer" target="_blank" rel="noopener"
+                class="project-title">Lock-Free SPSC Ring Buffer</a>
+              <p class="project-description">The pipe between a network thread and a strategy thread. Measuring it
+                properly showed the queue&rsquo;s own logic costs 3&nbsp;ns while a cross-core cache-line transfer
+                costs 98&nbsp;ns &mdash; so the lock-free algorithm is worth 5&times; and batching is worth 37&times;.
+                Includes the disassembly showing why a missing <code>release</code> is invisible on x86 and corrupts
+                data on ARM.</p>
+              <div class="project-links">
+                <a href="https://github.com/ShashwatGPT/quant-spsc-ring-buffer" target="_blank"
+                  rel="noopener">GitHub</a>
+                <a href="quant-systems.html">Write-up</a>
+              </div>
+              <div class="project-tech">
+                <span class="tech-tag blue">C++20</span>
+                <span class="tech-tag rose">Lock-Free</span>
+                <span class="tech-tag purple">Memory Models</span>
+                <span class="tech-tag amber">Concurrency</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-info">
+              <a href="https://github.com/ShashwatGPT/quant-pool-allocator" target="_blank" rel="noopener"
+                class="project-title">O(1) Pool Allocator</a>
+              <p class="project-description">A fixed-block allocator and bump arena for hot paths that cannot afford
+                <code>malloc</code>. Only 3&times; faster at the median but ~37&times; better at p99.9, because
+                <code>malloc</code>&rsquo;s distribution is bimodal. The companion measurement found that traversal
+                <em>order</em> beats allocator choice by a factor of forty.</p>
+              <div class="project-links">
+                <a href="https://github.com/ShashwatGPT/quant-pool-allocator" target="_blank"
+                  rel="noopener">GitHub</a>
+                <a href="quant-systems.html">Write-up</a>
+              </div>
+              <div class="project-tech">
+                <span class="tech-tag blue">C++20</span>
+                <span class="tech-tag green">Allocators</span>
+                <span class="tech-tag purple">Cache Locality</span>
+                <span class="tech-tag amber">Benchmarking</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-info">
               <a href="https://github.com/ShashwatGPT/SuperInfer" target="_blank" rel="noopener"
                 class="project-title">SuperInfer on GH200</a>
               <p class="project-description">My current work in SSAIL at UIUC: extending KV-cache offloading to NVIDIA

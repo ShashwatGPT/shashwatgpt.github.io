@@ -1267,3 +1267,89 @@ a[href*="scholar.google.com"] .social-icon {
   background-color: transparent;
   color: var(--text-secondary);
 }
+
+/* ============================================================
+   Quant Systems page (quant-systems.html)
+   Uses the existing .research-paper typography; adds only a lede,
+   a metric row and a repo-link line. All colours come from the
+   theme variables so light and dark both work.
+   ============================================================ */
+
+.research-paper .qs-lede {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+  border-left: 3px solid var(--accent-color);
+  padding-left: 1.1rem;
+  margin-bottom: 1.6rem;
+}
+
+.research-paper .qs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin: 1.8rem 0 2.2rem;
+}
+
+.research-paper .qs-metric {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.1rem 1rem;
+  text-align: center;
+}
+
+.research-paper .qs-metric-value {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--accent-color);
+  margin-bottom: 0.45rem;
+}
+
+.research-paper .qs-metric-label {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.research-paper .qs-links {
+  margin: -0.4rem 0 1.2rem;
+  font-size: 0.9rem;
+}
+
+.research-paper .qs-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--accent-color);
+  text-decoration: none;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.32rem 0.7rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.research-paper .qs-links a:hover {
+  color: var(--accent-hover);
+  border-color: var(--accent-color);
+}
+
+/* The tables on this page carry more columns than the research
+   write-ups, so allow them to scroll rather than overflow. */
+.research-paper .paper-table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .research-paper .paper-table {
+    display: table;
+    white-space: normal;
+  }
+}

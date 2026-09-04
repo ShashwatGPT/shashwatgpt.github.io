@@ -1,0 +1,412 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Shashwat Gupta - Quant Systems</title>
+    <meta name="author" content="Shashwat Gupta">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <!-- Sidebar (Profile & Nav) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="profile-header">
+                    <a href="index.html" class="profile-pic-link">
+                        <img src="images/prof_pic.png" alt="Shashwat Gupta" class="profile-pic">
+                    </a>
+                    <h1 class="name">Shashwat Gupta</h1>
+                    <p class="subtitle">MS in CS @ UIUC (SSAIL) | ex-Microsoft Research | IIT Kanpur CSE'24 | ex-EPFL</p>
+                </div>
+
+                <nav class="navbar">
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+                        target="_blank" rel="noopener" class="nav-link">Blog</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="index.html#research" class="nav-link">Research</a>
+                    <a href="index.html#cv" class="nav-link">CV</a>
+                </nav>
+
+                <div class="social-links">
+                    <a href="mailto:guptashashwatme+website@gmail.com" class="social-icon" title="Email"
+                        aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/shashwat-gupta-uiuc/" target="_blank" rel="noopener"
+                        class="social-icon" title="LinkedIn" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="social-icon"
+                        title="GitHub" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+                        target="_blank" rel="noopener" class="social-icon" title="Medium" aria-label="Medium">
+                        <i class="fab fa-medium"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@shashwatgupta4613" target="_blank" rel="noopener"
+                        class="social-icon" title="YouTube" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=XhDzpMMAAAAJ" target="_blank" rel="noopener"
+                        class="social-icon" title="Google Scholar" aria-label="Google Scholar">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+                <!-- Main Content -->
+        <main class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h2>Quant Systems</h2>
+                </div>
+
+                <div class="research-paper">
+
+                    <p class="qs-lede">Three C++20 systems projects built for quant/HFT
+                        <em>Systems&nbsp;+&nbsp;Trading</em> roles. They exist to answer a question a friend in the
+                        industry put to me bluntly: in an era where anyone can generate a competent order book in
+                        ninety seconds, what does writing one actually prove?</p>
+
+                    <p><strong>Nothing, on its own.</strong> So these projects are built on a different premise &mdash;
+                        <em>the code is the artefact, the evidence is the product</em>. What cannot be generated
+                        cheaply is the empirical record of engaging with real hardware: measurements taken on a
+                        specific machine, predictions that turned out wrong, and the reasoning that closed the gap.
+                        A model can assert that false sharing costs performance. It cannot tell you that on
+                        <em>my</em> M5&nbsp;Pro the coherence granule measures 64&nbsp;bytes while
+                        <code>sysctl</code> reports 128 and libc++ reports 256 &mdash; because that took an experiment.</p>
+
+                    <p>Every claim below is either measured or explicitly labelled as unverified. All numbers come
+                        from an Apple M5 Pro (arm64), Apple clang 21, <code>-O2 -mcpu=native</code>, and are
+                        reproduced by <code>make bench</code> in each repository.</p>
+
+                    <div class="qs-grid">
+                        <div class="qs-metric">
+                            <span class="qs-metric-value">25.8M</span>
+                            <span class="qs-metric-label">ITCH messages/sec on one core, with zero heap
+                                allocations</span>
+                        </div>
+                        <div class="qs-metric">
+                            <span class="qs-metric-value">37&times;</span>
+                            <span class="qs-metric-label">throughput from batching the cross-core transfer</span>
+                        </div>
+                        <div class="qs-metric">
+                            <span class="qs-metric-value">37&times;</span>
+                            <span class="qs-metric-label">better p99.9 allocation latency than malloc</span>
+                        </div>
+                    </div>
+
+                    <!-- ================================================== -->
+                    <h3>Zero-Allocation NASDAQ ITCH Feed Handler</h3>
+
+                    <p class="qs-links">
+                        <a href="https://github.com/ShashwatGPT/quant-itch-feed-handler" target="_blank"
+                            rel="noopener"><i class="fab fa-github"></i> quant-itch-feed-handler</a>
+                    </p>
+
+                    <p>A parser for NASDAQ TotalView-ITCH 5.0 that reconstructs a limit order book at
+                        <strong>25.8&nbsp;million messages/second on one core</strong> &mdash; roughly 2.6&times; the
+                        full-feed peak rate of the real exchange &mdash; with <strong>zero heap allocations</strong>
+                        on the hot path.</p>
+
+                    <h4>The claim is enforced, not asserted</h4>
+
+                    <p>&ldquo;No allocation on the hot path&rdquo; is the easiest claim in systems programming to
+                        believe about your own code and be wrong. A <code>std::string</code> outgrowing its
+                        small-string buffer, a vector that grows once at message 40,000 &mdash; neither is visible by
+                        reading the code. So the project replaces the global <code>operator new</code> and aborts if
+                        anything allocates while the hot loop is armed:</p>
+
+                    <div class="algorithm-block">
+<strong>[alloc-guard]</strong> full ITCH parse + book build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PASS&nbsp; 0 allocations on hot path
+                    </div>
+
+                    <p>That line is produced by a test that fails loudly, across 5,000,000 messages. It is worth more
+                        than any paragraph of prose.</p>
+
+                    <h4>Where the time actually goes</h4>
+
+                    <table class="paper-table">
+                        <caption>Cost attribution per message. The parser is not the bottleneck.</caption>
+                        <thead>
+                            <tr><th>Stage</th><th>ns/msg</th><th>Share</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Framing (length prefixes)</td><td>2.22</td><td>5.7%</td></tr>
+                            <tr><td>Field decoding (byte swaps, dispatch)</td><td>4.11</td><td>10.6%</td></tr>
+                            <tr class="row-ours"><td>Order book update</td><td>32.37</td><td>83.6%</td></tr>
+                            <tr><td><strong>Total</strong></td><td><strong>38.70</strong></td><td></td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>Decoding &mdash; the part that <em>looks</em> like the hard work, with its byte swaps and
+                        unaligned loads &mdash; is 10% of the cost. A single end-to-end figure would have hidden that.</p>
+
+                    <h4>What surprised me: my hash table lost to <code>std::unordered_map</code></h4>
+
+                    <p>The entire point of a flat, open-addressed table is beating the node-based standard container.
+                        On first measurement it was <strong>1.17&times; slower</strong>.</p>
+
+                    <p>The cause: libc++&rsquo;s <code>std::hash&lt;uint64_t&gt;</code> is the <em>identity
+                        function</em>. For exchange-assigned sequential order references that is not a weakness &mdash;
+                        it is a free, perfect hash. My &ldquo;strong&rdquo; splitmix64 hash was paying three
+                        multiplies to destroy the very structure that made the workload easy. So I made the hash a
+                        policy and measured three:</p>
+
+                    <table class="paper-table">
+                        <caption>ns/op, 500k live orders, 90% hit / 10% miss. Lower is better.</caption>
+                        <thead>
+                            <tr><th>hash</th><th>insert</th><th>find</th><th>churn</th><th>avg probes</th><th>worst run</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>identity</td><td>1.64</td><td>8451.11</td><td>118107.72</td><td>11941.94</td><td>500,000</td></tr>
+                            <tr class="row-ours"><td>fibonacci &larr; used</td><td>2.56</td><td>3.52</td><td>2.38</td><td>1.05</td><td>2</td></tr>
+                            <tr><td>splitmix64</td><td>8.42</td><td>7.99</td><td>15.88</td><td>1.54</td><td>35</td></tr>
+                            <tr><td><code>std::unordered_map</code></td><td>23.75</td><td>6.95</td><td>10.81</td><td>&mdash;</td><td>chained</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>A <strong>2,399&times; spread from changing nothing but the hash function</strong> &mdash; and
+                        the &ldquo;obvious&rdquo; choice for sequential keys was the worst of the three by three
+                        orders of magnitude. Identity hashing gives <em>perfect hits</em>, but packs sequential keys
+                        into a contiguous 100%-full block, so a <em>miss</em> has no empty slot to terminate on and
+                        walks up to 500,000 slots.</p>
+
+                    <p>The part I find genuinely interesting: <code>std::unordered_map</code> uses the
+                        <em>same identity hash</em> and is unharmed, because chaining has no probe run to walk.
+                        <strong>Open addressing is what makes hash quality load-bearing.</strong> The two design
+                        choices interact, and reasoning about either alone gives the wrong answer.</p>
+
+                    <p>With Fibonacci hashing the final result is 9.3&times; insert, 1.97&times; lookup, 4.55&times;
+                        churn and 1.67&times; less memory than <code>std::unordered_map</code> &mdash; and zero
+                        allocations against one per insert.</p>
+
+                    <h4>A 431,072&times; algorithmic win that bought 1.05&times;</h4>
+
+                    <p>Instrumenting the book&rsquo;s price-level search showed it examining an average of
+                        <strong>431,072 levels per touch update</strong> &mdash; ITCH carries prices at $0.0001
+                        granularity while quotes are penny-granular, so 99% of the array is permanently empty.
+                        Replacing the linear scan with a hierarchical bitmap and hardware bit-scan
+                        (<code>CLZ</code>/<code>CTZ</code>) took that to <strong>1.00</strong>.</p>
+
+                    <p>End-to-end, that was worth <strong>1.05&times;</strong>. Two reasons, both worth internalising:
+                        touch updates are rare relative to total messages, so Amdahl&rsquo;s law caps the win; and a
+                        linear scan over <em>contiguous, mostly-zero</em> memory streams at many bytes per cycle with
+                        no dependent loads. <strong>Step counts are not costs.</strong> The bitmap is still the right
+                        design because it bounds the worst case &mdash; but the honest headline is 4%, and quoting
+                        431,000&times; would not survive a follow-up question.</p>
+
+                    <!-- ================================================== -->
+                    <h3>Lock-Free SPSC Ring Buffer</h3>
+
+                    <p class="qs-links">
+                        <a href="https://github.com/ShashwatGPT/quant-spsc-ring-buffer" target="_blank"
+                            rel="noopener"><i class="fab fa-github"></i> quant-spsc-ring-buffer</a>
+                    </p>
+
+                    <p>A single-producer/single-consumer queue &mdash; the pipe between a network thread and a
+                        strategy thread. The interesting result is not the queue, but what measuring it properly
+                        revealed.</p>
+
+                    <h4>The benchmark that lied to me</h4>
+
+                    <p>My first version reported that the lock-free queue was <strong>slower than a mutex</strong>,
+                        and that deliberately introducing <strong>false sharing made it faster</strong>. Both results
+                        were real and reproducible. Neither was a fact about the queue.</p>
+
+                    <p>Two measurements diagnosed it. The queue alone, single-threaded: <strong>3.05&nbsp;ns/msg</strong>.
+                        A bare cross-core cache-line ping-pong with no queue at all: <strong>~88&nbsp;ns one way</strong>.
+                        The benchmark was measuring the CPU interconnect and attributing it to my data structure.
+                        Instrumenting the consumer confirmed it &mdash; the drain batch averaged 1.6 messages, so the
+                        queue was always near-empty and every message forced a cache line to migrate between cores.</p>
+
+                    <table class="paper-table">
+                        <caption>Decomposing into three regimes with different bottlenecks.</caption>
+                        <thead>
+                            <tr><th>Regime</th><th>ns/msg</th><th>What it measures</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>[A] single thread, push+pop</td><td>3.05</td><td>the queue&rsquo;s instruction path</td></tr>
+                            <tr><td>[A] mutex + same ring, uncontended</td><td>15.51</td><td>uncontended lock cost &mdash; 5.1&times;</td></tr>
+                            <tr><td>[B] cross-core, 1 msg at a time</td><td>98.07</td><td>the interconnect &mdash; 96% of cost</td></tr>
+                            <tr><td>[B] 8-byte padding (false sharing)</td><td>35.87</td><td><em>faster</em>, see below</td></tr>
+                            <tr class="row-ours"><td>[C] cross-core, batch 512</td><td>1.07</td><td>37&times; over [B]</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>The lock-free algorithm is worth ~5&times; over a mutex. Batching is worth
+                        37&times;.</strong> An engineer who has only read about lock-free queues optimises the wrong
+                        thing. This is also why production feed handlers hand strategies a <em>batch</em> of ticks
+                        rather than one at a time.</p>
+
+                    <p>And false sharing won because in lockstep producer/consumer the line must migrate every
+                        message <em>regardless</em> of padding &mdash; so co-locating head and tail means one transfer
+                        serves both directions instead of two. An optimisation&rsquo;s value depends on the access
+                        pattern, not on whether it appears on a best-practices list.</p>
+
+                    <h4>Measuring the coherence granule instead of assuming it</h4>
+
+                    <p>&ldquo;Pad your atomics to 64 bytes&rdquo; is an x86 fact that got copied into everyone&rsquo;s
+                        mental model. On this machine three authoritative sources disagree:</p>
+
+                    <table class="paper-table">
+                        <thead><tr><th>source</th><th>says</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>sysctl hw.cachelinesize</code></td><td>128</td></tr>
+                            <tr><td><code>std::hardware_destructive_interference_size</code></td><td>256</td></tr>
+                            <tr class="row-ours"><td><strong>measured</strong></td><td><strong>64</strong></td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>Only one of those is an experiment. Two threads, two <em>independent</em> atomic counters,
+                        nothing varying but the byte separation: a clean step at 64&nbsp;bytes and a
+                        <strong>7.0&times; penalty</strong> below it (17.07 &rarr; 2.44&nbsp;ns/increment).</p>
+
+                    <h4>Memory ordering, at the instruction level</h4>
+
+                    <p>The claim &ldquo;acquire/release is free on x86 but not on ARM&rdquo; is repeated constantly
+                        and almost never demonstrated. Compiling the same store three ways, on AArch64:</p>
+
+                    <div class="algorithm-block">
+store_relaxed:&nbsp;&nbsp; str&nbsp;&nbsp;&nbsp; x1, [x0]<br>
+store_release:&nbsp;&nbsp; stlr&nbsp;&nbsp; x1, [x0]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;-- ORDERING<br>
+load_acquire:&nbsp;&nbsp;&nbsp; ldapr&nbsp; x0, [x0]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;-- ORDERING (RCpc)<br>
+load_seq_cst:&nbsp;&nbsp;&nbsp; ldar&nbsp;&nbsp; x0, [x0]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;-- RCsc, stronger
+                    </div>
+
+                    <p>On x86-64 all three stores emit the <em>same</em> <code>mov</code>. That asymmetry is a career
+                        hazard, not a curiosity: forgetting a <code>release</code> on x86 produces byte-identical
+                        machine code, so the bug compiles, runs, passes every test &mdash; then corrupts data the
+                        first time it runs on ARM, which today means an Apple Silicon laptop or AWS Graviton.</p>
+
+                    <p>A sanitizer that never fires proves nothing, so I broke the queue on purpose &mdash; downgraded
+                        the producer&rsquo;s <code>release</code> to <code>relaxed</code> &mdash; and confirmed
+                        ThreadSanitizer catches it. The correct queue is TSan-clean over 2,000,000 messages.</p>
+
+                    <!-- ================================================== -->
+                    <h3>O(1) Pool Allocator</h3>
+
+                    <p class="qs-links">
+                        <a href="https://github.com/ShashwatGPT/quant-pool-allocator" target="_blank"
+                            rel="noopener"><i class="fab fa-github"></i> quant-pool-allocator</a>
+                    </p>
+
+                    <p>A fixed-size block allocator and a bump arena for hot paths that cannot afford
+                        <code>malloc</code>. The pool allocates in <strong>2.62&nbsp;ns</strong> against
+                        <code>malloc</code>&rsquo;s 20.37&nbsp;ns &mdash; but that ratio is nearly irrelevant.</p>
+
+                    <h4>The tail is the argument, not the mean</h4>
+
+                    <table class="paper-table">
+                        <caption>ns per allocation. The last column is the headline.</caption>
+                        <thead>
+                            <tr><th></th><th>p50</th><th>p99</th><th>p99.9</th><th>p99.9 / p50</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>malloc</td><td>9.77</td><td>343.36</td><td>1464.34</td><td>150&times;</td></tr>
+                            <tr class="row-ours"><td>pool</td><td>3.25</td><td>6.52</td><td>39.06</td><td>12&times;</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>At the median the pool is 3&times; faster. <strong>At p99.9 it is ~37&times; faster.</strong>
+                        <code>malloc</code>&rsquo;s distribution is visibly <em>bimodal</em> &mdash; the second mode is
+                        the arena growing via <code>mmap</code>: a syscall, a page-table update, and a page fault.
+                        Microseconds, not nanoseconds, at an unpredictable moment &mdash; and that moment is
+                        disproportionately likely to be the busy one, because that is when allocation rate peaks.</p>
+
+                    <p>The pool&rsquo;s p99.9 is only 12&times; its median because there is no second code path to
+                        fall into. <strong>If you benchmark the mean, you conclude this allocator is barely worth the
+                        trouble.</strong> That is the trap.</p>
+
+                    <h4>What surprised me: &ldquo;malloc scatters your data&rdquo; is largely false</h4>
+
+                    <p>I expected the big win to be <em>layout</em>. Walking a 1,048,576-node intrusive list of
+                        64-byte orders (64&nbsp;MiB, far exceeding L2):</p>
+
+                    <table class="paper-table">
+                        <thead><tr><th>configuration</th><th>ns/node</th><th>vs best</th></tr></thead>
+                        <tbody>
+                            <tr class="row-ours"><td>pool, allocated and walked in order</td><td>1.53</td><td>&mdash;</td></tr>
+                            <tr><td>malloc, scattered by interleaved allocations</td><td>3.20</td><td>2.1&times;</td></tr>
+                            <tr><td>pool memory, walked in <em>random order</em></td><td>126.30</td><td>82.7&times;</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p>The allocator was worth only <strong>2.1&times;</strong>. <code>malloc</code> is a
+                        <em>size-class</em> allocator, so a million same-sized objects land in a compact
+                        <em>ascending</em> range even with decoys interleaved &mdash; not adjacent, but ordered, and an
+                        ascending walk is still prefetchable.</p>
+
+                    <p><strong>Access pattern was worth 83&times;.</strong> Same pool, same nodes, same memory &mdash;
+                        only the link order shuffled. 126&nbsp;ns is approximately this machine&rsquo;s DRAM latency,
+                        which is the tell: randomised pointer chasing defeats the prefetcher completely, because the
+                        address of the next load <em>is the result of the current one</em>.</p>
+
+                    <p>So the engineering conclusion is not &ldquo;use a pool allocator&rdquo; but <strong>&ldquo;make
+                        the traversal sequential&rdquo;</strong> &mdash; which is precisely why the ITCH order book
+                        links orders with 32-bit indices into a flat array rather than with pointers.</p>
+
+                    <!-- ================================================== -->
+                    <h3>What these projects do not claim</h3>
+
+                    <p>A portfolio that overclaims is worse than one that underclaims, so the repositories state their
+                        negative space explicitly:</p>
+
+                    <ul>
+                        <li>These are <strong>not production trading systems</strong> &mdash; no matching engine, risk
+                            checks, multicast framing, gap recovery or feed arbitration.</li>
+                        <li>macOS provides <strong>no thread-to-core pinning</strong> on Apple Silicon, so every
+                            cross-core number is labelled indicative rather than publishable. The single-threaded and
+                            algorithmic numbers are stable.</li>
+                        <li><strong>No hardware performance counters.</strong> <code>perf</code> is Linux-only and
+                            Apple Silicon exposes no supported equivalent, so there are no IPC or cache-miss-rate
+                            figures &mdash; only wall-clock timing and counters the code maintains itself.</li>
+                        <li>The <code>prefault()</code> page-fault benefit was <strong>not reproducible</strong> here;
+                            cold beat prefaulted about as often as it lost. The call is kept because the effect is
+                            established on Linux, but no number is claimed for it.</li>
+                    </ul>
+
+                    <h4>A note on measurement</h4>
+
+                    <p>Before any of these numbers meant anything, I had to establish what the clock could resolve.
+                        <code>CNTFRQ_EL0</code> on Apple Silicon <em>reports</em> 1&nbsp;GHz, which invites you to
+                        believe you have nanosecond resolution. The underlying counter is 24&nbsp;MHz, so the real
+                        granularity is <strong>41.67&nbsp;ns</strong>, and every macOS timing API inherits that floor.</p>
+
+                    <p>Operations costing 2&ndash;20&nbsp;ns therefore cannot be timed individually on this machine.
+                        The harness detects this and switches to batched timing; the latency benchmark explicitly
+                        <em>refuses</em> to print a p99.9 when the clock is too coarse to support one. Declining to
+                        publish a number turned out to be a stronger signal than publishing it.</p>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
