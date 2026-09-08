@@ -1,0 +1,336 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Shashwat Gupta - Router Scheduler Policies</title>
+    <meta name="author" content="Shashwat Gupta">
+    <meta name="description"
+        content="WSPT, the c-mu rule and friends: which scheduling policies help an LLM router-scheduler, with a reproducible simulation.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script defer>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="layout-wrapper">
+<!-- Sidebar (Profile & Nav) -->
+        <aside class="sidebar">
+          <div class="sidebar-content">
+            <div class="profile-header">
+              <a href="index.html" class="profile-pic-link">
+                <img src="images/prof_pic.png" alt="Shashwat Gupta" class="profile-pic">
+              </a>
+              <h1 class="name">Shashwat Gupta</h1>
+              <p class="subtitle">MS in CS @ UIUC (SSAIL) | ex-Microsoft Research | IIT Kanpur CSE'24 | ex-EPFL</p>
+            </div>
+
+            <nav class="navbar">
+              <a href="index.html#about" class="nav-link">About</a>
+              <a href="index.html#news" class="nav-link">News</a>
+              <a href="index.html#experience" class="nav-link">Experience</a>
+              <a href="index.html#education" class="nav-link">Education</a>
+              <a href="index.html#research" class="nav-link">Research</a>
+              <a href="index.html#projects" class="nav-link">Projects</a>
+              <a href="index.html#cv" class="nav-link">CV</a>
+              <a href="index.html#community" class="nav-link">Community</a>
+              <a href="index.html#blog-preview-section" class="nav-link">Blog</a>
+            </nav>
+
+            <div class="social-links">
+              <a href="mailto:guptashashwatme+website@gmail.com" class="social-icon" title="Email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/shashwat-gupta-uiuc/" target="_blank" rel="noopener" class="social-icon"
+                title="LinkedIn" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="https://github.com/ShashwatGPT" target="_blank" rel="noopener" class="social-icon" title="GitHub"
+                aria-label="GitHub">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://medium.com/@shashwat.gpt/index-welcome-to-my-reflections-on-code-and-capital-2ac34c7213d9"
+                target="_blank" rel="noopener" class="social-icon" title="Medium" aria-label="Medium">
+                <i class="fab fa-medium"></i>
+              </a>
+              <a href="https://www.youtube.com/@shashwatgupta4613" target="_blank" rel="noopener" class="social-icon"
+                title="YouTube" aria-label="YouTube">
+                <i class="fab fa-youtube"></i>
+              </a>
+              <a href="https://scholar.google.com/citations?user=XhDzpMMAAAAJ" target="_blank" rel="noopener"
+                class="social-icon" title="Google Scholar" aria-label="Google Scholar">
+                <i class="fas fa-graduation-cap"></i>
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h2>WSPT, the c-mu Rule, and What Actually Helps an LLM Router-Scheduler</h2>
+                </div>
+
+                <p><b>About:</b></p>
+                <ul>
+                    <li>At Microsoft Research India I co-designed a distributed router-scheduler for cloud GPU and LLM
+                        clusters, using an integer program with queuing-theoretic constraints and ARIMA demand
+                        forecasting. It was pushed to production and gave a <b>6% improvement over the existing
+                        baseline</b> with near-optimal SLA compliance under variable load.</li>
+                    <li>That production system is internal, so I am not publishing its code or its per-class numbers.
+                        What this post does instead is take the <b>scheduling theory underneath it</b> and test it
+                        honestly, in a simulator written for this post.</li>
+                    <li>Every number and figure below comes from that simulator:
+                        <a href="code/router_scheduler_sim.py">router_scheduler_sim.py</a>,
+                        <a href="code/router_scheduler_plots.py">router_scheduler_plots.py</a>, raw output in
+                        <a href="code/router_scheduler_results.json">router_scheduler_results.json</a>. About 200 lines,
+                        runs in a couple of minutes.</li>
+                    <li><b>The 6% is not reproduced here, and this simulator is not a model of the production
+                        system.</b> The two are kept separate deliberately: one is a recorded production result, the
+                        other is a clean experiment about why policies of that shape work at all.</li>
+                </ul>
+
+                <div class="project-details research-paper">
+
+                <h3>1. The problem</h3>
+                <p>A router-scheduler for LLM serving answers two questions on two timescales. On the slow timescale,
+                minutes to hours, it decides <i>how much capacity to place where</i>: how many GPUs of which SKU, in
+                which region, for which model. On the fast timescale, milliseconds, it decides <i>which request to serve
+                next</i> and <i>on which endpoint</i>. The slow loop is a forecasting and provisioning problem and is
+                naturally an integer program. The fast loop is a queuing problem, and that is this post.</p>
+
+                <p>Set it up as a multiclass queue. Requests arrive of class $k$, each class carrying a holding cost (or
+                weight) $w_k$ encoding how much you care about latency for that class, and a service time distribution
+                with mean $1/\mu_k$. Interactive chat is expensive to delay; an overnight batch summarisation is not.
+                Writing $C_j$ for the completion time of request $j$, the objective almost every practical system is
+                really optimising is</p>
+                <p>$$\min \sum_j w_j C_j$$</p>
+                <p>which in steady state becomes the long-run average holding cost $\sum_k w_k \mathbb{E}[L_k]$, with
+                $L_k$ the number of class $k$ requests in the system. Little's law,
+                $\mathbb{E}[L_k] = \lambda_k \mathbb{E}[T_k]$, says minimising holding cost and minimising weighted mean
+                sojourn time are the same problem.</p>
+
+                <h3>2. WSPT, and why it is optimal</h3>
+                <p>Weighted Shortest Processing Time schedules in decreasing order of the ratio $w_j / p_j$, where $p_j$
+                is the processing time. For the deterministic single-machine problem $1 \,||\, \sum w_j C_j$ with all
+                jobs available at time zero, WSPT is <b>exactly optimal</b>. This is Smith's rule, from 1956, and the
+                proof is a two-line interchange argument worth seeing, because it tells you precisely what the rule
+                trades off.</p>
+
+                <div class="algorithm-block">
+                <p><b>Interchange argument.</b> Take any schedule in which job $b$ runs immediately after job $a$, and
+                suppose they are in the wrong order, that is $w_a/p_a &lt; w_b/p_b$. Let $t$ be the time the pair
+                starts. In the current order the pair contributes</p>
+                <p>$$w_a(t + p_a) + w_b(t + p_a + p_b)$$</p>
+                <p>and after swapping,</p>
+                <p>$$w_b(t + p_b) + w_a(t + p_b + p_a).$$</p>
+                <p>Subtracting, the swap changes the objective by $w_a p_b - w_b p_a$. Dividing by $p_a p_b &gt; 0$,
+                this is negative exactly when $w_a/p_a &lt; w_b/p_b$. So whenever a pair is out of WSPT order, swapping
+                strictly improves the objective, and no optimal schedule can contain such a pair. The ordering is total,
+                so WSPT is the unique optimum up to ties.</p>
+                </div>
+
+                <p>Notice what the argument does <b>not</b> need: no arrival process, no distributional assumption, no
+                convexity. It needs only that $w/p$ is known. That is the entire catch, and section 5 is about the fact
+                that in LLM serving it is not.</p>
+
+                <h3>3. The c-mu rule</h3>
+                <p>The c-mu rule is the stochastic counterpart. At each decision point, serve a request from the
+                non-empty class maximising $c_k \mu_k$, holding cost times service rate. Cox and Smith showed this
+                minimises long-run average holding cost for a multiclass M/G/1 queue. Since
+                $\mu_k = 1/\mathbb{E}[p_k]$, the index $c_k \mu_k = w_k / \mathbb{E}[p_k]$ is WSPT applied to class
+                means rather than individual jobs. Same idea, two granularities, and the difference matters more than
+                it looks.</p>
+
+                <p>The deeper reason c-mu is optimal is a <b>conservation law</b>. For a work-conserving M/G/1 queue the
+                workload in the system is the same under every non-idling policy: scheduling cannot create or destroy
+                work, only decide who waits. Formally the achievable region of
+                $(\mathbb{E}[L_1], \ldots, \mathbb{E}[L_K])$ is a polymatroid, and minimising a linear objective over a
+                polymatroid is solved by a greedy index rule. c-mu <i>is</i> that greedy rule. This also names the
+                price: you are not making the system faster, you are choosing who absorbs the delay. Figure 2 is that
+                sentence as a bar chart.</p>
+
+                <p>For non-preemptive priorities, with classes ordered by priority and $\rho_k = \lambda_k / \mu_k$,</p>
+                <p>$$\mathbb{E}[W_k] = \frac{\sum_{j} \lambda_j \mathbb{E}[p_j^2] / 2}
+                {\left(1 - \sum_{j &lt; k}\rho_j\right)\left(1 - \sum_{j \le k}\rho_j\right)}$$</p>
+                <p>Both denominators shrink as load rises, so delay for low-priority classes grows roughly like
+                $1/(1-\rho)^2$. Priority decisions matter far more at high utilisation than at low, which is why the
+                curves in figure 1 fan out to the right instead of running parallel.</p>
+
+                <p><b>Where c-mu stops being optimal</b>, which is most of the interesting cases: with convex holding
+                costs it generalises to the <i>generalised c-mu</i> rule, optimal only asymptotically in heavy traffic;
+                with abandonment the index becomes $c\mu/\theta$; with hard deadlines it is not optimal at all; and with
+                multiple heterogeneous servers it stops being an index problem, because you must also decide
+                <i>where</i>, not only <i>who</i>. Every one of those is live in LLM serving.</p>
+
+                <h3>4. The other policies worth knowing</h3>
+                <ul>
+                  <li><b>FCFS</b>: the work-conserving reference. Fair, trivial to implement, no starvation, and it
+                  discards every bit of information you have about weights and sizes.</li>
+                  <li><b>SRPT</b>: preemptively serve the shortest remaining processing time. Optimal for <i>mean</i>
+                  flow time, famously strong, but it needs exact remaining sizes and starves long jobs.</li>
+                  <li><b>Processor sharing and round robin</b>: what continuous batching gives you by default. Fair,
+                  needs no size information, and mean response time is insensitive to the service distribution beyond
+                  its mean, which is a real robustness property.</li>
+                  <li><b>JSQ and power of two choices</b>: for the routing half. Sampling two endpoints and taking the
+                  shorter queue buys a doubly exponential improvement in maximum queue length over random, at a fraction
+                  of JSQ's coordination cost. Figure 5.</li>
+                </ul>
+
+                <h3>5. Why LLM serving breaks the assumptions</h3>
+                <p>WSPT needs $p_j$. In LLM inference the service time is dominated by output token count, which is
+                <b>not known until the request finishes</b>. You can predict it, and people do, but then WSPT is only as
+                good as the predictor. That is measurable, and figure 4 measures it.</p>
+                <p>Four more things break:</p>
+                <ul>
+                  <li><b>Prefill and decode differ.</b> Prefill is compute bound and roughly quadratic in prompt length;
+                  decode is memory bandwidth bound and linear in output length. A single scalar $p_j$ is already a
+                  simplification.</li>
+                  <li><b>Continuous batching makes $\mu$ endogenous.</b> Service rate depends on what else is in the
+                  batch, so $\mu_k$ is not a constant of the class but a function of the scheduling decision. The clean
+                  c-mu argument assumes it is not.</li>
+                  <li><b>The KV cache is a knapsack constraint.</b> Admission is limited by memory as well as compute,
+                  adding a packing problem that queuing theory does not see.</li>
+                  <li><b>Demand is strongly non-stationary.</b> Enterprise traffic is diurnal and regional. A policy
+                  tuned for the mean is tuned for a load level that is rarely the current one.</li>
+                </ul>
+                <p>Those five facts are the argument for the architecture: a <b>slow loop</b> that forecasts demand
+                (ARIMA is a reasonable choice for strongly seasonal, mostly linear traffic, and it is cheap to refit)
+                and solves an integer program for placement, feeding a <b>fast loop</b> that applies an index policy to
+                whatever capacity the slow loop provisioned. The slow loop absorbs non-stationarity and heterogeneity,
+                which index rules handle badly. The fast loop handles instantaneous priority, which integer programs
+                handle far too slowly.</p>
+
+                <h3>6. The experiment</h3>
+                <p>Three classes chosen to resemble real serving traffic: interactive ($w = 8$, mean service 0.30),
+                standard ($w = 2$, mean 1.00), batch ($w = 0.5$, mean 4.00), arriving 50 / 35 / 15. Service times are
+                lognormal rather than exponential, because output-length distributions have a long right tail and that
+                tail is exactly what stresses a scheduler. 120,000 requests per configuration, first 20,000 discarded as
+                warmup.</p>
+
+                <img src="images/rs_fig1_objective_vs_load.png" alt="Weighted mean sojourn versus utilisation for FCFS, c-mu, WSPT and SRPT" loading="lazy">
+                <p><b>Figure 1.</b> The weighted objective against load. At $\rho = 0.85$ the c-mu rule cuts it from
+                105.2 to 25.4, a 76% reduction, and job-level WSPT reaches 22.8, a 78%
+                reduction. The gap widens with load, as the $1/(1-\rho)^2$ term predicts. SRPT sits far below
+                everything else, but see section 7.</p>
+
+                <img src="images/rs_fig2_per_class_tradeoff.png" alt="Per-class mean sojourn under each policy at rho = 0.85" loading="lazy">
+                <p><b>Figure 2.</b> The conservation law made visible. FCFS gives every class roughly the same sojourn
+                time (21.9 interactive, 25.5 batch). The c-mu rule takes interactive down to 4.28 and
+                <b>pays for it by pushing batch to 39.3</b>, worse than batch got under FCFS. Nothing was created.
+                Work was moved. This is the most important plot on the page, because it says a scheduling win is always
+                a redistribution, and you had better agree with the direction of the transfer.</p>
+                <p>Note also that WSPT holds interactive at 4.17, essentially matching c-mu, while leaving batch at
+                20.0 rather than 39.3. Job-level sizing lets a <i>short</i> batch job overtake a long one;
+                class-level c-mu cannot see the difference. That is the practical argument for building a size
+                predictor.</p>
+
+                <img src="images/rs_fig3_tail_latency.png" alt="p99 sojourn time of the interactive class" loading="lazy">
+                <p><b>Figure 3.</b> The p99 of the latency-critical class, which is what an SLA is actually written
+                against. At $\rho = 0.85$ FCFS puts interactive p99 at 140.3 while c-mu holds it at 40.5.
+                Means understate the benefit: priority helps the tail more than the average, because the tail is
+                dominated by the times a short request queued behind a long one, which is exactly the event an index
+                rule prevents.</p>
+
+                <img src="images/rs_fig4_prediction_error.png" alt="WSPT objective versus size-estimate error" loading="lazy">
+                <p><b>Figure 4.</b> The plot that decides whether to build a predictor at all. WSPT is given size
+                estimates corrupted by lognormal multiplicative noise of scale $\sigma$. With perfect estimates it
+                scores 22.8. At $\sigma = 1.0$, a genuinely bad predictor, it degrades only to 24.7, and even at
+                $\sigma = 1.5$ it is 26.6, still better than the c-mu baseline. <b>WSPT degrades gracefully.</b> The
+                reason is in the interchange argument: the cost of a mis-ordered pair is $w_a p_b - w_b p_a$, which goes
+                to zero as the pair becomes closer in ratio. Errors that reorder nearly equivalent jobs cost nearly
+                nothing; only errors large enough to invert genuinely different jobs are expensive. You do not need a
+                good predictor, you need one that is right about the big gaps.</p>
+
+                <img src="images/rs_fig5_routing.png" alt="Routing policies across eight heterogeneous endpoints" loading="lazy">
+                <p><b>Figure 5.</b> The routing half, across eight endpoints with speeds from 0.6 to 1.4. Random
+                dispatch is not merely worse, it is <b>unstable</b>: it offers every endpoint an equal share, which is
+                more work than the slowest can serve, so that queue grows without bound and the plotted value is an
+                artefact of a finite run rather than a steady state. Join-shortest-queue gives 2.57 and sampling just
+                two endpoints gives 4.48, most of the benefit for a fraction of the coordination. Heterogeneity is
+                why a production router cannot be stateless.</p>
+
+                <h3>7. Reading the results honestly</h3>
+                <p><b>SRPT wins this benchmark and you should still be suspicious of it.</b> It looks dominant in
+                figures 1 and 2 partly because of how I set the problem up: here the high-weight class is also the short
+                class, so shortest-first and highest-weight-first agree. Decouple them, make the expensive class the
+                long one, and SRPT stops looking clever. It also assumes exact remaining sizes, precisely what LLM
+                serving does not give you, and it starves long jobs in a way that surfaces as a support ticket rather
+                than in this plot.</p>
+                <p><b>The c-mu rule is the one I would deploy first.</b> It needs only per-class mean service rates,
+                estimable from a day of logs; it has no per-request predictor to train, serve, or monitor for drift; and
+                figure 2 shows it captures most of the available gain. WSPT is the upgrade you buy afterwards, and
+                figure 4 says that upgrade is robust enough to be worth buying.</p>
+                <p><b>What this does not show.</b> A single-server multiclass simulation with an exogenous service
+                distribution. It does not model continuous batching, KV-cache pressure, prefill and decode asymmetry, or
+                the slow provisioning loop. Each would change the numbers. It is a study of the <i>policy</i> question
+                in isolation, which is all it claims to be.</p>
+
+                <h3>8. What the theory says about the production design</h3>
+                <ul>
+                  <li>Because of the conservation law, no fast-loop policy reduces total work. If you need headroom
+                  rather than a different distribution of pain, the only lever is the slow loop: provision more, or
+                  provision it in the right place. That is what makes the integer program load-bearing and the index
+                  rule cheap.</li>
+                  <li>Because delay scales like $1/(1-\rho)$ and priority effects like $1/(1-\rho)^2$, a small
+                  reduction in effective utilisation buys a disproportionate latency improvement. Forecasting well
+                  enough to keep $\rho$ off the knee is worth more than any cleverness at $\rho$ close to one.</li>
+                  <li>Because index rules assume a single homogeneous server, and real fleets are heterogeneous and
+                  regional, placement genuinely has to be solved as an optimisation problem rather than approximated by
+                  a rule of thumb.</li>
+                </ul>
+                <p>Which is the honest summary of the design: forecast demand, solve for placement on the slow loop, let
+                a cheap index policy run the fast loop. The 6% recorded in production is a systems result from that
+                whole pipeline. The figures here are a separate, reproducible argument for why the fast loop is shaped
+                the way it is.</p>
+
+                <div class="references">
+                    <p><b>[1] Smith, W. E. (1956)</b>. <i>Various optimizers for single-stage production</i>. Naval
+                    Research Logistics Quarterly 3(1), 59 to 66. The WSPT interchange argument.</p>
+                    <p><b>[2] Cox, D. R. and Smith, W. L. (1961)</b>. <i>Queues</i>. Methuen. The c-mu rule.</p>
+                    <p><b>[3] Federgruen, A. and Groenevelt, H. (1988)</b>. <i>Characterization and optimization of
+                    achievable performance in general queueing systems</i>. Operations Research 36(5). The polymatroid
+                    and conservation-law view.</p>
+                    <p><b>[4] Van Mieghem, J. A. (1995)</b>. <i>Dynamic scheduling with convex delay costs: the
+                    generalized c-mu rule</i>. Annals of Applied Probability 5(3).</p>
+                    <p><b>[5] Atar, R., Giat, C. and Shimkin, N. (2010)</b>. <i>The c-mu/theta rule for many-server
+                    queues with abandonment</i>. Operations Research 58(5).</p>
+                    <p><b>[6] Mitzenmacher, M. (2001)</b>. <i>The power of two choices in randomized load
+                    balancing</i>. IEEE TPDS 12(10).</p>
+                    <p><b>[7] Bansal, N. and Harchol-Balter, M. (2001)</b>. <i>Analysis of SRPT scheduling:
+                    investigating unfairness</i>. SIGMETRICS.</p>
+                    <p><b>[8] Patel, P. et al. (2024)</b>. <i>Splitwise: efficient generative LLM inference using phase
+                    splitting</i>. ISCA 2024. Prefill and decode separation.</p>
+                    <p><b>[9] Jaiswal, S., Jain, K., Simmhan, Y., Parayil, A., Mallick, A., Wang, R., St. Amant, R.,
+                    Bansal, C., Ruhle, V., Kulkarni, A., Kofsky, S. and Rajmohan, S. (2025)</b>. <i>SageServe:
+                    optimizing LLM serving on cloud data centers with forecast aware auto-scaling</i>. POMACS /
+                    SIGMETRICS 2025, arXiv:2502.14617. Related published work from Microsoft Research India on the
+                    forecast plus integer program structure. <b>I am not an author on this paper</b>; it is cited as
+                    public background for readers who want a worked example of the slow loop.</p>
+                </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
