@@ -8,7 +8,23 @@ def style(ax,xl,yl,t):
     for s in ax.spines.values(): s.set_color(GRID)
     ax.set_xlabel(xl,color=TXT,fontsize=10); ax.set_ylabel(yl,color=TXT,fontsize=10)
     ax.set_title(t,color=TXT,fontsize=12,pad=10,weight="bold"); ax.tick_params(colors=TXT,labelsize=9)
-def save(f,n): f.tight_layout(); f.savefig(n,dpi=170,facecolor=FG); plt.close(f); print("wrote",n)
+def save(fig, name):
+    fig.tight_layout()
+    fig.savefig(name, dpi=170, facecolor=FG)
+    plt.close(fig)
+    # These are line plots: a handful of colours plus antialiasing ramps. An
+    # adaptive 64-colour palette is visually lossless here and cuts the file by
+    # about 70%, which matters because eight of them load on one page.
+    from PIL import Image
+    im = Image.open(name)
+    if im.mode in ("RGBA", "LA"):
+        bg = Image.new("RGB", im.size, (255, 255, 255))
+        bg.paste(im, mask=im.split()[-1])
+        im = bg
+    else:
+        im = im.convert("RGB")
+    im.convert("P", palette=Image.ADAPTIVE, colors=64).save(name, optimize=True)
+    print("wrote", name)
 
 R=r["ratios"]
 fig,ax=plt.subplots(figsize=(7,4.2))

@@ -23,6 +23,18 @@ def save(fig, name):
     fig.tight_layout()
     fig.savefig(name, dpi=170, facecolor=FG)
     plt.close(fig)
+    # These are line plots: a handful of colours plus antialiasing ramps. An
+    # adaptive 64-colour palette is visually lossless here and cuts the file by
+    # about 70%, which matters because eight of them load on one page.
+    from PIL import Image
+    im = Image.open(name)
+    if im.mode in ("RGBA", "LA"):
+        bg = Image.new("RGB", im.size, (255, 255, 255))
+        bg.paste(im, mask=im.split()[-1])
+        im = bg
+    else:
+        im = im.convert("RGB")
+    im.convert("P", palette=Image.ADAPTIVE, colors=64).save(name, optimize=True)
     print("wrote", name)
 
 # 1. weighted objective vs load
