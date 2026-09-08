@@ -114,7 +114,7 @@
                 <div class="project-details research-paper">
 
 
-                <h3>0. A queuing theory primer, and where these rules came from</h3>
+                <h3>A queuing theory primer, and where these rules came from</h3>
                 <p>Both policies in this post are older than the hardware they now run on, and knowing where they came
                 from tells you what they assume.</p>
                 <p><b>The vocabulary.</b> A queue is described in Kendall's notation as A/S/c: arrival process, service
@@ -137,13 +137,13 @@
                 <p><b>WSPT</b> comes from <b>Wayne Smith in 1956</b>, in a paper about single-stage production
                 scheduling in a factory. The problem was which order to run jobs on a machine, and the answer, now
                 called Smith's rule, was ratio order by $w_j/p_j$. It is a deterministic, offline, single-machine
-                result, and section 2 gives the proof.</p>
+                result, and section 3 gives the proof.</p>
                 <p><b>The c-mu rule</b> comes from <b>Cox and Smith in 1961</b>, in the monograph <i>Queues</i>, and is
                 the stochastic online counterpart: with random arrivals and random service you cannot order a fixed
                 list, so instead you fix a priority among classes, and the optimal priority is by $c_k \mu_k$. Klimov,
                 and later the achievable-region and polymatroid literature, generalised it and explained <i>why</i> a
                 greedy index is optimal rather than merely observing that it is.</p>
-                <p><b>Deficit Round Robin</b>, which section 9 pairs with them, comes from somewhere else entirely:
+                <p><b>Deficit Round Robin</b>, which section 10 pairs with them, comes from somewhere else entirely:
                 <b>Shreedhar and Varghese, SIGCOMM 1995</b>, solving fair packet scheduling in network routers, where
                 the problem was giving each flow a guaranteed share of a link without per-packet sorting. It is a
                 fairness mechanism, not an efficiency one, which is precisely why it composes well with an index rule
@@ -152,7 +152,7 @@
                 over a 1961 queueing model. The reason that works is that none of these results are about factories,
                 packets, or tokens. They are about a scarce server and a queue of things that want it.</p>
 
-                <h3>1. The problem</h3>
+                <h3>The problem</h3>
                 <p>A router-scheduler for LLM serving answers two questions on two timescales. On the slow timescale,
                 minutes to hours, it decides <i>how much capacity to place where</i>: how many GPUs of which SKU, in
                 which region, for which model. On the fast timescale, milliseconds, it decides <i>which request to serve
@@ -170,7 +170,7 @@
                 $\mathbb{E}[L_k] = \lambda_k \mathbb{E}[T_k]$, says minimising holding cost and minimising weighted mean
                 sojourn time are the same problem.</p>
 
-                <h3>2. WSPT, and why it is optimal</h3>
+                <h3>WSPT, and why it is optimal</h3>
                 <p>Weighted Shortest Processing Time schedules in decreasing order of the ratio $w_j / p_j$, where $p_j$
                 is the processing time. For the deterministic single-machine problem $1 \,||\, \sum w_j C_j$ with all
                 jobs available at time zero, WSPT is <b>exactly optimal</b>. This is Smith's rule, from 1956, and the
@@ -191,10 +191,10 @@
                 </div>
 
                 <p>Notice what the argument does <b>not</b> need: no arrival process, no distributional assumption, no
-                convexity. It needs only that $w/p$ is known. That is the entire catch, and section 5 is about the fact
+                convexity. It needs only that $w/p$ is known. That is the entire catch, and section 6 is about the fact
                 that in LLM serving it is not.</p>
 
-                <h3>3. The c-mu rule</h3>
+                <h3>The c-mu rule</h3>
                 <p>The c-mu rule is the stochastic counterpart. At each decision point, serve a request from the
                 non-empty class maximising $c_k \mu_k$, holding cost times service rate. Cox and Smith showed this
                 minimises long-run average holding cost for a multiclass M/G/1 queue. Since
@@ -223,7 +223,7 @@
                 multiple heterogeneous servers it stops being an index problem, because you must also decide
                 <i>where</i>, not only <i>who</i>. Every one of those is live in LLM serving.</p>
 
-                <h3>4. The other policies worth knowing</h3>
+                <h3>The other policies worth knowing</h3>
                 <ul>
                   <li><b>FCFS</b>: the work-conserving reference. Fair, trivial to implement, no starvation, and it
                   discards every bit of information you have about weights and sizes.</li>
@@ -237,7 +237,7 @@
                   of JSQ's coordination cost. Figure 5.</li>
                 </ul>
 
-                <h3>5. Why LLM serving breaks the assumptions</h3>
+                <h3>Why LLM serving breaks the assumptions</h3>
                 <p>WSPT needs $p_j$. In LLM inference the service time is dominated by output token count, which is
                 <b>not known until the request finishes</b>. You can predict it, and people do, but then WSPT is only as
                 good as the predictor. That is measurable, and figure 4 measures it.</p>
@@ -261,7 +261,7 @@
                 which index rules handle badly. The fast loop handles instantaneous priority, which integer programs
                 handle far too slowly.</p>
 
-                <h3>6. The experiment</h3>
+                <h3>The experiment</h3>
                 <p>Three classes chosen to resemble real serving traffic: interactive ($w = 8$, mean service 0.30),
                 standard ($w = 2$, mean 1.00), batch ($w = 0.5$, mean 4.00), arriving 50 / 35 / 15. Service times are
                 lognormal rather than exponential, because output-length distributions have a long right tail and that
@@ -272,7 +272,7 @@
                 <p><b>Figure 1.</b> The weighted objective against load. At $\rho = 0.85$ the c-mu rule cuts it from
                 105.2 to 25.4, a 76% reduction, and job-level WSPT reaches 22.8, a 78%
                 reduction. The gap widens with load, as the $1/(1-\rho)^2$ term predicts. SRPT sits far below
-                everything else, but see section 7.</p>
+                everything else, but see section 8.</p>
 
                 <img src="images/rs_fig2_per_class_tradeoff.png" alt="Per-class mean sojourn under each policy at rho = 0.85" loading="lazy">
                 <p><b>Figure 2.</b> The conservation law made visible. FCFS gives every class roughly the same sojourn
@@ -310,7 +310,7 @@
                 two endpoints gives 4.48, most of the benefit for a fraction of the coordination. Heterogeneity is
                 why a production router cannot be stateless.</p>
 
-                <h3>7. Reading the results honestly</h3>
+                <h3>Reading the results honestly</h3>
                 <p><b>SRPT wins this benchmark and you should still be suspicious of it.</b> It looks dominant in
                 figures 1 and 2 partly because of how I set the problem up: here the high-weight class is also the short
                 class, so shortest-first and highest-weight-first agree. Decouple them, make the expensive class the
@@ -326,7 +326,7 @@
                 the slow provisioning loop. Each would change the numbers. It is a study of the <i>policy</i> question
                 in isolation, which is all it claims to be.</p>
 
-                <h3>8. What the theory says about the production design</h3>
+                <h3>What the theory says about the production design</h3>
                 <ul>
                   <li>Because of the conservation law, no fast-loop policy reduces total work. If you need headroom
                   rather than a different distribution of pain, the only lever is the slow loop: provision more, or
@@ -345,7 +345,7 @@
                 the way it is.</p>
 
 
-                <h3>9. Where this shows up in practice: NVIDIA Dynamo</h3>
+                <h3>Where this shows up in practice: NVIDIA Dynamo</h3>
                 <p>None of this is only theory. <b>NVIDIA Dynamo</b>, the open-source distributed inference serving
                 framework, ships Smith's rule as a first-class router option. Its documentation names it directly:
                 <code>--router-queue-policy wspt</code>, described as "WSPT (weighted shortest processing time, Smith's
@@ -354,7 +354,7 @@
                 <p>which is exactly $w/p$ with the input sequence length standing in for the processing time and a
                 priority jump standing in for the weight. The alternative, <code>fcfs</code>, orders by adjusted arrival
                 time, <code>priority_jump - arrival_offset</code>. Dynamo's own framing is that <b>WSPT optimises
-                average time to first token while FCFS optimises tail TTFT</b>. Section 10 tests that claim.</p>
+                average time to first token while FCFS optimises tail TTFT</b>. Section 11 tests that claim.</p>
                 <p>Above the ordering policy, Dynamo arbitrates between named <i>policy classes</i> with a
                 work-conserving <b>Deficit Round Robin</b> variant. Its documented example classes are
                 <b>premium</b> and <b>regular</b>: exactly the dual-load split most production deployments end up with.
@@ -369,7 +369,7 @@
                 guaranteed floor, tunable per class. The pairing is DRR for <i>isolation</i>, WSPT for
                 <i>efficiency within an isolated slice</i>.</p>
 
-                <h3>10. The dual-load experiment: premium and regular</h3>
+                <h3>The dual-load experiment: premium and regular</h3>
                 <p>I reimplemented that structure to measure both knobs separately: two classes, premium at 30% of
                 arrivals with a priority jump of 3, regular at 70% with none; lognormal input sequence lengths (means
                 700 and 1200 tokens) served at 3000 tokens per second; DRR arbitration with the documented
@@ -405,7 +405,7 @@
                 TTFT, no request waits longer than necessary" is a statement about the <b>worst case and about
                 fairness across sizes</b>, not about p99 of a class. p99 is still dominated by ordinary queueing, which
                 WSPT genuinely improves. The starvation WSPT causes is concentrated in the last decile and the maximum,
-                which is exactly where the theory in section 4 says SRPT-family policies hurt. If your SLA is written on
+                which is exactly where the theory in section 5 says SRPT-family policies hurt. If your SLA is written on
                 mean or p99 TTFT, use WSPT. If it is written on a hard per-request deadline, or you have customers whose
                 requests are systematically long, FCFS within the class is protecting you from a complaint you have not
                 had yet.</p>

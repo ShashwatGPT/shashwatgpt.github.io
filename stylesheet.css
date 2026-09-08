@@ -1074,6 +1074,30 @@ a[href*="scholar.google.com"] .social-icon {
   counter-reset: section;
 }
 
+/* Figures must never exceed the 850px text column. Without this the page
+   scrolls horizontally on any screen narrower than the raw image, which the
+   router-scheduler post (1190px plots) hit immediately. Wide tables and code
+   get their own scroll container for the same reason: the page body should
+   never be the thing that scrolls sideways. */
+.research-paper img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 2rem auto;
+}
+
+.research-paper .paper-table,
+.research-paper table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.research-paper pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .research-paper h3 {
   counter-reset: subsection;
   margin-top: 3rem;
