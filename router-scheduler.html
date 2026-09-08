@@ -102,12 +102,55 @@
                         <a href="code/router_scheduler_plots.py">router_scheduler_plots.py</a>, raw output in
                         <a href="code/router_scheduler_results.json">router_scheduler_results.json</a>. About 200 lines,
                         runs in a couple of minutes.</li>
-                    <li><b>The 6% is not reproduced here, and this simulator is not a model of the production
+                    <li><b>The 6% is not reproduced here, and these simulators are not models of the production
                         system.</b> The two are kept separate deliberately: one is a recorded production result, the
-                        other is a clean experiment about why policies of that shape work at all.</li>
+                        others are clean experiments about why policies of that shape work at all.</li>
+                    <li>Sections 9 and 10 ground the theory in <b>NVIDIA Dynamo</b>, which ships Smith's rule as
+                        <code>--router-queue-policy wspt</code> under Deficit Round Robin arbitration between
+                        <b>premium</b> and <b>regular</b> classes, and test its documented claims against a clean-room
+                        reimplementation.</li>
                 </ul>
 
                 <div class="project-details research-paper">
+
+
+                <h3>0. A queuing theory primer, and where these rules came from</h3>
+                <p>Both policies in this post are older than the hardware they now run on, and knowing where they came
+                from tells you what they assume.</p>
+                <p><b>The vocabulary.</b> A queue is described in Kendall's notation as A/S/c: arrival process, service
+                distribution, number of servers. M/M/1 is Poisson arrivals, exponential service, one server. M/G/1
+                relaxes the service distribution to anything with a finite mean and variance, which is the case that
+                matters here, because LLM service times are emphatically not exponential. Write $\lambda$ for arrival
+                rate, $\mu$ for service rate, and $\rho = \lambda/\mu$ for utilisation. The system is stable only when
+                $\rho &lt; 1$.</p>
+                <p><b>Little's law</b> (Little, 1961) is the one result you can never escape:
+                $\mathbb{E}[L] = \lambda \mathbb{E}[T]$, the average number in the system equals arrival rate times
+                average time in the system. It needs almost no assumptions, which is why it is the bridge between
+                "holding cost" as an economist writes it and "latency" as an SRE measures it. Minimise one and you have
+                minimised the other.</p>
+                <p><b>The Pollaczek-Khinchine formula</b> gives M/G/1 waiting time as
+                $\mathbb{E}[W] = \lambda \mathbb{E}[S^2] / (2(1-\rho))$. Two things fall out of it immediately, and both
+                govern everything below. First, the $1/(1-\rho)$ term: delay does not grow linearly with load, it blows
+                up near saturation. Second, it depends on $\mathbb{E}[S^2]$, the <i>second</i> moment: variance in
+                service time hurts you directly. A workload with the same mean but a fatter tail is strictly worse, and
+                LLM output lengths have a fat tail. That single fact is most of why scheduling matters here at all.</p>
+                <p><b>WSPT</b> comes from <b>Wayne Smith in 1956</b>, in a paper about single-stage production
+                scheduling in a factory. The problem was which order to run jobs on a machine, and the answer, now
+                called Smith's rule, was ratio order by $w_j/p_j$. It is a deterministic, offline, single-machine
+                result, and section 2 gives the proof.</p>
+                <p><b>The c-mu rule</b> comes from <b>Cox and Smith in 1961</b>, in the monograph <i>Queues</i>, and is
+                the stochastic online counterpart: with random arrivals and random service you cannot order a fixed
+                list, so instead you fix a priority among classes, and the optimal priority is by $c_k \mu_k$. Klimov,
+                and later the achievable-region and polymatroid literature, generalised it and explained <i>why</i> a
+                greedy index is optimal rather than merely observing that it is.</p>
+                <p><b>Deficit Round Robin</b>, which section 9 pairs with them, comes from somewhere else entirely:
+                <b>Shreedhar and Varghese, SIGCOMM 1995</b>, solving fair packet scheduling in network routers, where
+                the problem was giving each flow a guaranteed share of a link without per-packet sorting. It is a
+                fairness mechanism, not an efficiency one, which is precisely why it composes well with an index rule
+                instead of competing with it.</p>
+                <p>So a modern LLM router is running a 1956 factory heuristic inside a 1995 router-fairness algorithm,
+                over a 1961 queueing model. The reason that works is that none of these results are about factories,
+                packets, or tokens. They are about a scarce server and a queue of things that want it.</p>
 
                 <h3>1. The problem</h3>
                 <p>A router-scheduler for LLM serving answers two questions on two timescales. On the slow timescale,
@@ -301,7 +344,79 @@
                 whole pipeline. The figures here are a separate, reproducible argument for why the fast loop is shaped
                 the way it is.</p>
 
+
+                <h3>9. Where this shows up in practice: NVIDIA Dynamo</h3>
+                <p>None of this is only theory. <b>NVIDIA Dynamo</b>, the open-source distributed inference serving
+                framework, ships Smith's rule as a first-class router option. Its documentation names it directly:
+                <code>--router-queue-policy wspt</code>, described as "WSPT (weighted shortest processing time, Smith's
+                rule)", ordering requests by</p>
+                <p>$$\frac{1 + \texttt{priority\_jump}}{\texttt{isl\_tokens}}$$</p>
+                <p>which is exactly $w/p$ with the input sequence length standing in for the processing time and a
+                priority jump standing in for the weight. The alternative, <code>fcfs</code>, orders by adjusted arrival
+                time, <code>priority_jump - arrival_offset</code>. Dynamo's own framing is that <b>WSPT optimises
+                average time to first token while FCFS optimises tail TTFT</b>. Section 10 tests that claim.</p>
+                <p>Above the ordering policy, Dynamo arbitrates between named <i>policy classes</i> with a
+                work-conserving <b>Deficit Round Robin</b> variant. Its documented example classes are
+                <b>premium</b> and <b>regular</b>: exactly the dual-load split most production deployments end up with.
+                Each class carries a <code>quantum</code> "measured in uncached tokens" and a deficit of earned but
+                unspent credit; on each ring round a class receives a quantum and dispatches if its head-of-line request
+                is now affordable, against a scheduling cost of
+                <code>scheduling_cost = max(1, uncached_tokens)</code>. DRR decides <i>which class</i> goes next; FCFS
+                or WSPT decides <i>who inside that class</i> goes next.</p>
+                <p>That is a clean separation of the two questions, and it is worth naming why it is the right one. The
+                c-mu rule answers "who next" optimally but says nothing about guaranteeing a class a share of capacity,
+                because a strict index rule will happily starve a class forever. DRR supplies exactly what c-mu lacks: a
+                guaranteed floor, tunable per class. The pairing is DRR for <i>isolation</i>, WSPT for
+                <i>efficiency within an isolated slice</i>.</p>
+
+                <h3>10. The dual-load experiment: premium and regular</h3>
+                <p>I reimplemented that structure to measure both knobs separately: two classes, premium at 30% of
+                arrivals with a priority jump of 3, regular at 70% with none; lognormal input sequence lengths (means
+                700 and 1200 tokens) served at 3000 tokens per second; DRR arbitration with the documented
+                <code>max(1, uncached_tokens)</code> cost; and FCFS or WSPT inside each class. Code in
+                <a href="code/router_dual_class_sim.py">router_dual_class_sim.py</a>, raw output in
+                <a href="code/router_dual_class_results.json">router_dual_class_results.json</a>. This is a clean-room
+                reimplementation of the public Dynamo design, not a model of any internal system.</p>
+
+                <img src="images/rs_fig6_quantum.png" alt="Mean TTFT for premium and regular against DRR quantum ratio" loading="lazy">
+                <p><b>Figure 6.</b> The DRR quantum ratio, swept from 1:1 to 8:1. Premium mean TTFT moves from 0.579s
+                to 0.545s while regular moves from 1.238s to 1.264s. The striking thing is how fast it
+                <b>saturates</b>: essentially all the available separation is bought by 2:1, and 8:1 is
+                indistinguishable from 3:1. Once a class's quantum comfortably exceeds its head-of-line cost it is
+                already dispatching whenever it has work, and further credit buys nothing. If you are tuning this knob
+                past about 3:1 and expecting more, the lever you actually want is admission control or capacity, not
+                quantum.</p>
+
+                <img src="images/rs_fig7_policy.png" alt="WSPT versus FCFS within class, mean and p99 TTFT" loading="lazy">
+                <p><b>Figure 7.</b> Within-class policy at a 4:1 quantum. WSPT beats FCFS on premium mean
+                (0.546s against 0.618s) and very heavily on regular mean (1.264s against 3.362s), which is what
+                Smith's rule promises. <b>It also beats FCFS on regular p99</b> (14.2s against 22.5s), which is
+                <i>not</i> what Dynamo's summary predicts. With heavy-tailed input lengths, FCFS suffers a convoy
+                effect: one very long request blocks everything behind it, and that shows up in the 99th percentile.
+                So on this workload the documented tradeoff does not appear at p99.</p>
+
+                <img src="images/rs_fig8_decile.png" alt="Mean wait by request length decile under FCFS and WSPT" loading="lazy">
+                <p><b>Figure 8.</b> Where the tradeoff really lives. Plotting mean wait against request-length decile,
+                FCFS is almost flat (2.64s for the shortest tenth, 3.20s for the longest) because it is
+                indifferent to size by construction. WSPT is steeply graded: 0.46s for the shortest tenth rising to
+                4.08s for the longest. And the worst case is the headline: <b>38s under FCFS against 349s
+                under WSPT</b>, close to a tenfold difference.</p>
+                <p>So Dynamo's claim is right, and my figure 7 was measuring the wrong statistic. "FCFS optimises tail
+                TTFT, no request waits longer than necessary" is a statement about the <b>worst case and about
+                fairness across sizes</b>, not about p99 of a class. p99 is still dominated by ordinary queueing, which
+                WSPT genuinely improves. The starvation WSPT causes is concentrated in the last decile and the maximum,
+                which is exactly where the theory in section 4 says SRPT-family policies hurt. If your SLA is written on
+                mean or p99 TTFT, use WSPT. If it is written on a hard per-request deadline, or you have customers whose
+                requests are systematically long, FCFS within the class is protecting you from a complaint you have not
+                had yet.</p>
+                <p>This is also the practical case for the two-level design rather than a single index rule. Put the
+                long-request-heavy tenant in its own class with a guaranteed quantum, and you get WSPT's mean-latency
+                win inside each class without WSPT's worst case crossing tenant boundaries. Isolation from DRR,
+                efficiency from Smith's rule, and neither one asked to do the other's job.</p>
+
                 <div class="references">
+                    <p><b>[0] Little, J. D. C. (1961)</b>. <i>A proof for the queuing formula L = lambda W</i>.
+                    Operations Research 9(3).</p>
                     <p><b>[1] Smith, W. E. (1956)</b>. <i>Various optimizers for single-stage production</i>. Naval
                     Research Logistics Quarterly 3(1), 59 to 66. The WSPT interchange argument.</p>
                     <p><b>[2] Cox, D. R. and Smith, W. L. (1961)</b>. <i>Queues</i>. Methuen. The c-mu rule.</p>
@@ -318,7 +433,13 @@
                     investigating unfairness</i>. SIGMETRICS.</p>
                     <p><b>[8] Patel, P. et al. (2024)</b>. <i>Splitwise: efficient generative LLM inference using phase
                     splitting</i>. ISCA 2024. Prefill and decode separation.</p>
-                    <p><b>[9] Jaiswal, S., Jain, K., Simmhan, Y., Parayil, A., Mallick, A., Wang, R., St. Amant, R.,
+                    <p><b>[9] NVIDIA (2026)</b>. <i>Dynamo router documentation: queue policies and Deficit Round
+                    Robin queue scheduling</i>. <a href="https://docs.nvidia.com/dynamo/dev/components/router/deficit-round-robin-queue-scheduling" target="_blank" rel="noopener">docs.nvidia.com</a>.
+                    Source for the <code>wspt</code> and <code>fcfs</code> queue policies, the premium and regular
+                    example classes, and the <code>max(1, uncached_tokens)</code> scheduling cost.</p>
+                    <p><b>[10] Shreedhar, M. and Varghese, G. (1995)</b>. <i>Efficient fair queueing using deficit
+                    round robin</i>. SIGCOMM. The origin of DRR, from packet scheduling.</p>
+                    <p><b>[11] Jaiswal, S., Jain, K., Simmhan, Y., Parayil, A., Mallick, A., Wang, R., St. Amant, R.,
                     Bansal, C., Ruhle, V., Kulkarni, A., Kofsky, S. and Rajmohan, S. (2025)</b>. <i>SageServe:
                     optimizing LLM serving on cloud data centers with forecast aware auto-scaling</i>. POMACS /
                     SIGMETRICS 2025, arXiv:2502.14617. Related published work from Microsoft Research India on the
